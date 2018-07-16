@@ -3,10 +3,10 @@
 		<v-headbar :click="productInfo"></v-headbar>
 		<div class="video">
 			<div class="view-top">
-				<div class="top-bg">
+				<div class="top-bg" @click="productInfo">
 					<icon name="icon_wawa_detail" :w="40" :h="40"></icon>
 				</div>
-				<div class="top-bg">
+				<div class="top-bg" @click="recordInfo">
 					<icon name="icon_rank_list" :w="40" :h="40"></icon>
 				</div>
 			</div>
@@ -29,7 +29,8 @@
 				<icon name="change_machine" :w="70" :h="70"></icon>
 			</div>
 		</div>
-		<v-info></v-info>		
+		<v-info v-if="show" :click="closeProductInfo"></v-info>	
+		<v-record v-if="isShow" :click="closeRecord"></v-record>	
 	</div>
 </template>
 
@@ -37,23 +38,37 @@
 	import Vue from 'vue'
 	import headbar from '@/components/playhead'
 	import productInfo from '@/components/productInfo'
+	import record from '@/components/record'
 
 	export default{
 		name: 'play',
 		data() {
 			return {
-				count : 25,
-				all : 1000
+				count  : 25,
+				all    : 1000,
+				show   : false,
+				isShow : false
 			}
 		},
 		components : {
 			'v-headbar' : headbar,
-			'v-info' : productInfo
+			'v-info'    : productInfo,
+			'v-record'  : record
 		},
 		methods: {
 			productInfo() {
-				console.log('show product info')
+				this.show = !this.show
+			},
+			closeProductInfo() {
+				this.show = false
+			},
+			recordInfo() {
+				this.isShow = !this.isShow
+			},
+			closeRecord() {
+				this.isShow = false
 			}
+
 		}
 	}
 </script>
