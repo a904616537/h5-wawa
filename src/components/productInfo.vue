@@ -43,8 +43,9 @@
 	}
 	.productInfo .inner .img-style{
 		width: 100%;
-		padding-bottom: 20%;
+		padding-bottom: 100%;
 		background-repeat: no-repeat;
 		background-size: cover;
+		background-position: top center;
 	}
 </style>

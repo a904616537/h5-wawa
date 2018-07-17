@@ -15,6 +15,7 @@
 					<icon name="changeCamera" :w="30" :h="30"></icon>
 				</div>
 			</div>
+			<img src="/static/images/hall/2.png" class="default-img"/>
 		</div>
 		<div class="bottom">
 			<div class="coins item-btn">
@@ -87,6 +88,16 @@
 		height: 65vh;
 		border-radius: 10px;
 		background-color: #f4f4f4;
+		background-position: top center;
+		background-size: cover;
+		background-image: url('/static/images/hall/videoback.jpg');
+	}
+	.play .video .default-img{
+		width: 150px;
+		margin: 0 auto;
+		position: absolute;
+		top: 30%;
+		left: 30%;
 	}
 	.play .view-top{
 		position: absolute;
@@ -98,7 +109,7 @@
 	}
 	.play .view-bottom{
 		background-color: #f2d56e;
-		margin-top: 45vh;
+		margin-top: 35vh;
 		padding: 5px;
 		border-top-left-radius: 50%;
 		border-bottom-left-radius: 50%;

@@ -47,6 +47,9 @@
 	.playhead .product-img{
 		background-color: #f4f4f4;
 		background-size: cover;
+		background-repeat: no-repeat;
+		background-position: center center;
+		background-image: url('/static/images/hall/cardback.png');
 		width: 58px;
 		height: 40px;
 		display: inline-block;
