@@ -101,6 +101,8 @@
 			play() {
 				this.$router.push({path : '/play'})
 			}
+		},
+		created() {
 		}
 	}
 </script>
