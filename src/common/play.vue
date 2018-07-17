@@ -91,7 +91,7 @@
 		height: 65vh;
 		border-radius: 10px;
 		background-color: #f4f4f4;
-		background-position: top center;
+		background-position: center;
 		background-size: cover;
 		background-image: url('/static/images/hall/videoback.jpg');
 	}

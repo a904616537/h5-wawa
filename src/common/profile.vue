@@ -10,7 +10,7 @@
 				<label class="title">王国金币</label>
 				<div class="right">
 					<label class="info" style="margin-right: 70px;">1,484</label>
-					<label class="info">充值 ></label>
+					<label class="info" @click="recharge">充值 ></label>
 				</div>
 			</div>
 			<div class="item">
@@ -63,15 +63,26 @@
 				</div>
 			</div>
 		</div>
+		<v-menu></v-menu>
 	</div>
 </template>
 
 <script>
+	import menu from '@/components/menu'
+
 	export default{
 		name : 'profile',
 		data() {
 			return {
 				
+			}
+		},
+		components : {
+			'v-menu' : menu
+		},
+		methods : {
+			recharge() {
+				this.$router.push({ path : '/recharge' })
 			}
 		}
 	}

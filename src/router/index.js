@@ -3,6 +3,7 @@ import Router from 'vue-router'
 import Index from '@/common/index'
 import Play from '@/common/play'
 import Profile from '@/common/profile'
+import Recharge from '@/common/recharge'
 
 Vue.use(Router)
 
@@ -18,6 +19,10 @@ var routers = [
 	{
 		path : '/profile',
 		component : Profile
+	},
+	{
+		path : '/recharge',
+		component : Recharge
 	}
 ]
 
