@@ -38,10 +38,9 @@
     text-align              : center;
 }
 body{
-    background : #f3f0e3;
-    overflow-x : hidden;
-    overflow-y : auto;
-    margin     : 0;
+  overflow-x : hidden;
+  overflow-y : auto;
+  margin: 0;
 }
 h4{
     margin : 0;

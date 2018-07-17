@@ -47,8 +47,8 @@
 							<h4>商品名称</h4>
 							<div class="item-bottom">
 								<div class="price bottom-style">99 币/次</div>
-								<div class="status bottom-style"><div class="radius"></div>空闲中</div>
-								<!-- <div class="status-nofree" v-if="free? false : true"><div class="radius-nofree"></div>召唤中</div> -->
+								<div class="status bottom-style" v-if="free? true : false"><div class="radius"></div>空闲中</div>
+								<div class="status-nofree" v-if="free? false : true"><div class="radius-nofree"></div>召唤中</div>
 							</div>
 						</div>
 					</div>
@@ -60,21 +60,99 @@
 							<h4>商品名称</h4>
 							<div class="item-bottom">
 								<div class="price bottom-style">99 币/次</div>
-								<div class="status bottom-style"><div class="radius"></div>空闲中</div>
+								<div class="status bottom-style" v-if="free? true : false"><div class="radius"></div>空闲中</div>
+								<div class="status-nofree" v-if="free? false : true"><div class="radius-nofree"></div>召唤中</div>
 							</div>
 						</div>
 					</div>
 				</div>
 				<div class="list-item">
-						<div class="inner">
-							<div class="img-style"></div>
-							<div class="item-content">
-								<h4>商品名称</h4>
-								<div class="item-bottom">
-									<div class="price bottom-style">99 币/次</div>
-									<div class="status bottom-style" v-if="free? true : false"><div class="radius"></div>空闲中</div>
-									<div class="status-nofree" v-if="free? false : true"><div class="radius-nofree"></div>召唤中</div>
-								</div>
+					<div class="inner">
+						<div class="img-style"></div>
+						<div class="item-content">
+							<h4>商品名称</h4>
+							<div class="item-bottom">
+								<div class="price bottom-style">99 币/次</div>
+								<div class="status bottom-style" v-if="free? true : false"><div class="radius"></div>空闲中</div>
+								<div class="status-nofree" v-if="free? false : true"><div class="radius-nofree"></div>召唤中</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="list-item">
+					<div class="inner">
+						<div class="img-style"></div>
+						<div class="item-content">
+							<h4>商品名称</h4>
+							<div class="item-bottom">
+								<div class="price bottom-style">99 币/次</div>
+								<div class="status bottom-style" v-if="free? true : false"><div class="radius"></div>空闲中</div>
+								<div class="status-nofree" v-if="free? false : true"><div class="radius-nofree"></div>召唤中</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="list-item">
+					<div class="inner">
+						<div class="img-style"></div>
+						<div class="item-content">
+							<h4>商品名称</h4>
+							<div class="item-bottom">
+								<div class="price bottom-style">99 币/次</div>
+								<div class="status bottom-style" v-if="free? true : false"><div class="radius"></div>空闲中</div>
+								<div class="status-nofree" v-if="free? false : true"><div class="radius-nofree"></div>召唤中</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="list-item">
+					<div class="inner">
+						<div class="img-style"></div>
+						<div class="item-content">
+							<h4>商品名称</h4>
+							<div class="item-bottom">
+								<div class="price bottom-style">99 币/次</div>
+								<div class="status bottom-style" v-if="free? true : false"><div class="radius"></div>空闲中</div>
+								<div class="status-nofree" v-if="free? false : true"><div class="radius-nofree"></div>召唤中</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="list-item">
+					<div class="inner">
+						<div class="img-style"></div>
+						<div class="item-content">
+							<h4>商品名称</h4>
+							<div class="item-bottom">
+								<div class="price bottom-style">99 币/次</div>
+								<div class="status bottom-style" v-if="free? true : false"><div class="radius"></div>空闲中</div>
+								<div class="status-nofree" v-if="free? false : true"><div class="radius-nofree"></div>召唤中</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="list-item">
+					<div class="inner">
+						<div class="img-style"></div>
+						<div class="item-content">
+							<h4>商品名称</h4>
+							<div class="item-bottom">
+								<div class="price bottom-style">99 币/次</div>
+								<div class="status bottom-style" v-if="free? true : false"><div class="radius"></div>空闲中</div>
+								<div class="status-nofree" v-if="free? false : true"><div class="radius-nofree"></div>召唤中</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="list-item">
+					<div class="inner">
+						<div class="img-style"></div>
+						<div class="item-content">
+							<h4>商品名称</h4>
+							<div class="item-bottom">
+								<div class="price bottom-style">99 币/次</div>
+								<div class="status bottom-style" v-if="free? true : false"><div class="radius"></div>空闲中</div>
+								<div class="status-nofree" v-if="free? false : true"><div class="radius-nofree"></div>召唤中</div>
 							</div>
 						</div>
 					</div>
@@ -108,10 +186,13 @@
 </script>
 
 <style>
+	body{
+	  	background-color : #f3f0e3;
+	}
 	.index{
 		padding: 8px;
 	    color: #2c3e50;
-
+      	background-color : #f3f0e3;
 	}
 	.swiper{
 		height: 180px;
@@ -121,6 +202,8 @@
 	.list-box{
 		margin: 0px -5px;
 		margin-bottom: 80px;
+		color: #BF6A0B;
+		font-size: 14px;
 	}
 	.list-item{
 		width         : 50%;
@@ -143,10 +226,12 @@
 		background-color : #fff;
 	}
 	.img-style{
-		background-color: #d6d3d4;
 		height: 24vh;
 		border-radius: 5px;
-		background-size: cover;
+		background-repeat: no-repeat;
+		background-size: contain;
+		background-position: top center;
+		background-image: url('/static/images/hall/cardback.png');
 	}
 	.item-content{
 		padding: 5px 7px;
