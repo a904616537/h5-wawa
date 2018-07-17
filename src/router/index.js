@@ -1,7 +1,7 @@
-import Vue from 'vue'
-import Router from 'vue-router'
-import Index from '@/common/index'
-import Play from '@/common/play'
+import Vue     from 'vue'
+import Router  from 'vue-router'
+import Index   from '@/common/index'
+import Play    from '@/common/play'
 import Profile from '@/common/profile'
 
 Vue.use(Router)
