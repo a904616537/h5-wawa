@@ -2,6 +2,9 @@
 	<div class="play">
 		<v-headbar :click="productInfo"></v-headbar>
 		<div class="video">
+			<div class="view-user">
+				
+			</div>
 			<div class="view-top">
 				<div class="top-bg" @click="productInfo">
 					<icon name="icon_wawa_detail" :w="40" :h="40"></icon>
