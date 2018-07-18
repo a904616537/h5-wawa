@@ -18,11 +18,10 @@ const mutations = {
 	[types.POMELO_INIT] (state, data) {
 		const {next} = data;
 		pomelo.init({
-		    host   : '127.0.0.1',
-		    port   : 3010,
+		    host   : '106.15.90.130',
+		    port   : 80,
 		    scheme : 'ws'
 		}, (res) => {
-			console.log('服务端 Pomelo 链接成功', res);
 			state.pomelo = pomelo;
 		    
 		    if(next) next();

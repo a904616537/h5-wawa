@@ -6,9 +6,9 @@
 
 <script>
     
-    import Vue from 'vue';
+    import Vue                    from 'vue';
     import {mapState, mapActions} from 'vuex';
-    import login_help from './utils/login_help';
+    import login_help             from '@/utils/login_help';
 
 
     export default {
@@ -18,14 +18,34 @@
 
             }
         },
+        components : {
+        },
         computed : mapState({
         }),
         methods : {
             ...mapActions([
+                'setHallSetting'
             ]),
+            onRefresh() {
+                const data = {
+                    device : 'iPhone%206%20Plus',
+                    ver    : '1.2.5.23',
+                    token  : 'WEykzXDbKiQBi9iGmLu218rSaKtHUCex4JLYVSqPS8-pcU6BJs3QnPgIf1pY2yrN3NwJDXRD215Wu9OUpo3oQKqAJH6LHM7B74Q914oSi6TqWk-guPd4Kg!!',
+                    rand   : '1531796233482'
+                }
+                login_help.onGetSetting(data)
+                .then(result => {
+                    if(result.data != 0) {
+                        this.setHallSetting(result.data);
+                    } else console.log('获取配置失败!');
+                })
+                .catch(err => {
+                    console.log('onGetSetting error', err);
+                });
+            }
         },
         created() {
-            login_help.onGetSetting();
+            this.onRefresh();
         }
     }
 </script>

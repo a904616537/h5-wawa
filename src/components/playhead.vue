@@ -1,3 +1,11 @@
+<!--
+* Sample Vuejs 
+* @Author: Sumi <xumin.1991@163.com>
+* @DateTime:    2018-07-17 12:32:23
+* @Description
+* @Flow 
+-->
+
 <template>
 	<div class="playhead">
 		<div class="float-left">

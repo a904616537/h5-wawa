@@ -8,14 +8,17 @@ Vue.use(Router)
 
 var routers = [
 	{
+		name : 'home',
 		path : '/',
 		component : Index
 	},
 	{
+		name : 'play',
 		path : '/play',
 		component : Play
 	},
 	{
+		name : 'profile',
 		path : '/profile',
 		component : Profile
 	}

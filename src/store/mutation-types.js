@@ -5,4 +5,9 @@ export const  USER_SET_WECHAT  = 'user/set/wechat';
 
 export const POMELO_INIT = 'pomelo/init'
 
-export const HALL_SETTING = 'hall/setting'
+export const HALL_SETTING     = 'hall/setting'
+export const HALL_ROOM        = 'hall/room'
+export const HALL_ROOM_STATUS = 'hall/room/status'
+export const HALL_SELECTED    = 'hall/room/selected'
+
+
