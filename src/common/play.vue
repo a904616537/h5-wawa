@@ -2,6 +2,9 @@
 	<div class="play">
 		<v-headbar :click="productInfo"></v-headbar>
 		<div class="video">
+			<div class="view-user">
+				
+			</div>
 			<div class="view-top">
 				<div class="top-bg" @click="productInfo">
 					<icon name="icon_wawa_detail" :w="40" :h="40"></icon>
@@ -88,7 +91,7 @@
 		height: 65vh;
 		border-radius: 10px;
 		background-color: #f4f4f4;
-		background-position: top center;
+		background-position: center;
 		background-size: cover;
 		background-image: url('/static/images/hall/videoback.jpg');
 	}
