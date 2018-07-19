@@ -15,9 +15,10 @@
 			</div>
 			<div class="item">
 				<label class="title">我的物品(娃娃)</label>
-				<div class="right">
+				<div class="right" @click="items">
 					<label class="info">数量: 3</label>
-					<label class="info">包邮卡: 0 ></label>
+					<label class="info">包邮卡: 0</label>
+					<label class="info">></label>
 				</div>
 			</div>
 			<div class="item">
@@ -31,7 +32,7 @@
 			<div class="item">
 				<label class="title">收货地址</label>
 				<div class="right">
-					<label class="info">管理 ></label>
+					<label class="info" @click="address">管理 ></label>
 				</div>
 			</div>
 		</div>
@@ -39,7 +40,7 @@
 			<div class="item">
 				<label class="title">邀请好友</label>
 				<div class="right">
-					<label class="info">添加公众号"王国服务"成为王国推...></label>
+					<label class="info" @click="share">添加公众号"王国服务"成为王国推...></label>
 				</div>
 			</div>
 			<div class="item">
@@ -83,14 +84,28 @@
 		methods : {
 			recharge() {
 				this.$router.push({ path : '/recharge' })
+			},
+			items() {
+				this.$router.push({ path : '/items' })
+			},
+			address() {
+				this.$router.push({ path : '/address' })
+			},
+			share() {
+				this.$router.push({ path : '/share' })
 			}
 		}
 	}
 </script>
 
 <style>
-	body{
+	.profile{
 		background-color: #f2d56e;	
+		position: absolute;
+		top: 0;
+		left: 0;
+		right: 0;
+		height: 100%;
 	}
 	.profile .head{
 		margin: 30px 0 20px;
