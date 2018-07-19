@@ -99,8 +99,13 @@
 </script>
 
 <style>
-	body{
+	.profile{
 		background-color: #f2d56e;	
+		position: absolute;
+		top: 0;
+		left: 0;
+		right: 0;
+		height: 100%;
 	}
 	.profile .head{
 		margin: 30px 0 20px;

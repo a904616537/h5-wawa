@@ -184,9 +184,6 @@
 </script>
 
 <style>
-	body{
-	  	background-color : #f3f0e3;
-	}
 	.index{
 		padding: 8px;
 	    color: #2c3e50;

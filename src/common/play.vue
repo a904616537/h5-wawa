@@ -78,13 +78,15 @@
 </script>
 
 <style>
-	body{
-		background-color: #f2d56e;
-	}
 	.play{
 		padding: 8px;
 		background-color: #f2d56e;
 		font-size: 12px;
+		position: absolute;
+		left: 0;
+		right: 0;
+		top: 0;
+		height: 100%;
 	}
 	.play .video{
 		width: 100%;

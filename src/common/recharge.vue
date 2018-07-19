@@ -104,11 +104,14 @@
 </script>
 
 <style>
-	body{
-		background-color: #f2d56e;	
-	}
 	.recharge{
 		padding: 0 8px;
+		background-color: #f2d56e;
+		position: absolute;
+		top: 0;
+		left: 0;
+		right: 0;
+		height: 100%;
 	}
 	.recharge .banner{
 		width: 100%;
@@ -158,7 +161,7 @@
 		width: 20vw;
 		text-align: right;
 		display: table-cell;
-		vertical-align:middle;
+		vertical-align: middle;
 	}
 	.recharge .item .gold-num{
 		font-weight: bold;
