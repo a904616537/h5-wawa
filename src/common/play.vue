@@ -1,16 +1,16 @@
 <template>
 	<div class="play">
-		<v-headbar :click="productInfo"></v-headbar>
+		<v-headbar :players="players" :count="players.length" :room="data" :click="productInfo" :toBack="toBack"></v-headbar>
 		<div class="video">
 			<div class="view-user">
 				
 			</div>
 			<div class="view-top">
 				<div class="top-bg" @click="productInfo">
-					<icon name="icon_wawa_detail" :w="40" :h="40"></icon>
+					<div class="icon rank"></div>
 				</div>
 				<div class="top-bg" @click="recordInfo">
-					<icon name="icon_rank_list" :w="40" :h="40"></icon>
+					<div class="icon detail"></div>
 				</div>
 			</div>
 			<div class="view-bottom">
@@ -18,19 +18,18 @@
 					<icon name="changeCamera" :w="30" :h="30"></icon>
 				</div>
 			</div>
-			<img src="/static/images/hall/2.png" class="default-img"/>
 		</div>
 		<div class="bottom">
 			<div class="coins item-btn">
-				<div class="text">本次{{count}}币</div>
-				<div class="text">余额{{all}}币</div>
+				<div class="text">本次{{data.gold_price}}币</div>
+				<div class="text">余额{{user.room_card}}币</div>
 				<div class="recharge-btn">+去充币</div>
 			</div>
 			<div class="item-btn">
-				<icon name="play_start_btn" :w="180" :h="70"></icon>
+				<div class="ibutton playstart"></div>
 			</div>
 			<div class="item-btn">
-				<icon name="change_machine" :w="70" :h="70"></icon>
+				<div class="ibutton change_machine"></div>
 			</div>
 		</div>
 		<v-info v-if="show" :click="closeProductInfo"></v-info>	
@@ -40,18 +39,45 @@
 
 <script>
 	import Vue from 'vue'
-	import headbar from '@/components/playhead'
-	import productInfo from '@/components/productInfo'
-	import record from '@/components/record'
+	import {mapState, mapGetters, mapActions} from 'vuex'
+	import headbar     from '@/components/paly/playhead'
+	import productInfo from '@/components/paly/productInfo'
+	import record      from '@/components/record'
 
 	export default{
 		name: 'play',
 		data() {
 			return {
-				count  : 25,
-				all    : 1000,
-				show   : false,
-				isShow : false
+				playerOptions : {
+					muted         : true,
+					language: 'zh-CN',
+					sources       : [{
+						type            : "rtmp/mp4",
+						src             : 'rtmp://21509.liveplay.myqcloud.com/live/21509_1_63a',
+						withCredentials : false
+					}],
+					live: true,
+					autoplay: true,
+					height: 150,
+					poster        : "/static/images/hall/2.png",
+				},
+				room         : {},		// 房间信息
+				players      : [],		// 房间游戏参与者
+				top_rank     : [],		// 房间游戏排名
+				drop_rank    : [],		// 排名下降？？？？
+				chats        : [],		// 历史聊天消息
+				master_queue : [], 		// 排队抓娃娃
+				duration     : 0,		// 持续时间
+				roundtime    : 0,		// 倒计时
+				show         : false,
+				isShow       : false,
+				task_list    : []		// pomelo 未链接上的时候处理队列
+			}
+		},
+		props : {
+			data : {
+				type    : Object,
+				default : () => ({})
 			}
 		},
 		components : {
@@ -59,7 +85,28 @@
 			'v-info'    : productInfo,
 			'v-record'  : record
 		},
+		computed : {
+			...mapState({
+				pomelo       : state => state.Pomelo.pomelo,
+				pomelo_login : state => state.Pomelo.login,
+				user         : state => state.User.user || {}
+			})
+		},
+		watch: {
+	    	pomelo_login : function(val, oldVal) {
+	    		if(val && this.pomelo) {
+	    			while(this.task_list.length > 0) {
+	    				const task = this.task_list.pop();
+	    				console.log('消息处理', task);
+	    				this.pomelo.request(task.key, {gsid : task.value}, task.next);
+	    			}
+	    		}
+	    	}
+	    },
 		methods: {
+			toBack() {
+				this.$router.back();
+			},
 			productInfo() {
 				this.show = !this.show
 			},
@@ -72,7 +119,23 @@
 			closeRecord() {
 				this.isShow = false
 			}
-
+		},
+		mounted() {
+			// 向服务器发送加入房间消息
+			const event = {key : 'hall.user.joinRoom', value : this.data.gsid, next : (result) => {
+				let {master, players, status, masterQueue, dropRank, topRank, chats, duration,roundtime} = result;
+				this.master      = master;
+				this.players     = players;
+				this.status      = status;
+				this.master_queue = masterQueue;
+				this.drop_rank    = dropRank;
+				this.top_rank     = topRank;
+				this.chats       = chats;
+				this.duration    = duration;
+				this.roundtime   = roundtime;
+			}};
+			if(this.pomelo) this.pomelo.request(event.key, {gsid : event.value}, event.next);
+			else this.task_list.unshift(event);
 		}
 	}
 </script>
@@ -85,6 +148,9 @@
 		padding: 8px;
 		background-color: #f2d56e;
 		font-size: 12px;
+		flex : 1;
+		/*
+		height: 100%;*/
 	}
 	.play .video{
 		width: 100%;
@@ -102,6 +168,45 @@
 		top: 30%;
 		left: 30%;
 	}
+	.play .icon {
+		width           : 10vw;
+		height          : 10vw;
+		background-size : 100% 100%;
+	}
+	.play .icon.rank {
+		background-image: url(/static/images/hall/videoplay/icon_rank_list.png);
+	}
+	.play .icon.detail {
+		background-image: url(/static/images/hall/videoplay/icon_wawa_detail.png);
+	}
+	/*游戏按钮*/
+	.play .ibutton {
+		width           : 45vw;
+		height          : 18vw;
+		background-size : 100% 100%;
+	}
+	/*开始*/
+	.play .ibutton.playstart{
+		background-image: url(/static/images/hall/videoplay/play_start_btn.png);
+	}
+	/*预约*/
+	.play .ibutton .play_start_queue_btn{
+		background-image: url(/static/images/hall/videoplay/play_start_queue_btn.png);
+	}
+	/*取消预约*/
+	.play .ibutton .play_cancel_queue_btn{
+		background-image: url(/static/images/hall/videoplay/play_cancel_queue_btn.png);
+	}
+	/*稍等*/
+	.play .ibutton .play_state_waiting_btn{
+		background-image: url(/static/images/hall/videoplay/play_state_waiting_btn.png);
+	}
+	.play .ibutton.change_machine{
+		background-image: url(/static/images/hall/videoplay/change_machine.png);
+		width: 18vw;
+		height: 18vw;
+	}
+
 	.play .view-top{
 		position: absolute;
 		right: 0;
@@ -119,26 +224,29 @@
 		float: right;
 	}
 	.play .bottom{
-		margin-top: 20px;
-		padding: 0 10px;
+		margin-top  : 20px;
+		display     : flex;
+		align-items : center;
+		justify-content: center;
 	}
 	.play .bottom .item-btn{
 		display: inline-block;
 	}
 	.play .bottom .coins{
-		text-align: left;
-		float: left;
-		line-height: 20px;
+		margin      : 0 5px;
+		line-height : 20px;
+		color       : #8e562a;
+		text-align  : center;
 	}
 	.play .bottom .recharge-btn{
-		background-color: brown;   /*需要更换颜色*/
-		color: #fff;
-		font-weight: bold;
-		text-align: center;
-		border-radius: 10px;
-		padding: 0 14px;
+		background-color : #8e562a;   /*需要更换颜色*/
+		color            : #fff;
+		font-weight      : bold;
+		text-align       : center;
+		border-radius    : 10px;
+		padding          : 0 14px;
 	}
 	.play .bottom .item-btn:last-child{
-		float: right;
+		margin : 0 5px;
 	}
 </style>

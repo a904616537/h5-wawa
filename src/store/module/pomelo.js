@@ -4,13 +4,20 @@ const pomelo = new Pomelo();
 
 // initial state
 const state = {
-	pomelo : null
+	pomelo : null,
+	login  : false
 }
 
 const actions = {
 	onPomeloInit({commit}, data) {
 		commit(types.POMELO_INIT, data);
 	},
+	/**
+	 * [onPomeloLogin description] pomelo 没有登陆前不能获得服务器数据
+	 */
+	onPomeloLogin({commit}, data) {
+		commit(types.POMELO_LOGIN, data);
+	}
 }
 
 // mutations
@@ -27,6 +34,9 @@ const mutations = {
 		    if(next) next();
 		    
 		});
+	},
+	[types.POMELO_LOGIN] (state, data) {
+		state.login = true;
 	}
 }
 

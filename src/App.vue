@@ -24,7 +24,8 @@
         }),
         methods : {
             ...mapActions([
-                'setHallSetting'
+                'setHallSetting',
+                'onLogin'
             ]),
             onRefresh() {
                 const data = {
@@ -36,6 +37,7 @@
                 login_help.onGetSetting(data)
                 .then(result => {
                     if(result.data != 0) {
+                        this.onLogin(result.data.user)
                         this.setHallSetting(result.data);
                     } else console.log('获取配置失败!');
                 })
@@ -65,4 +67,5 @@ body{
 h4{
     margin : 0;
 }
+
 </style>

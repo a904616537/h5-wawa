@@ -6,7 +6,7 @@
 			
 			<div class="list-box">
 
-				<div v-for="(item, index) in hallRooms" class="list-item" @click="play">
+				<div v-for="(item, index) in hallRooms" class="list-item" @click="play(item)">
 					<div class="inner">
 						<div class="img-style" :style="'background-image : url('+item.gift_pic+');'"></div>
 						<div class="item-content">
@@ -47,15 +47,16 @@
 		computed : {
 			...mapState({
 				banner   : state => state.Hall.banners,
-				category : state => state.Hall.category
+				category : state => state.Hall.category,
+				// rooms    : state => state.Hall.rooms
 			}),
 			...mapGetters([
 				'hallRooms'
 			])
 		},
 		methods : {
-			play() {
-				this.$router.push({path : '/play'})
+			play(room) {
+				this.$router.push({path : '/play', query : room})
 			}
 		},
 		created() {

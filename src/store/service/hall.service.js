@@ -4,24 +4,27 @@ const onClickMap = new Map([
 	['USLV', () => {}], 	// 退出房间
 	['CGDP', roomCgdp], 	// 抓到娃娃
 	['CGD0', () => {}], 	// 没有抓到娃娃
-	['CSCE', updateRoomStatus], 	// 房间状态变化
+	['CSCE', () => {}], 	// 房间状态变化
 	['MSQU', () => {}], 	// 等待抓娃娃队列
+	['CRSC', updateRoomStatus]		//  房间状态变更
 ])
 
 function updateRoomStatus(data, state) {
-	console.log('改变该房间状态', data);
+	
 	// 查询房间
+	let room = state.rooms.find(val => val.gsid == data.gsid);
+	if(room) {
+		room.status = data.s;
+	}
 }
 
 function roomCgdp(data, state) {
-	console.log('用户抓到娃娃', data)
+	// console.log('用户抓到娃娃', data)
 }
-
-
 
 
 
 export const onGame = (data, state) => {
 	const fun = onClickMap.get(data.c);
-	fun(data, state)
+	if(fun) fun(data, state);
 }

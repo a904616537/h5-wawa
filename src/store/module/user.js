@@ -29,8 +29,7 @@ const actions = {
 // mutations
 const mutations = {
 	[types.USER_LOGIN] (state, data) {
-		state.user     = data.user;
-		state.token    = data.token;
+		state.user     = data;
 		state.isLogin  = true;
 		state.showFrom = false;
 	},

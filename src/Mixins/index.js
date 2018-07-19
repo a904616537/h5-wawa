@@ -61,15 +61,15 @@ const mixin = {
     watch: {
     	shortpkey : function(val, oldVal) {
     		if(val === oldVal) return;
-    		console.log('setOnPomelo')
     		this.setOnPomelo();
     	}
     },
 	methods: {
 		...mapActions([
             'onPomeloInit',
+            'onPomeloLogin',
             'setHallRoom',
-            'setStatus'
+            'setStatus',
         ]),
         onStart() {
         	this.onPomeloInit({next : ()=> {
@@ -92,6 +92,9 @@ const mixin = {
         		})
 				pomelo.request("connector.user.login", shortpkey, (data) => {
 			        console.log('connector.user.login', data);
+					if(data.code == 200) {
+						this.onPomeloLogin();
+					}
 			    });
         	} else {
         		console.log('未找到Pomelo')

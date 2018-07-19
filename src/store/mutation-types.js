@@ -4,6 +4,8 @@ export const  USER_SET_ADDRESS = 'user/set/address';
 export const  USER_SET_WECHAT  = 'user/set/wechat';
 
 export const POMELO_INIT = 'pomelo/init'
+export const POMELO_LOGIN = 'pomelo/login'
+
 
 export const HALL_SETTING     = 'hall/setting'
 export const HALL_ROOM        = 'hall/room'

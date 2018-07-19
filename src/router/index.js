@@ -14,9 +14,10 @@ var routers = [
 		component : Index
 	},
 	{
-		name : 'play',
-		path : '/play',
-		component : Play
+		name      : 'play',
+		path      : '/play',
+		component : Play,
+		props     : (route) => ({ data : route.query })
 	},
 	{
 		name : 'profile',
