@@ -1,7 +1,7 @@
-import Vue from 'vue'
-import Router from 'vue-router'
-import Index from '@/common/index'
-import Play from '@/common/play'
+import Vue     from 'vue'
+import Router  from 'vue-router'
+import Index   from '@/common/index'
+import Play    from '@/common/play'
 import Profile from '@/common/profile'
 import Recharge from '@/common/recharge'
 import Items from '@/common/items'
@@ -12,14 +12,18 @@ Vue.use(Router)
 
 var routers = [
 	{
+		name : 'home',
 		path : '/',
 		component : Index
 	},
 	{
-		path : '/play',
-		component : Play
+		name      : 'play',
+		path      : '/play',
+		component : Play,
+		props     : (route) => ({ data : route.query })
 	},
 	{
+		name : 'profile',
 		path : '/profile',
 		component : Profile
 	},

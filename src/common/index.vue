@@ -1,162 +1,25 @@
 <template>
 	<div class="index">
 		<div>
-			<div class="swiper"></div>
-			<div class="bar-list">
-				<ul>
-			        <li class="checked">全部</li>
-			        <li>新品上线</li>
-				    <li>世界杯</li>
-				    <li>实用</li>
-				    <li>网红爆款</li>
-				    <li>限时特价</li>
-				    <li>其他</li>
-				</ul>
-			</div>
+			<v-swiper :data="banner"/>
+			<v-tabs :data="category" />
+			
 			<div class="list-box">
-				<div class="list-item" @click="play">
+
+				<div v-for="(item, index) in hallRooms" class="list-item" @click="play(item)">
 					<div class="inner">
-						<div class="img-style"></div>
+						<div class="img-style" :style="'background-image : url('+item.gift_pic+');'"></div>
 						<div class="item-content">
-							<h4>商品名称</h4>
+							<h4>{{item.gift_name}}</h4>
 							<div class="item-bottom">
-								<div class="price bottom-style">99 币/次</div>
-								<div class="status bottom-style" v-if="free? true : false"><div class="radius"></div>空闲中</div>
-								<div class="status-nofree" v-if="free? false : true"><div class="radius-nofree"></div>召唤中</div>
+								<div class="price bottom-style">{{item.gold_price}} 币/次</div>
+								<div class="status bottom-style" v-if="item.status == 1"><div class="radius"></div>空闲中</div>
+								<div class="status-nofree" v-else><div class="radius-nofree"></div>召唤中</div>
 							</div>
 						</div>
 					</div>
 				</div>
-				<div class="list-item">
-					<div class="inner">
-						<div class="img-style"></div>
-						<div class="item-content">
-							<h4>商品名称</h4>
-							<div class="item-bottom">
-								<div class="price bottom-style">99 币/次</div>
-								<div class="status bottom-style" v-if="free? true : false"><div class="radius"></div>空闲中</div>
-								<div class="status-nofree" v-if="free? false : true"><div class="radius-nofree"></div>召唤中</div>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="list-item">
-					<div class="inner">
-						<div class="img-style"></div>
-						<div class="item-content">
-							<h4>商品名称</h4>
-							<div class="item-bottom">
-								<div class="price bottom-style">99 币/次</div>
-								<div class="status bottom-style" v-if="free? true : false"><div class="radius"></div>空闲中</div>
-								<div class="status-nofree" v-if="free? false : true"><div class="radius-nofree"></div>召唤中</div>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="list-item">
-					<div class="inner">
-						<div class="img-style"></div>
-						<div class="item-content">
-							<h4>商品名称</h4>
-							<div class="item-bottom">
-								<div class="price bottom-style">99 币/次</div>
-								<div class="status bottom-style" v-if="free? true : false"><div class="radius"></div>空闲中</div>
-								<div class="status-nofree" v-if="free? false : true"><div class="radius-nofree"></div>召唤中</div>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="list-item">
-					<div class="inner">
-						<div class="img-style"></div>
-						<div class="item-content">
-							<h4>商品名称</h4>
-							<div class="item-bottom">
-								<div class="price bottom-style">99 币/次</div>
-								<div class="status bottom-style" v-if="free? true : false"><div class="radius"></div>空闲中</div>
-								<div class="status-nofree" v-if="free? false : true"><div class="radius-nofree"></div>召唤中</div>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="list-item">
-					<div class="inner">
-						<div class="img-style"></div>
-						<div class="item-content">
-							<h4>商品名称</h4>
-							<div class="item-bottom">
-								<div class="price bottom-style">99 币/次</div>
-								<div class="status bottom-style" v-if="free? true : false"><div class="radius"></div>空闲中</div>
-								<div class="status-nofree" v-if="free? false : true"><div class="radius-nofree"></div>召唤中</div>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="list-item">
-					<div class="inner">
-						<div class="img-style"></div>
-						<div class="item-content">
-							<h4>商品名称</h4>
-							<div class="item-bottom">
-								<div class="price bottom-style">99 币/次</div>
-								<div class="status bottom-style" v-if="free? true : false"><div class="radius"></div>空闲中</div>
-								<div class="status-nofree" v-if="free? false : true"><div class="radius-nofree"></div>召唤中</div>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="list-item">
-					<div class="inner">
-						<div class="img-style"></div>
-						<div class="item-content">
-							<h4>商品名称</h4>
-							<div class="item-bottom">
-								<div class="price bottom-style">99 币/次</div>
-								<div class="status bottom-style" v-if="free? true : false"><div class="radius"></div>空闲中</div>
-								<div class="status-nofree" v-if="free? false : true"><div class="radius-nofree"></div>召唤中</div>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="list-item">
-					<div class="inner">
-						<div class="img-style"></div>
-						<div class="item-content">
-							<h4>商品名称</h4>
-							<div class="item-bottom">
-								<div class="price bottom-style">99 币/次</div>
-								<div class="status bottom-style" v-if="free? true : false"><div class="radius"></div>空闲中</div>
-								<div class="status-nofree" v-if="free? false : true"><div class="radius-nofree"></div>召唤中</div>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="list-item">
-					<div class="inner">
-						<div class="img-style"></div>
-						<div class="item-content">
-							<h4>商品名称</h4>
-							<div class="item-bottom">
-								<div class="price bottom-style">99 币/次</div>
-								<div class="status bottom-style" v-if="free? true : false"><div class="radius"></div>空闲中</div>
-								<div class="status-nofree" v-if="free? false : true"><div class="radius-nofree"></div>召唤中</div>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="list-item">
-					<div class="inner">
-						<div class="img-style"></div>
-						<div class="item-content">
-							<h4>商品名称</h4>
-							<div class="item-bottom">
-								<div class="price bottom-style">99 币/次</div>
-								<div class="status bottom-style" v-if="free? true : false"><div class="radius"></div>空闲中</div>
-								<div class="status-nofree" v-if="free? false : true"><div class="radius-nofree"></div>召唤中</div>
-							</div>
-						</div>
-					</div>
-				</div>
+
 			</div>
 			<v-menu></v-menu>
 		</div>
@@ -164,7 +27,11 @@
 </template>
 
 <script>
-	import menu from '@/components/menu'
+	import {mapState, mapGetters, mapActions} from 'vuex'
+	import Menu   from '@/components/menu'
+	import Swiper from '@/components/swiper'
+	import Tabs   from '@/components/hall/tabs'
+	
 	export default{
 		name: 'index',
 		data() {
@@ -173,12 +40,26 @@
 			}
 		},
 		components : {
-			'v-menu' : menu
-		}, 
+			'v-menu'   : Menu,
+			'v-swiper' : Swiper,
+			'v-tabs'   : Tabs
+		},
+		computed : {
+			...mapState({
+				banner   : state => state.Hall.banners,
+				category : state => state.Hall.category,
+				// rooms    : state => state.Hall.rooms
+			}),
+			...mapGetters([
+				'hallRooms'
+			])
+		},
 		methods : {
-			play() {
-				this.$router.push({path : '/play'})
+			play(room) {
+				this.$router.push({path : '/play', query : room})
 			}
+		},
+		created() {
 		}
 	}
 </script>
@@ -188,11 +69,6 @@
 		padding: 8px;
 	    color: #2c3e50;
       	background-color : #f3f0e3;
-	}
-	.swiper{
-		height: 180px;
-		background-color: #f4f4f4;
-		border-radius: 10px;
 	}
 	.list-box{
 		margin: 0px -5px;
@@ -221,12 +97,12 @@
 		background-color : #fff;
 	}
 	.img-style{
-		height: 24vh;
-		border-radius: 5px;
-		background-repeat: no-repeat;
-		background-size: contain;
-		background-position: top center;
-		background-image: url('/static/images/hall/cardback.png');
+		height              : 24vh;
+		border-radius       : 5px;
+		background-repeat   : no-repeat;
+		background-size     : cover;
+		background-position : top center;
+		background-image    : url('/static/images/hall/cardback.png');
 	}
 	.item-content{
 		padding: 5px 7px;
@@ -261,25 +137,5 @@
 		background-color: #D5443D;
 		display: inline-block;
 	}
-	.bar-list ul{
-		width       : 100%;
-		font-size   : 14px;
-		margin      : 0 0 5px;
-		padding     : 0;
-		text-align  : left;
-		float       : left;
-		display     : inline;
-		white-space : nowrap;
-		overflow-x  : scroll;
-		overflow-y  : hidden;
-	}
-	.bar-list li{
-		display     : inline-block;
-		padding     : 0 10px;
-		line-height : 28px; 
-		color       : #BF6A0B;		
-	}
-	.bar-list li.checked{
-		border-bottom: 2px solid #BF6A0B;		
-	}
+
 </style>
