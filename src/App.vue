@@ -8,6 +8,7 @@
     
     import Vue                    from 'vue';
     import {mapState, mapActions} from 'vuex';
+    import PubSub                 from 'pubsub-js';
     import login_help             from '@/utils/login_help';
 
 
@@ -15,7 +16,7 @@
         name: 'App',
         data() {
             return {
-
+                pubsub : PubSub.subscribe('setRoom', this.onSub)
             }
         },
         components : {
@@ -25,8 +26,13 @@
         methods : {
             ...mapActions([
                 'setHallSetting',
-                'onLogin'
+                'onLogin',
+                'setRoomInfo'
             ]),
+            onSub(msg, data) {
+                console.log('监听中 PubSub', msg, data)
+                this.setRoomInfo(data);
+            },
             onRefresh() {
                 const data = {
                     device : 'iPhone%206%20Plus',

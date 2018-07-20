@@ -30,7 +30,7 @@ const mixin = {
 				['newlist', this.setHallRoom],
 				['reconnect', default_Fun],
 				['laba', default_Fun],
-				['game', this.setStatus],
+				['game', this.setGame],
 				['wawaPlayer', default_Fun],
 				['ready_to_play', default_Fun],
 				['goldsChange', default_Fun],
@@ -69,7 +69,7 @@ const mixin = {
             'onPomeloInit',
             'onPomeloLogin',
             'setHallRoom',
-            'setStatus',
+            'setGame',
         ]),
         onStart() {
         	this.onPomeloInit({next : ()=> {
@@ -86,7 +86,6 @@ const mixin = {
 				
         		pomelo_Listen.forEach((fun, key) => {
         			listen(key, (data) => {
-        				console.log('-------> key:', key)
         				fun(data)
 					})
         		})

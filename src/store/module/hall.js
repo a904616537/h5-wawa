@@ -1,6 +1,7 @@
-import * as types  from '../mutation-types'
-import Cookie      from 'vue-cookie';
-import {onGame} from '../service/hall.service';
+
+import PubSub from 'pubsub-js';
+import * as types from '../mutation-types'
+import Cookie     from 'vue-cookie';
 
 // initial state
 const state = {
@@ -22,6 +23,9 @@ const actions = {
 	},
 	setHallRoom({commit}, data) {
 		commit(types.HALL_ROOM, data)
+	},
+	setRoom({commit}, data) {
+		commit(types.HALL_ROOM_SET, data)
 	},
 	setStatus({commit}, data) {
 		commit(types.HALL_ROOM_STATUS, data)
@@ -50,11 +54,12 @@ const mutations = {
 		state.task_pay_list = data.task_pay_list;
 		state.shortpkey     = data.shortpkey;
 	},
-	// 选择分类房间
+	// 选择分类
 	[types.HALL_SELECTED] (state, data) {
 		state.selected_cate = data;
 	},
 	[types.HALL_ROOM] (state, data) {
+		console.log('得到房间数据', data)
 		for(let room of data) {
             // 绑定分类
             const cate = state.category.find(cate => (room.cate&cate.key) === cate.key);
@@ -77,9 +82,22 @@ const mutations = {
             return cate
         })
 	},
+	// 进入房间传递房间数据
+	[types.HALL_ROOM_SET] (state, data) {
+		const {gsid} = data;
+		const room = state.rooms.find(val=> val.gsid == gsid);
+		console.log('进入房间传递房间数据', data, room)
+		if(room) {
+			PubSub.publish('setRoom', room);
+		}
+	},
 	// 改变房间状态
 	[types.HALL_ROOM_STATUS] (state, data) {
-		onGame(data, state);
+			// 查询房间
+		let room = state.rooms.find(val => val.gsid == data.gsid);
+		if(room) {
+			room.status = data.s;
+		}
 	}
 }
 
