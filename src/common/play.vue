@@ -1,6 +1,6 @@
 <template>
 	<div class="play">
-		<v-headbar :players="players" :count="players.length" :room="data" :click="productInfo" :toBack="toBack"></v-headbar>
+		<v-headbar :players="players" :count="players.length" :room="current_room" :click="productInfo" :toBack="toBack"></v-headbar>
 		<div class="video">
 			<div class="view-user">
 				
@@ -21,7 +21,7 @@
 		</div>
 		<div class="bottom">
 			<div class="coins item-btn">
-				<div class="text">本次{{data.gold_price}}币</div>
+				<div class="text">本次{{current_room.gold_price}}币</div>
 				<div class="text">余额{{user.room_card}}币</div>
 				<div class="recharge-btn">+去充币</div>
 			</div>
@@ -61,7 +61,6 @@
 					height: 150,
 					poster        : "/static/images/hall/2.png",
 				},
-				room         : {},		// 房间信息
 				players      : [],		// 房间游戏参与者
 				top_rank     : [],		// 房间游戏排名
 				drop_rank    : [],		// 排名下降？？？？
@@ -89,10 +88,18 @@
 			...mapState({
 				pomelo       : state => state.Pomelo.pomelo,
 				pomelo_login : state => state.Pomelo.login,
-				user         : state => state.User.user || {}
+				user         : state => state.User.user || {},
+				rooms        : state => state.Hall.rooms,
+				current_room : state => state.Room.current_room
 			})
 		},
 		watch: {
+			rooms : function(val, oldVal) {
+				// 房间被加载后处理
+				if(oldVal.length == 0) {
+					this.setRoom({gsid : this.data.gsid});
+				}
+			},
 	    	pomelo_login : function(val, oldVal) {
 	    		if(val && this.pomelo) {
 	    			while(this.task_list.length > 0) {
@@ -104,6 +111,9 @@
 	    	}
 	    },
 		methods: {
+			...mapActions([
+				'setRoom'
+			]),
 			toBack() {
 				this.$router.back();
 			},
@@ -121,18 +131,23 @@
 			}
 		},
 		mounted() {
+			if(this.rooms.length > 0) this.setRoom({gsid : this.data.gsid});
 			// 向服务器发送加入房间消息
 			const event = {key : 'hall.user.joinRoom', value : this.data.gsid, next : (result) => {
+				if(result.code == 500) {
+					this.$router.back();
+					return;
+				}
 				let {master, players, status, masterQueue, dropRank, topRank, chats, duration,roundtime} = result;
-				this.master      = master;
-				this.players     = players;
-				this.status      = status;
+				this.master       = master;
+				this.players      = players;
+				this.status       = status;
 				this.master_queue = masterQueue;
 				this.drop_rank    = dropRank;
 				this.top_rank     = topRank;
-				this.chats       = chats;
-				this.duration    = duration;
-				this.roundtime   = roundtime;
+				this.chats        = chats;
+				this.duration     = duration;
+				this.roundtime    = roundtime;
 			}};
 			if(this.pomelo) this.pomelo.request(event.key, {gsid : event.value}, event.next);
 			else this.task_list.unshift(event);

@@ -36,7 +36,7 @@
 		name: 'index',
 		data() {
 			return {
-				free: false
+				free   : false
 			}
 		},
 		components : {
@@ -56,6 +56,10 @@
 		},
 		methods : {
 			play(room) {
+				if(room.status === 0) {
+					alert('系统升级中，请等待。。。')
+					return;
+				}
 				this.$router.push({path : '/play', query : room})
 			}
 		},
