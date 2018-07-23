@@ -22,14 +22,13 @@
 			</div>
 			<div class="bottom">
 				<div class="c-btn inner-btn" @click="close">取消</div>
-				<div class="e-btn inner-btn ">完成</div>
+				<div class="e-btn inner-btn">完成</div>
 			</div>	
 		</div>
 	</div>
 </template>
 
 <script>
-	// import area from '@/components/area'
 	import Vue from 'vue'
 	import vueArea from 'vue-area'
 
@@ -48,7 +47,6 @@
 			}
 		},
 		components : {
-			// 'v-area' : area
 			vueArea
 		},
 		methods: {
