@@ -11,7 +11,7 @@
 			</div>
 			<div class="item">
 				<label>所在地区</label>
-				<!-- <v-area></v-area> -->
+				<vue-area :propsShow="show" :propsResult="result" @result="areaResult"></vue-area>
 			</div>
 			<div class="item">
 				<label class="row-style">详细地址</label>
@@ -29,13 +29,16 @@
 </template>
 
 <script>
-	import area from '@/components/area'
+	// import area from '@/components/area'
+	import Vue from 'vue'
+	import vueArea from 'vue-area'
 
 	export default{
 		name : 'addAddress',
 		data() {
 			return {
-
+				result: null,
+    			show: false
 			}
 		},
 		props : {
@@ -45,7 +48,14 @@
 			}
 		},
 		components : {
-			'v-area' : area
+			// 'v-area' : area
+			vueArea
+		},
+		methods: {
+			areaResult(show,result) {
+				this.show = show
+		        this.result = result
+			}
 		}
 	}
 </script>
