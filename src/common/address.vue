@@ -12,7 +12,7 @@
 		</div>
 		<div class="bottom-btn" @click="add">添加收货地址</div>
 		<v-add :close="close" v-show="add_show"></v-add>
-	</div>
+	</div>                    
 </template>
 
 <script>
