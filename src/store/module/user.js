@@ -24,6 +24,9 @@ const actions = {
 	SetAddress({commit}, data) {
 		commit(types.USER_SET_ADDRESS, data);
 	},
+	updateUserRoomCard({commit}, data) {
+		commit(types.USER_SET_ROMMCARD, data)
+	}
 }
 
 // mutations
@@ -45,6 +48,10 @@ const mutations = {
 	},
 	[types.USER_SET_ADDRESS] (state, data) {
 		state.address = data;
+	},
+	[types.USER_SET_ROMMCARD] (state, data) {
+		state.user.room_card = data.master.room_card;
+		state.user = {...state.user};
 	}
 }
 

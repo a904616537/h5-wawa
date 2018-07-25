@@ -16,7 +16,8 @@
         name: 'App',
         data() {
             return {
-                pubsub : PubSub.subscribe('setRoom', this.onSub)
+                pubsub : PubSub.subscribe('setRoom', this.onSub),
+                userRoomCard : PubSub.subscribe('user.room.card.update', this.onUpdateUserRoomCard),
             }
         },
         components : {
@@ -27,11 +28,16 @@
             ...mapActions([
                 'setHallSetting',
                 'onLogin',
-                'setRoomInfo'
+                'setRoomInfo',
+                'updateUserRoomCard'
             ]),
             onSub(msg, data) {
                 console.log('监听中 PubSub', msg, data)
                 this.setRoomInfo(data);
+            },
+            onUpdateUserRoomCard(msg, data) {
+                console.log('监听中 PubSub', msg, data)
+                this.updateUserRoomCard(data);
             },
             onRefresh() {
                 const data = {

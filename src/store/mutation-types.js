@@ -5,6 +5,8 @@ export const  USER_LOGIN       = 'user/login';
 export const  USER_LOGOUT      = 'user/logout';
 export const  USER_SET_ADDRESS = 'user/set/address';
 export const  USER_SET_WECHAT  = 'user/set/wechat';
+export const  USER_SET_ROMMCARD  = 'user/set/roomcard';
+
 
 /**
  * Pomelo 状态 Key 管理
@@ -28,5 +30,4 @@ export const HALL_ROOM_SET    = 'hall/room/set'
  */
 export const ROOM_INFO   = 'room/info'
 export const ROOM_STATUS = 'room/status'
-
-
+export const ROOM_MASTER = 'room/master'

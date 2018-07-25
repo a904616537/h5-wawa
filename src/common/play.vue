@@ -1,10 +1,15 @@
 <template>
 	<div class="play">
 		<v-headbar :players="players" :count="players.length" :room="current_room" :click="productInfo" :toBack="toBack"></v-headbar>
+		
 		<div class="video">
-			<div class="view-user">
-				
-			</div>
+			<div  v-show="!show_video" class="videoload"></div>
+			<v-video v-show="show_video && !show_top" :src="video_left" :onReloadEnd="onReloadEnd"/>
+			<v-video v-show="show_video && show_top" :src="video_top"/>
+
+			<v-master />
+			<v-seconds ref="seconds" :show="start_paly" :maxSec="roundtime" :duration="duration" :onEnd="onClaw"/>
+
 			<div class="view-top">
 				<div class="top-bg" @click="productInfo">
 					<div class="icon rank"></div>
@@ -14,26 +19,31 @@
 				</div>
 			</div>
 			<div class="view-bottom">
-				<div class="shot">
+				<div class="shot" @click="onSwitch">
 					<icon name="changeCamera" :w="30" :h="30"></icon>
 				</div>
 			</div>
 		</div>
-		<div class="bottom">
+		<div v-if="!start_paly" class="bottom">
 			<div class="coins item-btn">
 				<div class="text">本次{{current_room.gold_price}}币</div>
 				<div class="text">余额{{user.room_card}}币</div>
-				<div class="recharge-btn">+去充币</div>
+				<div class="recharge-btn" @click="onToPay">+去充币</div>
 			</div>
 			<div class="item-btn">
-				<div class="ibutton playstart"></div>
+				<v-button :onPress="onPress" :btn="btn_status"/>
 			</div>
 			<div class="item-btn">
-				<div class="ibutton change_machine"></div>
+				<div class="ibutton change_machine" :class="machine_class" @click="changeMachine"></div>
 			</div>
 		</div>
-		<v-info v-if="show" :click="closeProductInfo"></v-info>	
-		<v-record v-if="isShow" :click="closeRecord"></v-record>	
+		<div class="bottom" v-if="start_paly">
+			<v-control :onOver="onOver"/>
+		</div>
+		<v-info v-if="show" :click="closeProductInfo"></v-info>
+		<v-record v-if="isShow" :click="closeRecord"></v-record>
+		<v-success v-show="show_success" :data="gift_data" :onPress="onPlay" :onCancel="onCancel"/>
+		<v-failure v-show="show_fail" :data="gift_data" :onCancel="onCancel" :onToPay="onToPay"/>
 	</div>
 </template>
 
@@ -42,34 +52,39 @@
 	import {mapState, mapGetters, mapActions} from 'vuex'
 	import headbar     from '@/components/paly/playhead'
 	import productInfo from '@/components/paly/productInfo'
+	import seconds     from '@/components/paly/seconds'
+	import vMaster     from '@/components/paly/master'
+	import video       from '@/components/paly/video'
+	import vButton     from '@/components/paly/playButton'
+	import vControl    from '@/components/paly/control'
+	import vSuccess    from '@/components/paly/success'
+	import vFailure    from '@/components/paly/failure'
 	import record      from '@/components/record'
+
+	import pomelo_key, {RoomEnterState, ControlBtnStatus, RoomStatus} from '@/utils/pomelo_key';
 
 	export default{
 		name: 'play',
 		data() {
 			return {
-				playerOptions : {
-					muted         : true,
-					language: 'zh-CN',
-					sources       : [{
-						type            : "rtmp/mp4",
-						src             : 'rtmp://21509.liveplay.myqcloud.com/live/21509_1_63a',
-						withCredentials : false
-					}],
-					live: true,
-					autoplay: true,
-					height: 150,
-					poster        : "/static/images/hall/2.png",
-				},
-				players      : [],		// 房间游戏参与者
 				top_rank     : [],		// 房间游戏排名
 				drop_rank    : [],		// 排名下降？？？？
 				chats        : [],		// 历史聊天消息
 				master_queue : [], 		// 排队抓娃娃
 				duration     : 0,		// 持续时间
 				roundtime    : 0,		// 倒计时
+				play_fail    : PubSub.subscribe('hall.room.failure', this.onFail),
+				play_success : PubSub.subscribe('hall.room.success', this.onSuccess),
+
+				onPress      : () => {},
+				gift_data     : {},
+				show_fail    : false,	// 抓取失败界面
+				show_success : false,	// 抓取成功
 				show         : false,
+				start_paly   : false,
 				isShow       : false,
+				show_video   : false,	// 显示视频
+				show_top     : false,	// 显示顶部视频
 				task_list    : []		// pomelo 未链接上的时候处理队列
 			}
 		},
@@ -82,7 +97,14 @@
 		components : {
 			'v-headbar' : headbar,
 			'v-info'    : productInfo,
-			'v-record'  : record
+			'v-record'  : record,
+			'v-seconds' : seconds,
+			'v-video'   : video,
+			'v-button'  : vButton,
+			'v-control' : vControl,
+			'v-master'  : vMaster,
+			'v-success' : vSuccess,
+			'v-failure' : vFailure
 		},
 		computed : {
 			...mapState({
@@ -90,8 +112,50 @@
 				pomelo_login : state => state.Pomelo.login,
 				user         : state => state.User.user || {},
 				rooms        : state => state.Hall.rooms,
-				current_room : state => state.Room.current_room
-			})
+				current_room : state => state.Room.current_room,
+				queue        : state => state.Room.queue,
+				master       : state => state.Room.master,
+				players      : state => state.Room.players
+			}),
+			machine_class() {
+				return {
+					machine: this.btn_status == 'play_state_waiting_btn' || this.btn_status == 'play_cancel_queue_btn'
+				}
+			},
+			video_left() {
+				if(this.current_room.videos) {
+					return this.current_room.videos[0];
+				} else return '';
+			},
+			video_top() {
+				if(this.current_room.videos) {
+					return this.current_room.videos[1];
+				} else return '';
+			},
+			// 控制按钮状态
+			btn_status() {
+				let now_btn="play_start_btn";
+				this.onPress = this.onPlay;
+				if(this.pomelo_login) {
+					// 检查队列, 和房间状态
+					if(this.current_room.status == RoomStatus.STATUS_IDLE && this.master && this.master.uid == this.user.uid) {
+						now_btn = "play_state_waiting_btn";
+						this.onPress = () => {}
+					} else if ( this.queue.length > 0 ){
+					    now_btn = "play_start_queue_btn";
+					    this.onPress = this.onQueueGame;
+					    if ( this.queue.includes( this.user.uid ) ){
+					        now_btn = "play_cancel_queue_btn";
+					        this.onPress = this.onCancleQueue;
+					    }
+					} else if ( this.master && this.master.uid != this.user.uid ){
+						this.onPress = this.onQueueGame;
+					    now_btn = "play_start_queue_btn";
+					}
+				}
+				
+				return now_btn;
+			}
 		},
 		watch: {
 			rooms : function(val, oldVal) {
@@ -108,12 +172,149 @@
 	    				this.pomelo.request(task.key, {gsid : task.value}, task.next);
 	    			}
 	    		}
+	    	},
+	    	data : function(val, oldVal) {
+	    		if(val != oldVal) {
+	    			this.show_video = false;
+	    			console.log('房间切换了', val)
+	    			this.onInit();
+	    		}
 	    	}
 	    },
 		methods: {
 			...mapActions([
-				'setRoom'
+				'setRoom',
+				'setMaster'
 			]),
+			// 取消
+			onCancel() {
+				this.show_fail    = false;
+				this.show_success = false;
+				this.onCancleQueue();
+			},
+			onToPay() {
+				// 前往充值页
+				this.$router.push('recharge')
+			},
+			// 没有抓到娃娃
+			onFail(msg, data) {
+				if(data.master.uid == this.user.uid) {
+					this.gift_data = data;
+					this.show_fail = true;
+				}
+			},
+			// 抓到娃娃
+			onSuccess(msg, data) {
+				// 判断是不是自己
+				if(data.master.uid == this.user.uid) {
+					this.gift_data = data;
+					this.show_success = true;
+				}
+			},
+			// 抓取结束了
+			onOver() {
+				this.start_paly = false;
+				this.$refs.seconds.stop();
+			},
+			// 切换摄像头
+			onSwitch() {
+				this.show_top = !this.show_top;
+			},
+			// 换一台
+			changeMachine(){
+				let gsid = this.current_room.gsid;
+				let len  = this.rooms.length;
+				let i    = 0;
+		        if ( len > 2 ){
+		            while ( gsid == this.current_room.gsid ) {
+		                i = Math.floor( Math.random() * len );
+		                gsid = this.rooms[ i ].gsid;
+		            }
+		        }
+		        if ( gsid != this.current_room.gsid ){
+		        	this.$router.replace({path : '/play', query : this.rooms[i]})
+		        }
+		    },
+			/**
+			 * [onPlay 立即开始按钮事件处理]
+			 */
+			onPlay() {
+				this.show_fail    = false;
+				this.show_success = false;
+
+				const obj={
+					gsid    : this.current_room.gsid,
+					is_new  : 1,
+					is_new2 : 1
+				};
+				this.pomelo.request(pomelo_key.room.play.start, obj, this.startResult)
+			},
+			// 排队抓娃娃
+			onQueueGame() {
+				const obj={cmd:"queuegame",gsid: this.current_room.gsid,is_new:1,is_new2:1};
+		        console.log('发送我要排队抓', obj)
+		        this.pomelo.request(pomelo_key.room.play.custom, obj, this.startResult);
+			},
+			// 取消排队
+			onCancleQueue() {
+				const obj={cmd:"cancelnow",gsid: this.current_room.gsid,is_new:1,is_new2:1};
+		        console.log('发送取消队列', obj)
+		        this.pomelo.request(pomelo_key.room.play.custom, obj);
+			},
+			// 开始游戏前验证
+			startResult(data) {
+				console.log('开始游戏前验证', data)
+		        if (data.code != 200) {
+
+		            if (data.hasOwnProperty("rel")) {
+		            	switch (data.rel) {
+			                case RoomEnterState.ENTER_WRONG_ALREADY_IN_QUEUE:
+			                	alert('已经在队列');
+			                	console.log('data', data)
+			                    //已经在队列
+			                    // let {masterQueue}=data;
+			                    // pc.views.control.setState({masterQueue});
+			                    break;
+			                case RoomEnterState.ENTER_WRONG_SERVER_NOT_FOUNDL:
+			                    alert("尚未进入房间");
+			                    break;
+			                case RoomEnterState.ENTER_WRONG_GOLDS_LITTLE:
+			                    alert("金币不足哦");
+			                    break;
+			                case RoomEnterState.ENTER_WRONG_OTHER_PLAYING:
+			                    alert("有其他国民正在活动中，请稍候");
+			                    break;
+
+			                case RoomEnterState.ENTER_WRONG_OTHER_MAY_PLAY:
+			                    alert("小李飞刀么，这么快，没抢到位置:(");
+			                    break;
+
+			                case RoomEnterState.ENTER_WRONG_GSID:
+			                    alert("房间信息错误");
+			                    //重载房间信息?断线重连？
+			                    break;
+			            }
+			            return;
+			        }
+		        }
+		        // 验证通过， 加载玩家信息，启动计时器
+		        if(data.master&&data.hasOwnProperty("duration")){
+					this.start_paly = true;
+					this.roundtime  = data.roundtime*1000;
+					this.duration   = data.duration;
+		        }
+			},
+			/**
+			 * [onClaw 游戏结束]
+			 */
+			onClaw() {
+				this.start_paly = false;
+				this.pomelo.request(pomelo_key.room.play.s, {c: "claw"});
+			},
+			// 视频加载结束
+			onReloadEnd() {
+				this.show_video = true;
+			},
 			toBack() {
 				this.$router.back();
 			},
@@ -128,59 +329,69 @@
 			},
 			closeRecord() {
 				this.isShow = false
+			},
+			onInit() {
+				if(this.rooms.length > 0) this.setRoom({gsid : this.data.gsid});
+				// 向服务器发送加入房间消息
+				const event = {key : pomelo_key.hall.user.joinRoom, value : this.data.gsid, next : (result) => {
+					if(result.code == 500) {
+						this.$router.back();
+						return;
+					}
+					
+					this.setMaster(result)
+				}};
+				if(this.pomelo) this.pomelo.request(event.key, {gsid : event.value}, event.next);
+				else this.task_list.unshift(event);
 			}
+
 		},
 		mounted() {
-			if(this.rooms.length > 0) this.setRoom({gsid : this.data.gsid});
-			// 向服务器发送加入房间消息
-			const event = {key : 'hall.user.joinRoom', value : this.data.gsid, next : (result) => {
-				if(result.code == 500) {
-					this.$router.back();
-					return;
-				}
-				let {master, players, status, masterQueue, dropRank, topRank, chats, duration,roundtime} = result;
-				this.master       = master;
-				this.players      = players;
-				this.status       = status;
-				this.master_queue = masterQueue;
-				this.drop_rank    = dropRank;
-				this.top_rank     = topRank;
-				this.chats        = chats;
-				this.duration     = duration;
-				this.roundtime    = roundtime;
-			}};
-			if(this.pomelo) this.pomelo.request(event.key, {gsid : event.value}, event.next);
-			else this.task_list.unshift(event);
+			this.onInit();	
 		}
 	}
 </script>
 
 <style>
 	.play{
-		padding: 8px;
-		background-color: #f2d56e;
-		font-size: 12px;
-		position: absolute;
-		left: 0;
-		right: 0;
-		top: 0;
-		height: 100%;
+		padding          : 8px;
+		left             : 0;
+		right            : 0;
+		top              : 0;
+		height           : 100%;
+		font-size        : 12px;
+		position         : absolute;
+		background-color : #f2d56e;
 	}
 	.play .video{
-		width: 100%;
-		height: 65vh;
-		border-radius: 10px;
-		background-color: #f4f4f4;
-		background-position: center;
-		background-size: cover;
-		background-image: url('/static/images/hall/videoback.jpg');
+		width               : 100%;
+		height              : 70vh;
+		border-radius       : 10px;
+		background-color    : #f4f4f4;
+		background-position : center;
+		background-size     : cover;
+		display             : flex;
+		align-items         : center;
+		justify-content     : center;
+		overflow            : hidden;
+		background-image    : url('/static/images/hall/videoback.jpg');
+		position: relative;
+	}
+	.play .video .videoload {
+		width            : 30vw;
+		height           : 30vw;
+		background-size  : 100% 100%;
+		background-image : url(/static/images/hall/1.png);
+	}
+	.play .video .view-user {
+
 	}
 	.play .video .default-img{
-		width: 150px;
-		margin: 0 auto;
-		position: absolute;
-		top: 30%;
-		left: 30%;
+		width    : 150px;
+		top      : 30%;
+		left     : 30%;
+		margin   : 0 auto;
+		position : absolute;
 	}
 	.play .icon {
 		width           : 10vw;
@@ -193,55 +404,32 @@
 	.play .icon.detail {
 		background-image: url(/static/images/hall/videoplay/icon_wawa_detail.png);
 	}
-	/*游戏按钮*/
-	.play .ibutton {
-		width           : 45vw;
-		height          : 18vw;
-		background-size : 100% 100%;
-	}
-	/*开始*/
-	.play .ibutton.playstart{
-		background-image: url(/static/images/hall/videoplay/play_start_btn.png);
-	}
-	/*预约*/
-	.play .ibutton .play_start_queue_btn{
-		background-image: url(/static/images/hall/videoplay/play_start_queue_btn.png);
-	}
-	/*取消预约*/
-	.play .ibutton .play_cancel_queue_btn{
-		background-image: url(/static/images/hall/videoplay/play_cancel_queue_btn.png);
-	}
-	/*稍等*/
-	.play .ibutton .play_state_waiting_btn{
-		background-image: url(/static/images/hall/videoplay/play_state_waiting_btn.png);
-	}
-	.play .ibutton.change_machine{
-		background-image: url(/static/images/hall/videoplay/change_machine.png);
-		width: 18vw;
-		height: 18vw;
+	.play .machine {
+		opacity: 0;
 	}
 
 	.play .view-top{
-		position: absolute;
-		right: 0;
-		margin-right: 10px;
+		top      : 0;
+		right    : 0;
+		position : absolute;
 	}
 	.play .view-top .top-bg{
 		margin: 10px;
 	}
 	.play .view-bottom{
-		background-color: #f2d56e;
-		margin-top: 35vh;
-		padding: 5px;
-		border-top-left-radius: 50%;
-		border-bottom-left-radius: 50%;
-		float: right;
+		position                  : absolute;
+		top                       : 35vh;
+		right                     : 0;
+		padding                   : 5px;
+		border-top-left-radius    : 50%;
+		border-bottom-left-radius : 50%;
+		background-color          : #f2d56e;
 	}
 	.play .bottom{
-		margin-top  : 20px;
-		display     : flex;
-		align-items : center;
-		justify-content: center;
+		margin-top      : 2vh;
+		display         : flex;
+		align-items     : center;
+		justify-content : center;
 	}
 	.play .bottom .item-btn{
 		display: inline-block;

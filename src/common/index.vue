@@ -27,6 +27,7 @@
 </template>
 
 <script>
+	import Pubsub from 'pubsub-js';
 	import {mapState, mapGetters, mapActions} from 'vuex'
 	import Menu   from '@/components/menu'
 	import Swiper from '@/components/swiper'
@@ -51,10 +52,13 @@
 				// rooms    : state => state.Hall.rooms
 			}),
 			...mapGetters([
-				'hallRooms'
+				'hallRooms',
 			])
 		},
 		methods : {
+			...mapActions([
+				'setStatus',
+			]),
 			play(room) {
 				if(room.status === 0) {
 					alert('系统升级中，请等待。。。')
@@ -64,6 +68,7 @@
 			}
 		},
 		created() {
+			Pubsub.subscribe('hall.room.update', this.setStatus)
 		}
 	}
 </script>

@@ -38,7 +38,6 @@ const actions = {
 // mutations
 const mutations = {
 	[types.HALL_SETTING] (state, data) {
-		console.log('receive data', data);
 		let banner = data.contentconfig.find(val => val.id == 10);
 		if(banner) banner = JSON.parse(banner.content);
 		else {
@@ -59,7 +58,6 @@ const mutations = {
 		state.selected_cate = data;
 	},
 	[types.HALL_ROOM] (state, data) {
-		console.log('得到房间数据', data)
 		for(let room of data) {
             // 绑定分类
             const cate = state.category.find(cate => (room.cate&cate.key) === cate.key);
@@ -88,12 +86,13 @@ const mutations = {
 		const room = state.rooms.find(val=> val.gsid == gsid);
 		console.log('进入房间传递房间数据', data, room)
 		if(room) {
+			console.log('room', room)
 			PubSub.publish('setRoom', room);
 		}
 	},
 	// 改变房间状态
 	[types.HALL_ROOM_STATUS] (state, data) {
-			// 查询房间
+		// 查询房间
 		let room = state.rooms.find(val => val.gsid == data.gsid);
 		if(room) {
 			room.status = data.s;
