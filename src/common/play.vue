@@ -11,11 +11,11 @@
 			<v-seconds ref="seconds" :show="start_paly" :maxSec="roundtime" :duration="duration" :onEnd="onClaw"/>
 
 			<div class="view-top">
-				<div class="top-bg" @click="productInfo">
-					<div class="icon rank"></div>
+				<div class="top-bg"  @click="productInfo">
+					<div class="icon detail"></div>
 				</div>
 				<div class="top-bg" @click="recordInfo">
-					<div class="icon detail"></div>
+					<div class="icon rank"></div>
 				</div>
 			</div>
 			<div class="view-bottom">
@@ -438,7 +438,7 @@
 		margin      : 0 5px;
 		line-height : 20px;
 		color       : #8e562a;
-		text-align  : center;
+		text-align  : left;
 	}
 	.play .bottom .recharge-btn{
 		background-color : #8e562a;   /*需要更换颜色*/

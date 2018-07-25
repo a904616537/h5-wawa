@@ -6,7 +6,7 @@ import Profile from '@/common/profile'
 import Recharge from '@/common/recharge'
 // import Items from '@/common/items'
 // import Address from '@/common/address'
-// import Share from '@/common/share'
+import Share from '@/common/share'
 
 Vue.use(Router)
 
@@ -39,10 +39,10 @@ var routers = [
 	// 	path : '/address',
 	// 	component : Address
 	// },
-	// {
-	// 	path : '/share',
-	// 	component : Share
-	// }
+	{
+		path : '/share',
+		component : Share
+	}
 ]
 
 const router = new Router({
