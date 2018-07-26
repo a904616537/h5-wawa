@@ -27,7 +27,7 @@
 					<div class="right">
 						<label class="info">等待中: {{delivery_0}}</label>
 						<label class="info">运送中: {{delivery_1}}</label>
-						<label class="info">查看 ></label>
+						<label class="info" @click="delivery">查看 ></label>
 					</div>
 				</div>
 				<div class="item">
@@ -149,6 +149,9 @@
 			},
 			share() {
 				this.$router.push({ path : '/share' })
+			},
+			delivery() {
+				this.$router.push({ path : '/delivery' })
 			}
 		},
 		mounted() {
