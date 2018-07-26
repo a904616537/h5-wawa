@@ -2,22 +2,10 @@
 	<div class="record" @click="click">
 		<div class="inner">
 			<div class="card">
-				<div class="item">
-					<img class="user-icon item-style" />
-					<div class="user item-style">{{user}}</div>
-					<div class="number">{{number}}次</div>
-				</div>
-
-				<div class="item">
-					<img class="user-icon item-style" />
-					<div class="user item-style">{{user}}</div>
-					<div class="number">{{number}}次</div>
-				</div>
-
-				<div class="item">
-					<img class="user-icon item-style" />
-					<div class="user item-style">{{user}}</div>
-					<div class="number">{{number}}次</div>
+				<div v-for="(item, index) in data" class="item" >
+					<img class="user-icon item-style" :src="item.pic"/>
+					<div class="user item-style">{{decodeURI(item.nn)}}</div>
+					<div class="number">{{item.num}}次</div>
 				</div>
 
 			</div>
@@ -35,10 +23,17 @@
 			}
 		},
 		props : {
+			data : {
+				type    : Array,
+				default : () => []
+			},
 			click : {
 				type : Function,
 				default : () => {(console.log('close'))}
 			}
+		},
+		mounted() {
+			console.log('--------------------X', this.data)
 		}
 	}
 </script>

@@ -1,48 +1,82 @@
 <template>
 	<div class="items">
 		<div class="head">
-			<img class="user-head" src="/static/images/hall/1.png"/>
-			<div>user name</div>
-			<div>剩余包邮卡: 0</div>
+			<img class="user-head" :src="avatar"/>
+			<div>{{ decodeURI(user.nickname)}}</div>
+			<div>剩余包邮卡: {{wawaplayer.delivery_card_num}}</div>
 		</div>
 		<div class="item-box">
-			<div class="inner">
-				<div class="card" style="background-image: url('/static/images/hall/cardback.png')">
+
+			<div v-for="(item, index) in wawas" class="inner" :key="index">
+				<div class="card" :style="'background-image: url('+item.gift_pic+')'">
 					<div class="info">
-						<div class="product">商品名称</div>
-						<div class="moment">2018.07.18 10:00</div>
-						<div class="send-btn">开始配送</div>
+						<div class="product">{{item.gift_name}}</div>
+						<div class="moment">{{fromDate(item.ltime)}}</div>
+						<div v-if="item.is_delivery == 0" @click="() => onPress(index)" class="send-btn">开始配送</div>
 					</div>
 				</div>
 			</div>
-			<div class="inner">
-				<div class="card" style="background-image: url('/static/images/hall/cardback.png')">
-					<div class="info">
-						<div class="product">商品名称</div>
-						<div class="moment">2018.07.18 10:00</div>
-						<div class="send-btn">开始配送</div>
-					</div>
-				</div>
-			</div>	
-			<div class="inner">
-				<div class="card" style="background-image: url('/static/images/hall/cardback.png')">
-					<div class="info">
-						<div class="product">商品名称</div>
-						<div class="moment">2018.07.18 10:00</div>
-						<div class="send-btn">开始配送</div>
-					</div>
-				</div>
-			</div>
-		</div>	
+
+		</div>
+		<v-select-address v-if="show_selected" :onPress="onSelected" :onCanel="onCanelSelected"/>
+		<v-select-delivery v-if="show_delivery" :select="select" :onCanel="onCanelSelected"/>
 	</div>
 </template>
 
 <script>
+	import moment                             from 'moment';
+	import {mapState, mapGetters, mapActions} from 'vuex';
+	import vAddress  from '@/components/profile/address';
+	import vDelivery from '@/components/profile/delivery';
 	export default{
-		name : 'items',
+		name : 'wawa_items',
 		data() {
 			return {
-
+				show_selected : false,
+				show_delivery : false,
+				select        : -1,		// 配送的礼物
+			}
+		},
+		components : {
+			'v-select-address' : vAddress,
+			'v-select-delivery': vDelivery
+		},
+		computed : {
+			...mapState({
+				pomelo       : state => state.Pomelo.pomelo,
+				pomelo_login : state => state.Pomelo.login,
+				user         : state => state.User.user || {},
+				wawaplayer   : state => state.User.wawaplayer,
+				wawas        : state => state.User.wawas
+			}),
+			avatar() {
+				if(this.user && this.user.avatar != '') {
+					return this.user.avatar;
+				} else return 'static/images/detail/avatar_default.png'
+			},
+		},
+		methods : {
+			fromDate(time) {
+				return moment(time).format("YYYY.MM.DD HH:mm")
+			},
+			onPress(index) {
+				this.select = index;
+				this.show_selected = true;
+			},
+			onCanelSelected() {
+				console.log('onCanelSelected')
+				this.show_selected = false;
+				this.show_delivery = false;
+			},
+			onSelected() {
+				console.log('onSelected')
+				this.show_selected = false;
+				this.show_delivery = true;
+			}
+		},
+		mounted() {
+			if(!this.pomelo_login) {
+				this.$router.replace('profile')
 			}
 		}
 	}

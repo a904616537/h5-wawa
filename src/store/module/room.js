@@ -36,11 +36,9 @@ const mutations = {
 			let arr = val.split('://');
 			if(arr.length > 0) {
 				const url = `http://${arr[1]}.m3u8`;
-				console.log('url', url)
 				return url;
 			} else return '';
 		});
-		console.log('传递当前房间', data);
 		state.current_room = data;
 	},
 	// 改变房间状态

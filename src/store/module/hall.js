@@ -84,9 +84,8 @@ const mutations = {
 	[types.HALL_ROOM_SET] (state, data) {
 		const {gsid} = data;
 		const room = state.rooms.find(val=> val.gsid == gsid);
-		console.log('进入房间传递房间数据', data, room)
 		if(room) {
-			console.log('room', room)
+			console.log('进入房间传递房间数据', room)
 			PubSub.publish('setRoom', room);
 		}
 	},

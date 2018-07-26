@@ -10,14 +10,15 @@
     import {mapState, mapActions} from 'vuex';
     import PubSub                 from 'pubsub-js';
     import login_help             from '@/utils/login_help';
-
+    import pomelo_key             from '@/utils/pomelo_key';
 
     export default {
         name: 'App',
         data() {
             return {
-                pubsub : PubSub.subscribe('setRoom', this.onSub),
-                userRoomCard : PubSub.subscribe('user.room.card.update', this.onUpdateUserRoomCard),
+                pubsub       : PubSub.subscribe('setRoom', this.onSub),
+                userRoomCard : PubSub.subscribe(pomelo_key.room.user.update, this.onUpdateUserRoomCard),
+                modifyMyInfo : PubSub.subscribe(pomelo_key.user.info, this.onUpdateUserInfo),
             }
         },
         components : {
@@ -29,15 +30,20 @@
                 'setHallSetting',
                 'onLogin',
                 'setRoomInfo',
-                'updateUserRoomCard'
+                'updateUserRoomCard',
+                'updateUserInfo'
             ]),
             onSub(msg, data) {
-                console.log('监听中 PubSub', msg, data)
+                console.log('监听 ->', msg, data)
                 this.setRoomInfo(data);
             },
             onUpdateUserRoomCard(msg, data) {
-                console.log('监听中 PubSub', msg, data)
+                console.log('监听 ->', msg, data)
                 this.updateUserRoomCard(data);
+            },
+            onUpdateUserInfo(msg, data) {
+                console.log('监听 ->', msg, data)
+                this.updateUserInfo(data);
             },
             onRefresh() {
                 const data = {

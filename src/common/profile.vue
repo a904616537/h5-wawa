@@ -1,32 +1,32 @@
 <template>
 	<div class="profile">
 		<div class="head">
-			<img class="user-head" src="/static/images/hall/1.png"/>
-			<div>user name</div>
-			<div>1193022</div>
+			<img class="user-head" :src="avatar"/>
+			<div>{{ decodeURI(user.nickname)}}</div>
+			<div>{{user.uid}}</div>
 		</div>
 		<div class="inner">
 			<div class="card">
 				<div class="item">
 					<label class="title">王国金币</label>
 					<div class="right">
-						<label class="info" style="margin-right: 70px;">1,484</label>
+						<label class="info" style="margin-right: 70px;">{{room_card}}</label>
 						<label class="info" @click="recharge">充值 ></label>
 					</div>
 				</div>
 				<div class="item">
 					<label class="title">我的物品(娃娃)</label>
 					<div class="right" @click="items">
-						<label class="info">数量: 3</label>
-						<label class="info">包邮卡: 0</label>
+						<label class="info">数量: {{wawa_number}}</label>
+						<label class="info">包邮卡: {{wawaplayer.delivery_card_num}}</label>
 						<label class="info">></label>
 					</div>
 				</div>
 				<div class="item">
 					<label class="title">王国配送信息</label>
 					<div class="right">
-						<label class="info">等待中: 0</label>
-						<label class="info">运送中: 0</label>
+						<label class="info">等待中: {{delivery_0}}</label>
+						<label class="info">运送中: {{delivery_1}}</label>
 						<label class="info">查看 ></label>
 					</div>
 				</div>
@@ -47,7 +47,7 @@
 				<div class="item">
 					<label class="title">消息</label>
 					<div class="right">
-						<label class="info">0 ></label>
+						<label class="info">{{post}} ></label>
 					</div>
 				</div>
 			</div>
@@ -77,20 +77,66 @@
 </template>
 
 <script>
-	import menu from '@/components/menu'
-	import vueSwitch from '@/components/switch'
+	import {mapState, mapGetters, mapActions} from 'vuex'
+	import menu                               from '@/components/menu'
+	import vueSwitch                          from '@/components/switch'
+	import pomelo_key                         from '@/utils/pomelo_key';
+	import PubSub                             from 'pubsub-js';
 
 	export default{
 		name : 'profile',
 		data() {
 			return {
-				value1 : true
+				value1    : true,
+				task_list : []		// pomelo 未链接上的时候处理队列
+			}
+		},
+
+		computed : {
+			...mapState({
+				pomelo       : state => state.Pomelo.pomelo,
+				pomelo_login : state => state.Pomelo.login,
+				user         : state => state.User.user || {},
+				wawas        : state => state.User.wawas,
+				delivery     : state => state.User.delivery,
+				post         : state => state.User.post.length,
+				wawaplayer   : state => state.User.wawaplayer
+			}),
+			avatar() {
+				if(this.user && this.user.avatar != '') {
+					return this.user.avatar;
+				} else return 'static/images/detail/avatar_default.png'
+			},
+			room_card() {
+				const re=/(?=(?!(\b))(\d{3})+$)/g;
+				if(this.user.room_card)
+					return this.user.room_card.toString().replace(re,",");
+				else return 0;
+			},
+			wawa_number() {
+				return this.wawas.length;
+			},
+			delivery_0() {
+				return this.delivery.filter(val => val.state == 0).length;
+			},
+			delivery_1() {
+				return this.delivery.filter(val => val.state == 1).length;
 			}
 		},
 		components : {
-			'v-menu' : menu,
+			'v-menu'   : menu,
 			'v-switch' : vueSwitch
 		},
+		watch: {
+	    	pomelo_login : function(val, oldVal) {
+	    		if(val && this.pomelo) {
+	    			while(this.task_list.length > 0) {
+	    				const task = this.task_list.pop();
+	    				this.pomelo.request(task.key, {uid : this.user.uid}, task.next);
+	    			}
+	    		}
+	    	}
+	    },
 		methods : {
 			recharge() {
 				this.$router.push({ path : '/recharge' })
@@ -104,6 +150,18 @@
 			share() {
 				this.$router.push({ path : '/share' })
 			}
+		},
+		mounted() {
+			const event = {key : pomelo_key.user.get, next : (result) => {
+	            if (result.code == 200) {
+	            	console.log(pomelo_key.user.get, result)
+	                //  执行
+	                PubSub.publish(pomelo_key.user.info, result)
+	            }
+			}};
+
+			if(this.pomelo) this.pomelo.request(event.key, event.next);
+			else this.task_list.unshift(event);
 		}
 	}
 </script>
@@ -145,7 +203,7 @@
 	}
 	.profile .card .info{
 		color: #999;
-		font-size: 14px;
+		font-size: 12px;
 		margin-left: 10px;
 	}
 </style>

@@ -31,7 +31,7 @@ const mixin = {
 				['reconnect', default_Fun],
 				['laba', default_Fun],
 				['game', this.setGame],
-				['wawaPlayer', default_Fun],
+				['wawaPlayer', this.setWawaPlayer],
 				['ready_to_play', default_Fun],
 				['goldsChange', default_Fun],
 				['roomCardsChange', default_Fun],
@@ -70,6 +70,7 @@ const mixin = {
             'onPomeloLogin',
             'setHallRoom',
             'setGame',
+            'setWawaPlayer',
         ]),
         onStart() {
         	this.onPomeloInit({next : ()=> {

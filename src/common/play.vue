@@ -41,7 +41,7 @@
 			<v-control :onOver="onOver"/>
 		</div>
 		<v-info v-if="show" :click="closeProductInfo"></v-info>
-		<v-record v-if="isShow" :click="closeRecord"></v-record>
+		<v-record v-if="isShow" :data="topRank" :click="closeRecord"></v-record>
 		<v-success v-show="show_success" :data="gift_data" :onPress="onPlay" :onCancel="onCancel"/>
 		<v-failure v-show="show_fail" :data="gift_data" :onCancel="onCancel" :onToPay="onToPay"/>
 	</div>
@@ -115,7 +115,8 @@
 				current_room : state => state.Room.current_room,
 				queue        : state => state.Room.queue,
 				master       : state => state.Room.master,
-				players      : state => state.Room.players
+				players      : state => state.Room.players,
+				topRank      : state => state.Room.top_rank
 			}),
 			machine_class() {
 				return {

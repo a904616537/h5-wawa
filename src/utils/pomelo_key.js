@@ -13,6 +13,9 @@ export default {
 		}
 	},
 	room : {
+		user : {
+			update : 'user.room.card.update'
+		},
 		play : {
 			start  : 'hall.g.start',
 			l      : "hall.g.l",
@@ -20,6 +23,10 @@ export default {
 			custom : "hall.g.custom",
 			o      : "hall.g.o",
 		}
+	},
+	user : {
+		info : "modifyMyInfo",
+		get    : 'hall.user.getMyInfo'
 	}
 }
 

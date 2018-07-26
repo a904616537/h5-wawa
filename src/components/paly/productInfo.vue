@@ -2,18 +2,30 @@
 	<div class="productInfo" @click="click">
 		<div class="inner">
 			<div class="card">
-				<div class="img-style"></div>
+				<div v-for="(item, index) in pics" class="img-style" :key="index" :style="'background-image: url('+ item +');'"></div>
 			</div>
 		</div>
 	</div>
 </template>
 
 <script>
+	import {mapState, mapGetters, mapActions} from 'vuex'
 	export default{
 		name : 'productInfo',
 		data() {
 			return {
 
+			}
+		},
+
+		computed : {
+			...mapState({
+				current_room : state => state.Room.current_room,
+			}),
+			pics() {
+				if(this.current_room.pics && this.current_room.pics != '') {
+					return JSON.parse(this.current_room.pics);
+				} else return []
 			}
 		},
 		props: {
@@ -45,7 +57,7 @@
 		width: 100%;
 		padding-bottom: 100%;
 		background-repeat: no-repeat;
-		background-size: cover;
+		background-size: 100% 100%;
 		background-position: top center;
 	}
 </style>
