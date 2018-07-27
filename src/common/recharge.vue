@@ -1,6 +1,6 @@
 <template>
 	<div class="recharge">
-		<div class="banner" style="background-image: url('/static/images/activity/firstpay/wawwjpayad.png')"></div>
+		<div class="banner" style="background-image: url('/static/images/activity/firstpay/wawwjpayad.png')" @click="payintro"></div>
 		<div class="gold-box">
 			<div class="item">
 				<div class="inner">
@@ -98,6 +98,11 @@
 		data() {
 			return {
 
+			}
+		},
+		methods : {
+			payintro() {
+				this.$router.push({ path: '/payintro'})
 			}
 		}
 	}

@@ -8,6 +8,9 @@ import Items    from '@/common/items'
 import Address  from '@/common/address'
 import Share    from '@/common/share'
 import Delivery from '@/common/delivery'
+import Shop     from '@/common/shop'
+import Bag      from '@/common/bag'
+import Payintro from '@/common/payintro'
 
 Vue.use(Router)
 
@@ -47,6 +50,18 @@ var routers = [
 	{
 		path : '/delivery',
 		component : Delivery
+	},
+	{
+		path : '/bag',
+		component : Bag
+	},
+	{
+		path : '/shop',
+		component : Shop
+	},
+	{
+		path : '/payintro',
+		component : Payintro
 	}
 ]
 
