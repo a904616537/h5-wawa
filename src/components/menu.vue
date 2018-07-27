@@ -7,12 +7,10 @@
 					<div class="menu-title">首页</div>
 				</li>
 			</router-link>
-			<router-link to="/bag">
-				<li>
-					<icon name="icon_bag" :w="20" :h="20"></icon>
-					<div class="menu-title">红包</div>
-				</li>
-			</router-link>
+			<li @click="goBag">
+				<icon name="icon_bag" :w="20" :h="20"></icon>
+				<div class="menu-title">红包</div>
+			</li>
 			<router-link to="/shop">
 				<li>
 					<icon name="icon_shop" :w="20" :h="20"></icon>
@@ -35,6 +33,15 @@
 		data() {
 			return {
 
+			}
+		},
+		methods : {
+			goBag() {
+				// 如果没有红包,页面跳转至'/bag'
+				// this.$router.push({ path : '/bag' })
+
+				// 如果用户首充赠送了礼拜，页面跳转至'/firstPayBag'
+				this.$router.push({ path : '/firstPayBag' })
 			}
 		}
 	}
