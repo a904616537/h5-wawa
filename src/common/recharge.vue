@@ -1,6 +1,6 @@
 <template>
 	<div class="recharge">
-		<div class="banner" style="background-image: url('/static/images/activity/firstpay/wawwjpayad.png')"></div>
+		<div class="banner" style="background-image: url('/static/images/activity/firstpay/wawwjpayad.png')" @click="payintro"></div>
 		<div class="gold-box">
 
 			<div  v-for="(item, index) in pay_list" class="item" @click="() => onPayment(item.paykey)">
@@ -105,7 +105,11 @@
 			if(!this.pomelo_login) {
 				this.$router.replace('profile')
 			}
-			
+		},
+		methods : {
+			payintro() {
+				this.$router.push({ path: '/payintro'})
+			}
 		}
 	}
 </script>
