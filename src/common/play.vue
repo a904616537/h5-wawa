@@ -4,8 +4,9 @@
 		
 		<div class="video">
 			<div  v-show="!show_video" class="videoload"></div>
-			<v-video v-show="show_video && !show_top" :src="video_left" :onReloadEnd="onReloadEnd"/>
-			<v-video v-show="show_video && show_top" :src="video_top"/>
+			<!-- <v-video v-show="show_video && !show_top" :src="video_left" :onReloadEnd="onReloadEnd"/>
+			<v-video v-show="show_video && show_top" :src="video_top"/> -->
+			<v-gpack />
 
 			<v-master />
 			<v-seconds ref="seconds" :show="start_paly" :maxSec="roundtime" :duration="duration" :onEnd="onClaw"/>
@@ -55,6 +56,7 @@
 	import seconds     from '@/components/paly/seconds'
 	import vMaster     from '@/components/paly/master'
 	import video       from '@/components/paly/video'
+	import vGpack       from '@/components/paly/gpack'
 	import vButton     from '@/components/paly/playButton'
 	import vControl    from '@/components/paly/control'
 	import vSuccess    from '@/components/paly/success'
@@ -100,6 +102,7 @@
 			'v-record'  : record,
 			'v-seconds' : seconds,
 			'v-video'   : video,
+			'v-gpack'   : vGpack,
 			'v-button'  : vButton,
 			'v-control' : vControl,
 			'v-master'  : vMaster,

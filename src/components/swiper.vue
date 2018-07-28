@@ -54,7 +54,6 @@
 			}
 		},
 		updated() {
-			console.log('this.props.data', this.data)
 		}
 	}
 </script>

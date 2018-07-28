@@ -7,33 +7,33 @@
 		</div>
 		<div class="inner">
 			<div class="card">
-				<div class="item">
+				<div class="item"  @click="recharge">
 					<label class="title">王国金币</label>
 					<div class="right">
 						<label class="info" style="margin-right: 70px;">{{room_card}}</label>
-						<label class="info" @click="recharge">充值 ></label>
+						<label class="info">充值 ></label>
 					</div>
 				</div>
-				<div class="item">
+				<div class="item" @click="items">
 					<label class="title">我的物品(娃娃)</label>
-					<div class="right" @click="items">
+					<div class="right">
 						<label class="info">数量: {{wawa_number}}</label>
 						<label class="info">包邮卡: {{wawaplayer.delivery_card_num}}</label>
 						<label class="info">></label>
 					</div>
 				</div>
-				<div class="item">
+				<div class="item"  @click="toDelivery">
 					<label class="title">王国配送信息</label>
 					<div class="right">
 						<label class="info">等待中: {{delivery_0}}</label>
 						<label class="info">运送中: {{delivery_1}}</label>
-						<label class="info" @click="delivery">查看 ></label>
+						<label class="info">查看 ></label>
 					</div>
 				</div>
-				<div class="item">
+				<div class="item" @click="address">
 					<label class="title">收货地址</label>
 					<div class="right">
-						<label class="info" @click="address">管理 ></label>
+						<label class="info">管理 ></label>
 					</div>
 				</div>
 			</div>
@@ -150,7 +150,7 @@
 			share() {
 				this.$router.push({ path : '/share' })
 			},
-			delivery() {
+			toDelivery() {
 				this.$router.push({ path : '/delivery' })
 			}
 		},
@@ -162,8 +162,7 @@
 	                PubSub.publish(pomelo_key.user.info, result)
 	            }
 			}};
-
-			if(this.pomelo) this.pomelo.request(event.key, event.next);
+			if(this.pomelo) this.pomelo.request(event.key, {uid : this.user.uid}, event.next);
 			else this.task_list.unshift(event);
 		}
 	}
@@ -198,8 +197,13 @@
 		padding: 10px 20px;
 		line-height: 36px;
 	}
+	.profile .card .item .title {
+		flex: auto;
+	}
 	.profile .card .item:not(:last-child){
-		border-bottom: 1px solid #eee;
+		border-bottom : 1px solid #eee;
+		display       : flex;
+		align-items   : center;
 	}
 	.profile .card .right{
 		float: right;

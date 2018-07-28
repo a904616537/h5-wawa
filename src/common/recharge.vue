@@ -2,90 +2,20 @@
 	<div class="recharge">
 		<div class="banner" style="background-image: url('/static/images/activity/firstpay/wawwjpayad.png')"></div>
 		<div class="gold-box">
-			<div class="item">
+
+			<div  v-for="(item, index) in pay_list" class="item" @click="() => onPayment(item.paykey)">
 				<div class="inner">
 					<div class="gold">
 						<div class="inline">
-							<div class="img-style" style="background-image: url('/static/images/hall/pay/gold_1.png')"></div>
+							<div class="img-style" :style="bglist.get(toIndex(index))"></div>
 						</div>
 						<div class="info">
-							<div class="gold-num">120币</div>
+							<div class="gold-num">{{onBuy(item.money)}}币</div>
+							<div v-if="onGift(item.golds, item.money) > 0" class="tip">送{{onGift(item.golds, item.money)}}币</div>
+							<div v-if="item.delivery_card_num > 0" class="tip">送{{item.delivery_card_num}}张包邮卡</div>
 						</div>
 					</div>
-					<div class="money">¥ 12</div>
-				</div>
-			</div>
-			<div class="item">
-				<div class="inner">
-					<div class="gold">
-						<div class="inline">
-							<div class="img-style" style="background-image: url('/static/images/hall/pay/gold_2.png')"></div>
-						</div>
-						<div class="info">
-							<div class="gold-num">200币</div>
-							<div class="tip">送1张包邮卡</div>
-						</div>
-					</div>
-					<div class="money">¥ 20</div>
-				</div>
-			</div>
-			<div class="item">
-				<div class="inner">
-					<div class="gold">
-						<div class="inline">
-							<div class="img-style" style="background-image: url('/static/images/hall/pay/gold_3.png')"></div>
-						</div>
-						<div class="info">
-							<div class="gold-num">500币</div>
-							<div class="tip">送2张包邮卡</div>
-						</div>
-					</div>
-					<div class="money">¥ 50</div>
-				</div>
-			</div>
-			<div class="item">
-				<div class="inner">
-					<div class="gold">
-						<div class="inline">
-							<div class="img-style" style="background-image: url('/static/images/hall/pay/gold_4.png')"></div>
-						</div>
-						<div class="info">
-							<div class="gold-num">1000币</div>
-							<div class="tip">送50币</div>
-							<div class="tip">送3张包邮卡</div>
-						</div>
-					</div>
-					<div class="money">¥ 100</div>
-				</div>
-			</div>
-			<div class="item">
-				<div class="inner">
-					<div class="gold">
-						<div class="inline">
-							<div class="img-style" style="background-image: url('/static/images/hall/pay/gold_5.png')"></div>
-						</div>
-						<div class="info">
-							<div class="gold-num">3000币</div>
-							<div class="tip">送300币</div>
-							<div class="tip">送10张包邮卡</div>
-						</div>
-					</div>
-					<div class="money">¥ 300</div>
-				</div>
-			</div>
-			<div class="item">
-				<div class="inner">
-					<div class="gold">
-						<div class="inline">
-							<div class="img-style" style="background-image: url('/static/images/hall/pay/gold_6.png')"></div>
-						</div>
-						<div class="info">
-							<div class="gold-num">5880币</div>
-							<div class="tip">送1008币</div>
-							<div class="tip">送20张包邮卡</div>
-						</div>
-					</div>
-					<div class="money">¥ 588</div>
+					<div class="money">¥ {{onMoney(item.money)}}</div>
 				</div>
 			</div>
 		</div>
@@ -93,12 +23,89 @@
 </template>
 
 <script>
+	import Vue from 'vue';
+	import axios from 'axios';
+	import {mapState, mapGetters, mapActions} from 'vuex'
 	export default{
 		name : 'recharge',
 		data() {
 			return {
-
+				bglist : new Map([
+					[0, "background-image: url('/static/images/hall/pay/gold_1.png')"],
+					[1, "background-image: url('/static/images/hall/pay/gold_2.png')"],
+					[2, "background-image: url('/static/images/hall/pay/gold_3.png')"],
+					[3, "background-image: url('/static/images/hall/pay/gold_4.png')"],
+					[4, "background-image: url('/static/images/hall/pay/gold_5.png')"],
+					[5, "background-image: url('/static/images/hall/pay/gold_6.png')"],
+				])
 			}
+		},
+		computed : {
+			...mapState({
+				pomelo       : state => state.Pomelo.pomelo,
+				pomelo_login : state => state.Pomelo.login,
+				user         : state => state.User.user || {},
+				pay_list     : state => state.Hall.pay_list,
+				platformData : state => state.User.platformData
+			}),
+		},
+		methods : {
+			onMoney(money) {
+				return parseInt(money)
+			},
+			onBuy(money) {
+				return parseInt(money) * 10;
+			},
+			onGift(golds, money) {
+				return golds - parseInt(money) * 10;
+			},
+			toIndex(index) {
+				const t = Math.floor(index / this.pay_list.length * 6);
+				return t;
+			},
+			onPayment(pkey) {
+				const {openid, unionid} = this.platformData;
+
+				let body = {
+					openid,
+					unionid,
+					pkey
+				};
+				console.log('get wx_app_pay', body)
+				axios.get(Vue.setting.api + '/wx_app_pay', {
+					params : body
+				})
+				.then((response) => {
+					const {jssign, prepay_id, paySign} = response.data.data;
+					const data = {
+						appId     : jssign.appId,
+						timeStamp : jssign.timestamp,
+						nonceStr  : jssign.nonceStr,
+						package   : prepay_id,
+						signType  : 'MD5',
+						paySign   : paySign
+					}
+					console.log('payment =======>>>>> ', data)
+					WeixinJSBridge.invoke('getBrandWCPayRequest', data, (res) => {
+                        if(res.err_msg == "get_brand_wcpay_request:ok"){
+                            console.log('支付成功！', res)
+                        }else{
+                        	console.log('支付失败！', res);
+                        }
+                    });
+				})
+				.catch((error) => {
+					this.message = '微信支付调用失败！'
+					this.isShowComfilm = true
+				});
+			},
+		},
+		mounted() {
+			console.log('state.Hall.pay_list', this.pay_list)
+			if(!this.pomelo_login) {
+				this.$router.replace('profile')
+			}
+			
 		}
 	}
 </script>

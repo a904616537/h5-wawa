@@ -9,7 +9,7 @@ const state = {
 	category      : [],		// 大厅分类
 	rooms         : [],		// 大厅房间
 	banners       : [],		// 内容合集
-	firstpay      : {},		// 礼包？？？
+	firstpay      : {},		// 首充礼包
 	pay_list      : [],		// 充值列表
 	shareNotice   : '', 	// 分享内容
 	shortpkey     : {},		// pomolo 链接内容
@@ -38,6 +38,7 @@ const actions = {
 // mutations
 const mutations = {
 	[types.HALL_SETTING] (state, data) {
+		console.log('setting =======> ', data)
 		let banner = data.contentconfig.find(val => val.id == 10);
 		if(banner) banner = JSON.parse(banner.content);
 		else {

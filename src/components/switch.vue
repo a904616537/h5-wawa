@@ -28,7 +28,6 @@
 
 <style>
 	.vueSwitch{
-		margin-top: 5px;
 	}
 	.switch-icon {
 	    display: block;

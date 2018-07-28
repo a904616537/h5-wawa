@@ -1,14 +1,17 @@
 /**
  * 用户状态 Key 管理
  */
-export const  USER_LOGIN              = 'user/login';
-export const  USER_LOGOUT             = 'user/logout';
-export const  USER_SET_ADDRESS        = 'user/set/address';
-export const  USER_SET_WECHAT         = 'user/set/wechat';
-export const  USER_SET_ROMMCARD       = 'user/set/roomcard';
-export const  USER_UPDATE_INFO        = 'user/set/info';
-export const  USER_UPDATE_PLAYER      = 'user/set/player';
-export const  USER_UPDATE_DEF_ADDRESS = 'user/set/def/address';
+export const  USER_LOGIN               = 'user/login';
+export const  USER_LOGOUT              = 'user/logout';
+export const  USER_SET_ADDRESS         = 'user/set/address';
+export const  USER_SET_WECHAT          = 'user/set/wechat';
+export const  USER_SET_ROMMCARD        = 'user/set/roomcard';
+export const  USER_UPDATE_INFO         = 'user/set/info';
+export const  USER_UPDATE_PLAYER       = 'user/set/player';
+export const  USER_UPDATE_DEF_ADDRESS  = 'user/set/def/address';
+export const  USER_UPDATE_EDIT_ADDRESS = 'user/set/edit/address';
+export const  USER_UPDATE_ROOMCARD     = 'user/set/roomcard';
+
 
 
 

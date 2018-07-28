@@ -1,6 +1,7 @@
 <template>
   <div id="app">
     <router-view/>
+    <v-adv />
   </div>
 </template>
 
@@ -11,6 +12,8 @@
     import PubSub                 from 'pubsub-js';
     import login_help             from '@/utils/login_help';
     import pomelo_key             from '@/utils/pomelo_key';
+    import Adv                    from './adv';
+    import axios from 'axios';
 
     export default {
         name: 'App',
@@ -22,6 +25,7 @@
             }
         },
         components : {
+            'v-adv' : Adv
         },
         computed : mapState({
         }),
@@ -45,17 +49,32 @@
                 console.log('监听 ->', msg, data)
                 this.updateUserInfo(data);
             },
-            onRefresh() {
+            onRefresh(code) {
                 const data = {
-                    device : 'iPhone%206%20Plus',
-                    ver    : '1.2.5.23',
-                    token  : 'WEykzXDbKiQBi9iGmLu218rSaKtHUCex4JLYVSqPS8-pcU6BJs3QnPgIf1pY2yrN3NwJDXRD215Wu9OUpo3oQKqAJH6LHM7B74Q914oSi6TqWk-guPd4Kg!!',
-                    rand   : '1531796233482'
+                    platform : "weixin",
+                    token    : code,
+                    device   : "",
+                    // bundleid : 'com.wawakingdom.top',
+                    bundleid : 'wawa.h5',
+                    duid     : '',
+                    ver      : '',
+                    adid     : '',
+                    lang     : "zh_CN",
+                    ua       : "Wechat",
+                    gss      : 666,
+                    lang     : "zh_CN",
+                    type     : 'google',
+                    f        : '',
+                    ac       : 1
                 }
                 login_help.onGetSetting(data)
                 .then(result => {
                     if(result.data != 0) {
-                        this.onLogin(result.data.user)
+                        this.onLogin({
+                            user         : result.data.user,
+                            token        : result.data.login.token,
+                            platformData : result.data.login.platformData
+                        })
                         this.setHallSetting(result.data);
                     } else console.log('获取配置失败!');
                 })
@@ -65,7 +84,28 @@
             }
         },
         created() {
-            this.onRefresh();
+            const code = this.$route.query.code;
+            console.log('code', code)
+            if(code) {
+                this.onRefresh(code);
+            } else {
+                const data = {
+                    token  : 'wXTx4NnbKL.ptlV-WZfzKOLPZja8oSm74CSWv3aAJMeAh.mgYNkam5QXFgPgOKMu55g9DfUKSLZ3XdxV-rYaXw6csT8kBDaZAhKwuPGjf1TjPKYPA3aULA!!',
+                    device : 'google',
+                    ver    : '1.0.9.3',
+                    rand   :  Date.now()
+                };
+                login_help.onGetSetting(data, 'config')
+                .then(result => {
+                    if(result.data != 0) {
+                        this.onLogin({user : result.data.user})
+                        this.setHallSetting(result.data);
+                    } else console.log('获取配置失败!');
+                })
+                .catch(err => {
+                    console.log('onGetSetting error', err);
+                });
+            }
         }
     }
 </script>
