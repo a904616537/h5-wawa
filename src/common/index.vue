@@ -29,7 +29,6 @@
 <script>
 	import Pubsub from 'pubsub-js';
 	import {mapState, mapGetters, mapActions} from 'vuex'
-	import Menu   from '@/components/menu'
 	import Swiper from '@/components/swiper'
 	import Tabs   from '@/components/hall/tabs'
 	
@@ -41,7 +40,6 @@
 			}
 		},
 		components : {
-			'v-menu'   : Menu,
 			'v-swiper' : Swiper,
 			'v-tabs'   : Tabs
 		},

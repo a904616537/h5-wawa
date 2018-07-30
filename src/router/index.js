@@ -12,8 +12,11 @@ import Shop     from '@/common/shop'
 import Bag      from '@/common/bag' //红包（没有礼包页）
 import FirstPayBag from '@/common/firstPayBag' //红包（赠送礼包页）
 import Payintro from '@/common/payintro'
+import Ticket   from '@/common/tickets'
+import Menu   from '@/components/menu'
 
 Vue.use(Router)
+Vue.component('v-menu',Menu)
 
 var routers = [
 	{
@@ -67,6 +70,10 @@ var routers = [
 	{
 		path : '/firstPayBag',
 		component : FirstPayBag
+	},
+	{
+		path : '/ticket',
+		component : Ticket
 	}
 ]
 
