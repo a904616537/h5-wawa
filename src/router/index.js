@@ -78,6 +78,7 @@ var routers = [
 ]
 
 const router = new Router({
+	mode: 'history',
   	routes: routers,
 })
 

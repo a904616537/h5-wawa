@@ -73,7 +73,8 @@
 			onSubmit() {
 				if(this.checked.length < 1) alert('至少选择一个娃娃！');
 				const deliverys = this.checked.map(val => {
-					let item = Object.assign(this.wawas[val], this.address,{del : 0});
+					let wawa = this.wawas[val]
+					let item = Object.assign(wawa, this.address,{del : 0});
 					return item;
 				})
 
@@ -81,14 +82,14 @@
 				this.onCanel();
 			},
 			onSend(data) {
-				if(this.wawaplayer.delivery_card_num > 0) {
-					this.pomelo.request(pomelo_key.user.get, {delivery : data, is_new : 1, uid : this.user.uid}, (msg) => {
+				if(this.wawaplayer.delivery_card_num > 0 || data.length > 1) {
+					this.pomelo.request(pomelo_key.hall.user.modifyMyInfo, {delivery : data, is_new : 1, uid : this.user.uid}, (msg) => {
 			            if (msg.code == 200) {
-			            	this.updateUserInfo(msg)
+			            	this.updateUserInfo(msg.msg)
 			            } else alert('提交出错啦！')
 			        })
 				} else {
-
+					alert('您没有包邮卡，必须拥有2件以上物品可以包邮，充值可获赠包邮卡（1个包邮）')
 				}
 			}
 		}

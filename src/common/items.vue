@@ -64,12 +64,10 @@
 				this.show_selected = true;
 			},
 			onCanelSelected() {
-				console.log('onCanelSelected')
 				this.show_selected = false;
 				this.show_delivery = false;
 			},
 			onSelected() {
-				console.log('onSelected')
 				this.show_selected = false;
 				this.show_delivery = true;
 			}

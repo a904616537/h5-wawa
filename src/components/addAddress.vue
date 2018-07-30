@@ -3,56 +3,93 @@
 		<div class="inner">
 			<div class="item">
 				<label>收货人</label>
-				<input type="text" placeholder="姓名">
+				<input type="text" v-model="data.name" placeholder="姓名">
 			</div>
 			<div class="item">
 				<label>联系电话</label>
-				<input type="text" placeholder="手机">
+				<input type="text" v-model="data.tel" placeholder="手机">
 			</div>
-			<div class="item">
+			<div class="item" @click="show = true">
 				<label>所在地区</label>
-				<vue-area :propsShow="show" :propsResult="result" @result="areaResult"></vue-area>
+				<div class="input">{{address}}<span class="fa fa-angle-right" /></div>
+				<vue-area :propsShow="show" @result="areaResult"></vue-area>
 			</div>
 			<div class="item">
 				<label class="row-style">详细地址</label>
-				<textarea rows="2" placeholder="尽可能详细"></textarea>
+				<textarea v-model="data.address" rows="2" placeholder="尽可能详细"></textarea>
 			</div>
 			<div class="item">
 				<label>设为默认</label>
+				<v-switch ref="switch" class="input" v-model="is_default"></v-switch>
 			</div>
 			<div class="bottom">
 				<div class="c-btn inner-btn" @click="close">取消</div>
-				<div class="e-btn inner-btn">完成</div>
+				<div class="e-btn inner-btn" @click="onPress">完成</div>
 			</div>	
 		</div>
 	</div>
 </template>
 
 <script>
-	import Vue from 'vue'
-	import vueArea from 'vue-area'
+	import Vue       from 'vue'
+	import vueArea   from 'vue-area'
+	import vueSwitch from '@/components/switch';
 
 	export default{
 		name : 'addAddress',
 		data() {
 			return {
-				result: null,
-    			show: false
+				data : {
+					id       : 0,
+					uid      : 0,
+					name     : '',
+					tel      : '',
+					address  : '',
+					default  : 0,
+					province : '',
+					country  : '中国',
+					city     : '',
+					area     : ''
+				},
+				is_default : false,
+				result     : null,
+				show       : false
 			}
 		},
 		props : {
 			close : {
-				type : Function,
+				type    : Function,
 				default : () => {console.log('close')}
 			}
 		},
+		computed : {
+			address() {
+				if(this.data.province != '' && this.data.city != '' && this.data.area != '') {
+					return this.data.province + this.data.city + this.data.area;
+				} else return '请选择你的地址'
+			},
+		},
 		components : {
-			vueArea
+			vueArea,
+			'v-switch' : vueSwitch
 		},
 		methods: {
 			areaResult(show,result) {
-				this.show = show
-		        this.result = result
+		        this.show = show
+		        if(this.data && result) {
+		        	this.data.province = result.province.name;
+		        	this.data.city = result.city.name;
+		        	this.data.area = result.area.name;
+		        }
+			},
+			onPress() {
+				console.log('this.is_default', this.$refs.switch.me_checked)
+				this.data.default = this.$refs.switch.me_checked?1:0;
+				this.close(this.data);
+			},
+			onEdit(data) {
+				this.data = data;
+				this.is_default = data.default == 0?false : true;
 			}
 		}
 	}
@@ -75,9 +112,11 @@
 		padding: 10px;
 	}
 	.addAddress .inner .item{
-		border-bottom: 1px solid #eee;
-		padding: 10px;
-		font-size: 0.9rem;
+		border-bottom : 1px solid #eee;
+		padding       : 10px;
+		font-size     : 0.9rem;
+		display: flex;
+		align-items: center;
 	}
 	.addAddress .inner label{
 		display: inline-block;
@@ -87,6 +126,19 @@
 		outline: none;
 		font-size: 0.9rem;
 		width: 63%;
+	}
+	.addAddress .inner .input{
+		outline    : none;
+		font-size  : 0.9rem;
+		width      : 63%;
+		display    : inline-block;
+		text-align : right;
+		color      : #999;
+	}
+	.addAddress .inner .input span {
+		font-size   : 18px;
+		margin-left : 0.5em;
+		display     : inline-block;
 	}
 	.addAddress .inner textarea{
 		outline: none;

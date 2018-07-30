@@ -9,7 +9,8 @@
 export default {
 	hall : {
 		user : {
-			joinRoom : 'hall.user.joinRoom',
+			joinRoom     : 'hall.user.joinRoom',
+			modifyMyInfo : 'hall.user.modifyMyInfo'
 		}
 	},
 	room : {
@@ -26,9 +27,17 @@ export default {
 	},
 	user : {
 		info : "modifyMyInfo",
-		get    : 'hall.user.getMyInfo'
+		get  : 'hall.user.getMyInfo'
 	}
 }
+
+export const deliveryState = new Map([
+	[0, '等待配送'],
+	[1, '配送中'],
+	[2, '已签收'],
+	[3, '确认完成'],
+	[4, '其他']
+]);
 
 export const RoomStatus = {
 	STATUS_ERROR          : 0,	// 房间错误

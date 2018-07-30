@@ -34,7 +34,7 @@ const mixin = {
 				['wawaPlayer', this.setWawaPlayer],
 				['ready_to_play', default_Fun],
 				['goldsChange', default_Fun],
-				['roomCardsChange', default_Fun],
+				['roomCardsChange', this.onRoomCardsChange],
 				['serverReboot', default_Fun],
 				['updateClient', default_Fun],
 				['ticketChange', default_Fun],
@@ -71,11 +71,16 @@ const mixin = {
             'setHallRoom',
             'setGame',
             'setWawaPlayer',
+            'onRoomCardsChange'
         ]),
         onStart() {
         	this.onPomeloInit({next : ()=> {
 				this.pomelo.on('close', (data) => {
 				    console.log('断开Pomelo');
+				    setTimeout(() => {
+				    	 console.log('重新连接 Pomelo')
+				    	this.onPomeloInit();
+				    }, 3000);
 				});
 			}});
         },

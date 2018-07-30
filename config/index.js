@@ -38,10 +38,10 @@ module.exports = {
 
   build: {
     // Template for index.html
-    index: path.resolve(__dirname, '../dist/index.html'),
+    index: path.resolve(__dirname, '/usr/local/Cellar/nginx/1.15.0/wawa/index.html'),
 
     // Paths
-    assetsRoot: path.resolve(__dirname, '../dist'),
+    assetsRoot: path.resolve(__dirname, '/usr/local/Cellar/nginx/1.15.0/wawa'),
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
 
