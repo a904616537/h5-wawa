@@ -38,7 +38,7 @@
 			</div>
 			<div class="item">
 				<div class="inner" style="background-image: url('/static/images/activity/firstpay/bg2.png')">  <!-- 需要更改背景内字体颜色 -->
-					<div class="title">
+					<div class="title" style="color: red">
 						<div class="coins">100%必得娃娃</div>
 						<div class="recharge">充{{recharge}}元立即激活</div>
 					</div>
