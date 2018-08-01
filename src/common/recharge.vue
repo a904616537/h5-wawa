@@ -7,7 +7,7 @@
 				<div class="inner">
 					<div class="gold">
 						<div class="inline">
-							<div class="img-style" :style="bglist.get(toIndex(index))"></div>
+							<div class="img-style" :style="toIndex(index)"></div>
 						</div>
 						<div class="info">
 							<div class="gold-num">{{onBuy(item.money)}}币</div>
@@ -50,6 +50,9 @@
 			}),
 		},
 		methods : {
+			payintro() {
+				this.$router.push({ path: '/payintro'})
+			},
 			onMoney(money) {
 				return parseInt(money)
 			},
@@ -61,7 +64,7 @@
 			},
 			toIndex(index) {
 				const t = Math.floor(index / this.pay_list.length * 6);
-				return t;
+				return this.bglist.get(t);
 			},
 			onPayment(pkey) {
 				const {openid, unionid} = this.platformData;
@@ -79,7 +82,7 @@
 					const {jssign, prepay_id, paySign} = response.data.data;
 					const data = {
 						appId     : jssign.appId,
-						timeStamp : jssign.timestamp,
+						timeStamp : `${jssign.timestamp}`,
 						nonceStr  : jssign.nonceStr,
 						package   : prepay_id,
 						signType  : 'MD5',
@@ -104,11 +107,6 @@
 			console.log('state.Hall.pay_list', this.pay_list)
 			if(!this.pomelo_login) {
 				this.$router.replace('profile')
-			}
-		},
-		methods : {
-			payintro() {
-				this.$router.push({ path: '/payintro'})
 			}
 		}
 	}

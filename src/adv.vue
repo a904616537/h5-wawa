@@ -76,7 +76,7 @@
 		top              : 0;
 		left             : 0;
 		width            : 100vw;
-		height           : 100vh;
+		height           : 100%;
 		z-index          : 999;
 		position         : fixed;
 		background-color : #fff;

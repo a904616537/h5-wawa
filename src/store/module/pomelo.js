@@ -23,7 +23,6 @@ const actions = {
 // mutations
 const mutations = {
 	[types.POMELO_INIT] (state, data) {
-		const {next} = data;
 		pomelo.init({
 		    host   : '106.15.90.130',
 		    port   : 80,
@@ -31,7 +30,7 @@ const mutations = {
 		}, (res) => {
 			state.pomelo = pomelo;
 		    
-		    if(next) next();
+		    if(data && data.next) data.next();
 		    
 		});
 	},

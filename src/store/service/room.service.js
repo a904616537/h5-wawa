@@ -17,7 +17,7 @@ function setRoomMaster(data, state) {
 }
 
 function updateRoomStatus(data, state) {
-	PubSub.publish('hall.room.update', ...data);
+	PubSub.publish('hall.room.update', data);
 }
 /**
  * [updateUserCard 更新玩家娃娃币]

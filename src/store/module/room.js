@@ -31,14 +31,16 @@ const actions = {
 // mutations
 const mutations = {
 	[types.ROOM_INFO] (state, data) {
-		if(typeof data.lives != 'array') data.lives = JSON.parse(data.lives);
-		data.videos = data.lives.map(val => {
-			let arr = val.split('://');
-			if(arr.length > 0) {
-				const url = `http://${arr[1]}.m3u8`;
-				return url;
-			} else return '';
-		});
+		if(typeof data.lives == 'string') data.lives = JSON.parse(data.lives);
+		// data.videos = data.lives.map(val => {
+		// 	let arr = val.split('://');
+		// 	if(arr.length > 0) {
+		// 		const url = `http://${arr[1]}.m3u8`;
+		// 		return url;
+		// 	} else return '';
+		// });
+		console.log('data.lives', data.lives)
+		data.videos = data.lives;
 		state.current_room = data;
 	},
 	// 改变房间状态

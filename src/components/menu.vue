@@ -7,7 +7,7 @@
 					<div class="menu-title">首页</div>
 				</li>
 			</router-link>
-			<li @click="goBag">
+			<!-- <li @click="goBag">
 				<icon name="icon_bag" :w="20" :h="20"></icon>
 				<div class="menu-title">红包</div>
 			</li>
@@ -16,7 +16,7 @@
 					<icon name="icon_shop" :w="20" :h="20"></icon>
 					<div class="menu-title">商城</div>
 				</li>
-			</router-link>
+			</router-link> -->
 			<router-link to="/profile">
 				<li>
 					<icon name="icon_me" :w="20" :h="20"></icon>
@@ -49,30 +49,31 @@
 
 <style>
 	.menu-box{
-		position: fixed;
-		left: 0;
-		right: 0;
-		bottom: 0;
+		left     : 0;
+		right    : 0;
+		bottom   : 0;
+		position : fixed;
 	}
 	.clear-float{
-		content: '';
-		height: 0;
-		clear: both;
-		display: table;
-		overflow: hidden;
+		content  : '';
+		height   : 0;
+		clear    : both;
+		display  : table;
+		overflow : hidden;
 	}
 	.menu-box ul{
-		margin: 0;
-		padding: 0;
-		width: 100%;
-		background-color: #fff;
+		margin           : 0;
+		padding          : 0;
+		width            : 100%;
+		background-color : #fff;
 	}
 	.menu-box li{
-		float: left;
-		width: 25%;
-		list-style: none;
-		font-size: 12px;
-		color: #333;
-		padding: 10px 0;
+		float      : left;
+		width      : 50%;
+		/*width    : 25%;*/
+		list-style : none;
+		font-size  : 12px;
+		color      : #333;
+		padding    : 10px 0;
 	}
 </style>

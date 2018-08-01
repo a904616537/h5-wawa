@@ -1,0 +1,46 @@
+<html>
+<head>
+<title>test</title> 
+ 
+	<script type="text/javascript" src="gpack.js"></script> 
+</head>
+
+<body>
+<!-- <script src="../prism/build/prism.min.js"></script>	    -->
+
+
+	<canvas id="decoded"></canvas>
+	<canvas id="decoded2"></canvas>
+	<script type="text/javascript"> 
+			var player=new GLPlayer({
+					wsHost		:'ws://106.14.162.126:8080', 
+				 	url			:'rtmp://21509.liveplay.myqcloud.com/live/21509_1_18b',
+				 	canvas		: document.getElementById('decoded'),
+				 	videoinfo	: {width:360,height:640}
+				 });
+			player.start();
+			// var player2=new GLPlayer({
+			// 		wsHost		:'ws://106.14.162.126:8080', 
+			// 	 	url			:'rtmp://21509.liveplay.myqcloud.com/live/21509_1_18a',
+			// 	 	canvas		: document.getElementById('decoded2'),
+			// 	 	videoinfo	: {width:360,height:640}
+			// 	 });
+			// player2.start();
+			// setTimeout(function(){
+			// 	player.stop();
+			// },5000);
+			// setTimeout(function(){
+			// 	player.start();
+			// },10000);
+
+			// setTimeout(function(){
+			// 	player.pause();
+			// },15000);
+			// setTimeout(function(){
+			// 	player.start();
+			// },20000);
+
+	</script>
+</body>
+
+</html>
