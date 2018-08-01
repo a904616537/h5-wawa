@@ -13,7 +13,7 @@
 		<div class="banner" @click="toTicket"></div>
 		<div class="title">精选推荐</div>
 		<div class="content">
-			<div class="item">
+			<div class="item" @click="toItem">
 				<div class="inner">
 					<div class="img-style"></div>
 					<div class="item-bottom">
@@ -90,6 +90,9 @@
 		methods : {
 			toTicket() {
 				this.$router.push({ path : '/ticket' })
+			},
+			toItem() {
+				this.$router.push({ path : '/shopItem' })
 			}
 		}
 	}
