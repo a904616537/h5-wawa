@@ -28,6 +28,10 @@
             'v-adv' : Adv
         },
         computed : mapState({
+            user     : state => state.User.user,
+            token    : state => state.User.token,
+            is_login : state => state.User.isLogin
+
         }),
         methods : {
             ...mapActions([
@@ -50,6 +54,7 @@
                 this.updateUserInfo(data);
             },
             onRefresh(code) {
+                 console.log('微信登陆 code', code)
                 const data = {
                     platform : "weixin",
                     token    : code,
@@ -84,11 +89,41 @@
             }
         },
         created() {
-            const code = this.$route.query.code;
+            wx.hideAllNonBaseMenuItem();
+            //获取url中的参数
+            function getUrlParam(name) {
+                const reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+                const r = window.location.search.substr(1).match(reg);
+                if (r != null) return unescape(r[2]); return null;
+            }
+
+            const code = getUrlParam('code');
             console.log('code', code)
-            if(code) {
+            if(this.is_login) {
+                console.log('缓存登陆', this.user)
+                const data = {
+                    token  : this.token,
+                    device : 'google',
+                    ver    : '1.0.9.3',
+                    rand   :  Date.now()
+                };
+                console.log('get setting', data)
+                login_help.onGetSetting(data, 'config')
+                .then(result => {
+                    if(result.data != 0) {
+                        this.onLogin({user : result.data.user})
+                        this.setHallSetting(result.data);
+                    } else console.log('获取配置失败!');
+                })
+                .catch(err => {
+                    console.log('onGetSetting error', err);
+                });
+                
+            } else if(code) {
+                console.log('code 登陆')
                 this.onRefresh(code);
             } else {
+                console.log('测试玩家登陆');
                 const data = {
                     token  : 'wXTx4NnbKL.ptlV-WZfzKOLPZja8oSm74CSWv3aAJMeAh.mgYNkam5QXFgPgOKMu55g9DfUKSLZ3XdxV-rYaXw6csT8kBDaZAhKwuPGjf1TjPKYPA3aULA!!',
                     device : 'google',
@@ -98,6 +133,7 @@
                 login_help.onGetSetting(data, 'config')
                 .then(result => {
                     if(result.data != 0) {
+                        console.log('result.data', result.data)
                         this.onLogin({user : result.data.user})
                         this.setHallSetting(result.data);
                     } else console.log('获取配置失败!');

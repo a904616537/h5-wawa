@@ -4,7 +4,7 @@ import Cookie      from 'vue-cookie';
 // initial state
 const state = {
 	showFrom   : false,
-	isLogin    : Cookie.get('user-token') != null,
+	isLogin    : Cookie.get('user-token') != null && Cookie.get('user-token') != 'undefined',
 	user       : JSON.parse(Cookie.get('user')),
 	token      : Cookie.get('user-token'),
 	platformData : {
@@ -40,6 +40,7 @@ const actions = {
 		commit(types.USER_SET_ADDRESS, data);
 	},
 	updateUserRoomCard({commit}, data) {
+		console.log('??????updateUserRoomCard', data)
 		commit(types.USER_SET_ROMMCARD, data)
 	},
 	updateUserInfo({commit}, data) {
@@ -64,9 +65,14 @@ const mutations = {
 	[types.USER_LOGIN] (state, data) {
 		const {user, token, platformData} = data;
 		state.user     = user;
-		if(token) state.token    = token;
+		Cookie.set('user', JSON.stringify(user));
+
+		if(token) {
+			state.token    = token;
+			Cookie.set('user-token', token);
+		}
 		if(platformData) state.platformData = platformData;
-		console.log('platformData', platformData)
+		console.log('get login', token)
 		state.isLogin  = true;
 		state.showFrom = false;
 	},
@@ -84,6 +90,7 @@ const mutations = {
 		state.address = data;
 	},
 	[types.USER_SET_ROMMCARD] (state, data) {
+		console.log('USER_SET_ROMMCARD', data)
 		state.user.room_card = data.master.room_card;
 		state.user = {...state.user};
 	},

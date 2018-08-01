@@ -3,10 +3,11 @@
 		<v-headbar :players="players" :count="players.length" :room="current_room" :click="productInfo" :toBack="toBack"></v-headbar>
 		
 		<div class="video">
-			<div  v-show="!show_video" class="videoload"></div>
+			<div  v-if="!show_video" class="videoload"></div>
 			<!-- <v-video v-show="show_video && !show_top" :src="video_left" :onReloadEnd="onReloadEnd"/>
 			<v-video v-show="show_video && show_top" :src="video_top"/> -->
-			<v-gpack />
+			<v-gpack :show="show_video && !show_top" :index="0" :src="video_left" :onReloadEnd="onReloadEnd"/>
+			<v-gpack :show="show_video && show_top" :index="1" :src="video_top"/>
 
 			<v-master />
 			<v-seconds ref="seconds" :show="start_paly" :maxSec="roundtime" :duration="duration" :onEnd="onClaw"/>
@@ -44,7 +45,7 @@
 		<v-info v-if="show" :click="closeProductInfo"></v-info>
 		<v-record v-if="isShow" :data="topRank" :click="closeRecord"></v-record>
 		<v-success v-show="show_success" :data="gift_data" :onPress="onPlay" :onCancel="onCancel"/>
-		<v-failure v-show="show_fail" :data="gift_data" :onCancel="onCancel" :onToPay="onToPay"/>
+		<v-failure v-show="show_fail" :data="gift_data" :onCancel="onCancel" :onToPay="onToPay" :onPress="onPlay"/>
 	</div>
 </template>
 
@@ -56,7 +57,7 @@
 	import seconds     from '@/components/paly/seconds'
 	import vMaster     from '@/components/paly/master'
 	import video       from '@/components/paly/video'
-	import vGpack       from '@/components/paly/gpack'
+	import vGpack      from '@/components/paly/gpack'
 	import vButton     from '@/components/paly/playButton'
 	import vControl    from '@/components/paly/control'
 	import vSuccess    from '@/components/paly/success'
@@ -85,7 +86,7 @@
 				show         : false,
 				start_paly   : false,
 				isShow       : false,
-				show_video   : false,	// 显示视频
+				show_video   : true,	// 显示视频
 				show_top     : false,	// 显示顶部视频
 				task_list    : []		// pomelo 未链接上的时候处理队列
 			}
@@ -140,6 +141,7 @@
 			btn_status() {
 				let now_btn="play_start_btn";
 				this.onPress = this.onPlay;
+
 				if(this.pomelo_login) {
 					// 检查队列, 和房间状态
 					if(this.current_room.status == RoomStatus.STATUS_IDLE && this.master && this.master.uid == this.user.uid) {
@@ -222,6 +224,7 @@
 			},
 			// 切换摄像头
 			onSwitch() {
+				console.log('切换摄像头')
 				this.show_top = !this.show_top;
 			},
 			// 换一台
@@ -243,6 +246,7 @@
 			 * [onPlay 立即开始按钮事件处理]
 			 */
 			onPlay() {
+				console.log('立即开始按钮')
 				this.show_fail    = false;
 				this.show_success = false;
 
@@ -351,6 +355,7 @@
 
 		},
 		mounted() {
+            wx.hideAllNonBaseMenuItem();
 			this.onInit();	
 		}
 	}

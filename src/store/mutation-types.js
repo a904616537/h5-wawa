@@ -10,7 +10,7 @@ export const  USER_UPDATE_INFO         = 'user/set/info';
 export const  USER_UPDATE_PLAYER       = 'user/set/player';
 export const  USER_UPDATE_DEF_ADDRESS  = 'user/set/def/address';
 export const  USER_UPDATE_EDIT_ADDRESS = 'user/set/edit/address';
-export const  USER_UPDATE_ROOMCARD     = 'user/set/roomcard';
+export const  USER_UPDATE_ROOMCARD     = 'user/update/roomcard';
 
 
 

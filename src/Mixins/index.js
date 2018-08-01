@@ -48,7 +48,7 @@ const mixin = {
 				['matchresult', default_Fun],
 				['matchConfirm', default_Fun],
 				['stonesChange', default_Fun],
-				['close', default_Fun],
+				['close', this.onReset],
 				['error', default_Fun]
 			])
 		}
@@ -73,16 +73,14 @@ const mixin = {
             'setWawaPlayer',
             'onRoomCardsChange'
         ]),
+        onReset() {
+        	setTimeout(() => {
+		    	 console.log('重新连接 Pomelo')
+		    	this.onPomeloInit();
+		    }, 3000);
+        },
         onStart() {
-        	this.onPomeloInit({next : ()=> {
-				this.pomelo.on('close', (data) => {
-				    console.log('断开Pomelo');
-				    setTimeout(() => {
-				    	 console.log('重新连接 Pomelo')
-				    	this.onPomeloInit();
-				    }, 3000);
-				});
-			}});
+        	this.onPomeloInit();
         },
         setOnPomelo(){
         	const {pomelo_Listen, pomelo, listen, shortpkey} = this;
@@ -103,6 +101,7 @@ const mixin = {
 			    });
         	} else {
         		console.log('未找到Pomelo')
+        		this.onReset();
         	}
         },
 		listen(key, next) {
