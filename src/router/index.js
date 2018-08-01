@@ -14,6 +14,8 @@ import FirstPayBag from '@/common/firstPayBag' //红包（赠送礼包页）
 import Payintro from '@/common/payintro'
 import Ticket   from '@/common/tickets'
 import ShopItem from '@/common/shopItem'
+import Covert from '@/common/covert' 
+import CovertMore from '@/common/covertMore'
 import Menu   from '@/components/menu'
 
 Vue.use(Router)
@@ -79,6 +81,14 @@ var routers = [
 	{
 		path : '/shopItem',
 		component : ShopItem
+	},
+	{
+		path : '/covert',
+		component : Covert
+	},
+	{
+		path : '/covertMore',
+		component : CovertMore
 	}
 ]
 

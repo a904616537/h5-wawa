@@ -5,7 +5,7 @@
 				<img src="static/images/shop/icon_vouchers.png" class="icon-style" />
 				我的王国券：<span>{{tickets}}</span>	
 			</div>
-			<div class="tab-list">
+			<div class="tab-list" @click="toCovert">
 				<img src="static/images/shop/icon_record.png" class="icon-style" />
 				兑换记录
 			</div>
@@ -88,11 +88,14 @@
 			}
 		},
 		methods : {
-			toTicket() {
+			toTicket() {   // 跳转到兑换王国券
 				this.$router.push({ path : '/ticket' })
 			},
-			toItem() {
+			toItem() {   // 跳转到商品详情
 				this.$router.push({ path : '/shopItem' })
+			},
+			toCovert() {   // 跳转到兑换记录
+				this.$router.push({ path : '/covert' })
 			}
 		}
 	}

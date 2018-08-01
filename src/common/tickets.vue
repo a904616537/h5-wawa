@@ -17,7 +17,7 @@
 					<div class="title">抓娃娃</div>
 					每局游戏结束后可获得一定王国券
 				</div>
-				<div class="btn">立即...</div>
+				<div class="btn" @click="toIndex">立即...</div>
 			</div>
 		</div>
 	</div>
@@ -29,6 +29,11 @@
 		data() {
 			return {
 
+			}
+		},
+		methods : {
+			toIndex() {
+				this.$router.push({ path : '/' })
 			}
 		}
 	}
