@@ -10,7 +10,7 @@
 					<div class="title">王国券签到</div>
 					参与王国券签到可获取一定量的积分
 				</div>
-				<div class="btn">立即...</div>
+				<div class="btn" @click="toSign">立即...</div>
 			</div>
 			<div class="card">
 				<div class="inner">
@@ -34,6 +34,9 @@
 		methods : {
 			toIndex() {
 				this.$router.push({ path : '/' })
+			},
+			toSign() {
+				this.$router.push({ path : '/sign' })
 			}
 		}
 	}

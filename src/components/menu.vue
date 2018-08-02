@@ -7,7 +7,7 @@
 					<div class="menu-title">首页</div>
 				</li>
 			</router-link>
-			<!-- <li @click="goBag">
+			<li @click="goBag">
 				<icon name="icon_bag" :w="20" :h="20"></icon>
 				<div class="menu-title">红包</div>
 			</li>
@@ -16,7 +16,7 @@
 					<icon name="icon_shop" :w="20" :h="20"></icon>
 					<div class="menu-title">商城</div>
 				</li>
-			</router-link> -->
+			</router-link>
 			<router-link to="/profile">
 				<li>
 					<icon name="icon_me" :w="20" :h="20"></icon>

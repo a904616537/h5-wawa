@@ -16,6 +16,7 @@ import Ticket   from '@/common/tickets'
 import ShopItem from '@/common/shopItem'
 import Covert from '@/common/covert' 
 import CovertMore from '@/common/covertMore'
+import Sign     from '@/common/sign'      //签到   
 import Menu   from '@/components/menu'
 
 Vue.use(Router)
@@ -89,6 +90,10 @@ var routers = [
 	{
 		path : '/covertMore',
 		component : CovertMore
+	},
+	{
+		path : '/sign',
+		component : Sign
 	}
 ]
 
