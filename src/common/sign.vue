@@ -57,6 +57,7 @@
 
 
 		<v-rule v-if="show" :close="showRule"></v-rule>	
+		<v-prize v-if="isShow"></v-prize>	
 		<v-recommend></v-recommend>
 
 	</div>
@@ -64,6 +65,7 @@
 
 <script>
 	import rule from '@/components/month/rule'
+	import prize from '@/components/month/prize'
 	import recommend from '@/components/month/recommend'
 
 	export default{
@@ -72,12 +74,14 @@
 			return {
 				tickets : '145',
 				day     : '2',
-				show    : false
+				show    : false,
+				isShow  : true
 			}
 		},
 		components : {
 			'v-rule' : rule,
-			'v-recommend' : recommend
+			'v-recommend' : recommend,
+			'v-prize' : prize
 		},
 		methods : {
 			showRule() {
