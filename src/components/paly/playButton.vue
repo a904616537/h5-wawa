@@ -38,7 +38,7 @@
 				},
 			}),
 			btn_img() {
-				return `background-image: url(/static/images/hall/videoplay/${this.btn}.png);`
+				return `background-image: url(./static/images/hall/videoplay/${this.btn}.png);`
 			},
 			showtext() {
 				return this.btn == 'play_start_queue_btn';
@@ -47,7 +47,8 @@
 	}
 </script>
 
-<style>
+<style lang="scss">
+	$apiurl: 'http://c.waguo.net/h5/wawa';
 .ibutton {
 	width           : 45vw;
 	height          : 18vw;
@@ -62,22 +63,22 @@
 }
 /*开始*/
 .ibutton.playstart{
-	background-image: url(/static/images/hall/videoplay/play_start_btn.png);
+	background-image: url($apiurl + '/static/images/hall/videoplay/play_start_btn.png');
 }
 /*预约*/
 .ibutton .play_start_queue_btn{
-	background-image: url(/static/images/hall/videoplay/play_start_queue_btn.png);
+	background-image: url($apiurl + '/static/images/hall/videoplay/play_start_queue_btn.png');
 }
 /*取消预约*/
 .ibutton .play_cancel_queue_btn{
-	background-image: url(/static/images/hall/videoplay/play_cancel_queue_btn.png);
+	background-image: url($apiurl + '/static/images/hall/videoplay/play_cancel_queue_btn.png');
 }
 /*稍等*/
 .ibutton .play_state_waiting_btn{
-	background-image: url(/static/images/hall/videoplay/play_state_waiting_btn.png);
+	background-image: url($apiurl + '/static/images/hall/videoplay/play_state_waiting_btn.png');
 }
 .ibutton.change_machine{
-	background-image: url(/static/images/hall/videoplay/change_machine.png);
+	background-image: url($apiurl + '/static/images/hall/videoplay/change_machine.png');
 	width: 18vw;
 	height: 18vw;
 }

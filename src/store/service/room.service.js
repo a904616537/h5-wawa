@@ -41,8 +41,6 @@ function updateRoomQueue(data, state) {
 }
 
 function roomCgdp(data, state) {
-
-	console.log('用户抓到娃娃', data)
 	Pubsub.publish('hall.room.success', data);
 }
 

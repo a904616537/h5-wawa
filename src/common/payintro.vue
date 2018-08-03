@@ -1,11 +1,16 @@
 <template>
-	<div class="payintro">
-		<div class="pay-infor">{{payInfro.user}}在{{payInfro.time}}分钟前充值成功</div>
+	<div class="payintro" @click="onPayment">
+		<div class="pay-infor">{{logNow}}</div>
 		<div class="bag-number">{{thousand}}<span></span>{{hundred}}<span></span>{{tens}}<span></span>{{single}}</div>
 	</div>
 </template>
 
 <script>
+	import Vue   from 'vue';
+	import axios from 'axios';
+	import {mapState, mapGetters, mapActions} from 'vuex'
+	import payment from '@/utils/payment';
+
 	export default{
 		name : 'payintro',
 		data() {
@@ -14,18 +19,88 @@
 					user : 'xxx',
 					time : '21'
 				},
-				single : '2',
-				tens : '2',
-				hundred : '2',
+				sti      : null,
+				logNow   : '',
+				log      : [],
+				single   : '2',
+				tens     : '2',
+				hundred  : '2',
 				thousand : '0'
 			}
+		},
+
+		computed : {
+			...mapState({
+				pomelo        : state => state.Pomelo.pomelo,
+				pomelo_login  : state => state.Pomelo.login,
+				user          : state => state.User.user || {},
+				token         : state => state.User.token,
+				platformData  : state => state.User.platformData
+			}),
+		},
+		methods : {
+			processData(data){
+				let lasts = data.limit;
+				lasts = ("0000"+lasts).substr(-4,4).split("");
+				this.thousand = lasts[0];
+				this.hundred = lasts[1];
+				this.tens = lasts[2];
+				this.single = lasts[3];
+				this.log  = data.pay_list;
+				if(this.log.length>0){
+					this.sti = setInterval(() => this.randomLog(),2990);
+					this.randomLog()
+				}
+			},
+			randomLog(){
+		        let i = this.log.indexOf(this.logNow);
+		        let n = i;
+		        while(n == i){
+		            n = Math.floor(Math.random() * this.log.length);
+		        }
+		        this.logNow = this.log[n]
+		    },
+			getData() {
+				axios.get(Vue.setting.api + '/red_limit',{
+					params : {token : this.token}
+				})
+				.then(result => result.data)
+				.then(result => {
+					if(result.ret == 0) {
+						this.processData(result.data)
+					}
+				})
+				.catch(err => {
+					console.log('error', err)
+				})
+			},
+			onPayment() {
+				const {openid, unionid} = this.platformData;
+				payment.onPayment(openid, unionid, 'firstpay')
+				.then(res => {
+					console.log('支付结果！', res)
+					this.$router.back();
+				})
+				.catch(err => {
+					console.log('微信支付调用失败', err)
+					alert('微信支付调用失败！')
+				})
+			}
+		},
+		destroyed() {
+			clearInterval(this.sti)
+		},
+		mounted() {
+			this.getData();
 		}
 	}
 </script>
 
-<style>
+<style lang="scss">
+	$apiurl: 'http://c.waguo.net/h5/wawa';
+
 	.payintro{
-		background-image: url('/static/images/activity/firstpay/payintro.png');
+		background-image: url($apiurl + '/static/images/activity/firstpay/payintro.png');
 		background-size: contain;
 		background-repeat: no-repeat;
 		background-position: top center;

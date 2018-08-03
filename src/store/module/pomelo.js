@@ -24,12 +24,14 @@ const actions = {
 const mutations = {
 	[types.POMELO_INIT] (state, data) {
 		pomelo.init({
-		    host   : '106.15.90.130',
-		    port   : 80,
-		    scheme : 'ws'
+			host                 : '106.15.90.130',
+			port                 : 80,
+			scheme               : 'ws',
+			reconnect            : true,	// 开启重链
+			reconnectDelay       : 3000,	// 连接超时事件
+			maxReconnectAttempts : 10		// 最大重连次数
 		}, (res) => {
 			state.pomelo = pomelo;
-		    
 		    if(data && data.next) data.next();
 		    
 		});

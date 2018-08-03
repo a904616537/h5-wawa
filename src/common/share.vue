@@ -22,9 +22,12 @@
 	}
 </script>
 
-<style>
+
+
+<style lang="scss">
+	$apiurl: 'http://c.waguo.net/h5/wawa';
 	.share{
-		background-image: url('/static/images/hall/sharebg0.jpg');
+		background-image: url($apiurl + '/static/images/hall/sharebg0.jpg');
 		background-size: cover;
 		background-repeat: no-repeat;
 		background-position: top center;

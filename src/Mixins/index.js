@@ -55,7 +55,7 @@ const mixin = {
 	},
 	computed : mapState({
 		pomelo    : state => state.Pomelo.pomelo,
-		shortpkey : state => state.Hall.shortpkey
+		shortpkey : state => state.Hall.shortpkey,
     }),
     // 监听用户获取状态
     watch: {
@@ -80,11 +80,13 @@ const mixin = {
 		    }, 3000);
         },
         onStart() {
-        	this.onPomeloInit();
+        	this.onPomeloInit({next : () => {
+        	}});
         },
         setOnPomelo(){
         	const {pomelo_Listen, pomelo, listen, shortpkey} = this;
         	if(pomelo) {
+        		console.log('监听Pomelo')
         		// this.pomelo.disconnect();
         		// 监听Pomelo 连接断开
 				
@@ -113,6 +115,10 @@ const mixin = {
 		close() {
 			console.log('监听Socket关闭事件')
 		}
+	},
+	destroyed() {
+		console.log('销毁');
+		if(this.pomelo) this.pomelo.disconnect();
 	}
 }
 export default mixin;

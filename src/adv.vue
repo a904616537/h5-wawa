@@ -47,7 +47,6 @@
 
 				axios.get(`${Vue.setting.api}/shareImg/`, {})
 				.then((response) => {
-					console.log(response);
 					const data = response.data;
 					if(data.ret === 0 && typeof data.list === 'object') {
 						this.img = data.list.img;
@@ -60,7 +59,6 @@
 		            };
 				})
 				.catch((error) => {
-					
 					console.log('error', error);
 				});
 		    }

@@ -1,6 +1,6 @@
 <template>
 	<div class="recharge">
-		<div class="banner" style="background-image: url('/static/images/activity/firstpay/wawwjpayad.png')" @click="payintro"></div>
+		<div class="banner" style="background-image: url('./static/images/activity/firstpay/wawwjpayad.png')" @click="payintro"></div>
 		<div class="gold-box">
 
 			<div  v-for="(item, index) in pay_list" class="item" @click="() => onPayment(item.paykey)">
@@ -26,17 +26,18 @@
 	import Vue from 'vue';
 	import axios from 'axios';
 	import {mapState, mapGetters, mapActions} from 'vuex'
+	import payment from '@/utils/payment';
 	export default{
 		name : 'recharge',
 		data() {
 			return {
 				bglist : new Map([
-					[0, "background-image: url('/static/images/hall/pay/gold_1.png')"],
-					[1, "background-image: url('/static/images/hall/pay/gold_2.png')"],
-					[2, "background-image: url('/static/images/hall/pay/gold_3.png')"],
-					[3, "background-image: url('/static/images/hall/pay/gold_4.png')"],
-					[4, "background-image: url('/static/images/hall/pay/gold_5.png')"],
-					[5, "background-image: url('/static/images/hall/pay/gold_6.png')"],
+					[0, "background-image: url('./static/images/hall/pay/gold_1.png')"],
+					[1, "background-image: url('./static/images/hall/pay/gold_2.png')"],
+					[2, "background-image: url('./static/images/hall/pay/gold_3.png')"],
+					[3, "background-image: url('./static/images/hall/pay/gold_4.png')"],
+					[4, "background-image: url('./static/images/hall/pay/gold_5.png')"],
+					[5, "background-image: url('./static/images/hall/pay/gold_6.png')"],
 				])
 			}
 		},
@@ -69,38 +70,14 @@
 			onPayment(pkey) {
 				const {openid, unionid} = this.platformData;
 
-				let body = {
-					openid,
-					unionid,
-					pkey
-				};
-				console.log('get wx_app_pay', body)
-				axios.get(Vue.setting.api + '/wx_app_pay', {
-					params : body
+				payment.onPayment(openid, unionid, pkey)
+				.then(res => {
+					console.log('支付结果！', res)
 				})
-				.then((response) => {
-					const {jssign, prepay_id, paySign} = response.data.data;
-					const data = {
-						appId     : jssign.appId,
-						timeStamp : `${jssign.timestamp}`,
-						nonceStr  : jssign.nonceStr,
-						package   : prepay_id,
-						signType  : 'MD5',
-						paySign   : paySign
-					}
-					console.log('payment =======>>>>> ', data)
-					WeixinJSBridge.invoke('getBrandWCPayRequest', data, (res) => {
-                        if(res.err_msg == "get_brand_wcpay_request:ok"){
-                            console.log('支付成功！', res)
-                        }else{
-                        	console.log('支付失败！', res);
-                        }
-                    });
-				})
-				.catch((error) => {
-					this.message = '微信支付调用失败！'
+				.catch(err => {
+					alert('微信支付调用失败！');
 					this.isShowComfilm = true
-				});
+				})
 			},
 		},
 		mounted() {

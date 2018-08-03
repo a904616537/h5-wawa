@@ -38,8 +38,8 @@
 				else return '';
 			},
 			avatar() {
-				if(this.master)return this.master.pic == ""?'/static/images/detail/avatar_default.png' : this.master.pic;
-				else return '/static/images/detail/avatar_default.png';
+				if(this.master)return this.master.pic == ""?'./static/images/detail/avatar_default.png' : this.master.pic;
+				else return './static/images/detail/avatar_default.png';
 			},
 			show(){
 				return this.master != null;

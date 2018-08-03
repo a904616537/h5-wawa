@@ -32,7 +32,7 @@
 		name : 'playhead',
 		data() {
 			return {
-				default_img : '/static/images/detail/avatar_default.png'
+				default_img : './static/images/detail/avatar_default.png'
 			}
 		},
 		props: {
@@ -67,7 +67,8 @@
 	}
 </script>
 
-<style>
+<style lang="scss">
+	$apiurl: 'http://c.waguo.net/h5/wawa';
 	.playhead{
 		margin-bottom: 10px;
 		display: flex;
@@ -91,7 +92,7 @@
 		background-size     : cover;
 		background-repeat   : no-repeat;
 		background-position : center center;
-		background-image    : url('/static/images/hall/cardback.png');
+		background-image    : url($apiurl + '/static/images/hall/cardback.png');
 		display             : inline-block;
 	}
 	.playhead .info{

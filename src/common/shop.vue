@@ -74,7 +74,7 @@
 				</div>
 			</div>
 		</div>
-		<v-menu></v-menu>
+		<v-menu :index="2"></v-menu>
 	</div>
 </template>
 
@@ -95,7 +95,8 @@
 	}
 </script>
 
-<style>
+<style lang="scss">
+	$apiurl: 'http://c.waguo.net/h5/wawa';
 	.shop{
 		background-color: #f4f4f4;      /* 需要更换背景色 */
 		position: absolute;
@@ -134,7 +135,7 @@
 		color: #ff5854;
 	}
 	.shop .banner{
-		background-image: url('/static/images/shop/adv.png');
+		background-image: url($apiurl + '/static/images/shop/adv.png');
 		background-repeat: no-repeat;
 		background-size: cover;
 		background-position: top center;
@@ -175,7 +176,7 @@
 		overflow: hidden;
 	}
 	.shop .item .img-style{
-		background-image: url('/static/images/hall/cardback.png');
+		background-image: url($apiurl + '/static/images/hall/cardback.png');
 		background-repeat: no-repeat;
 		background-size: contain;
 		background-position: center;

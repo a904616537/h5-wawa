@@ -70,7 +70,7 @@
 					autoplay : true,
 					techCanOverridePoster : true,
 					aspectRatio : '9:16',
-					poster   : "/static/images/hall/2.png",
+					poster   : "./static/images/hall/2.png",
 					html5    : {
 						hls: { withCredentials: true }
 					},

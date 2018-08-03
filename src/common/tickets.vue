@@ -34,7 +34,8 @@
 	}
 </script>
 
-<style>
+<style lang="scss">
+	$apiurl: 'http://c.waguo.net/h5/wawa';
 	.ticket{
 		background-color: #f4f4f4;      /* 需要更换背景色 */
 		position: absolute;
@@ -51,7 +52,7 @@
 	.ticket .img-style{
 		width : 150px;
 		height: 93px;
-		background-image: url('/static/images/vouchers/pic.png');
+		background-image: url($apiurl + '/static/images/vouchers/pic.png');
 		background-repeat: no-repeat;
 		background-size: cover;
 		background-position: top center;

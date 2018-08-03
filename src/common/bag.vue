@@ -1,6 +1,6 @@
 <template>
 	<div class="bag">
-		<div class="banner" style="background-image: url('/static/images/activity/firstpay/wawwjpayad.png')" @click="payintro"></div>
+		<div class="banner" style="background-image: url('./static/images/activity/firstpay/wawwjpayad.png')" @click="payintro"></div>
 		<label>您还没有任何红包哦，活动规则:</label>
 		<p>
 			1 充值后可获得599王国币大礼包，用户可在“我的娃娃“中查看收到的礼包。其中15元可立即获得150王国币+1可爱娃娃+1包邮卡，499币作为赠送部分，以礼包形式派发。

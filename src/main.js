@@ -6,8 +6,10 @@ import router from './router'
 import Store  from './store'
 import Icon   from 'vue2-svg-icon/Icon.vue'
 import VueAwesomeSwiper from 'vue-awesome-swiper'
-import VueVideoPlayer from 'vue-video-player'
-import VueProgress from 'vue-progress'
+import VueVideoPlayer   from 'vue-video-player'
+import VueProgress      from 'vue-progress'
+import VueTabs          from 'vue-nav-tabs'
+import 'vue-nav-tabs/themes/vue-tabs.css'
 import 'videojs-contrib-hls'
 
 
@@ -25,6 +27,7 @@ Vue.use(Store)
 Vue.use(VueAwesomeSwiper)
 Vue.use(VueProgress)
 Vue.use(VueVideoPlayer)
+Vue.use(VueTabs)
 
 // Vue.use(SvgIcon, {
 //     tagName: 'svgicon'

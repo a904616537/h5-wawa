@@ -125,7 +125,7 @@
             } else {
                 console.log('测试玩家登陆');
                 const data = {
-                    token  : 'wXTx4NnbKL.ptlV-WZfzKOLPZja8oSm74CSWv3aAJMeAh.mgYNkam5QXFgPgOKMu55g9DfUKSLZ3XdxV-rYaXw6csT8kBDaZAhKwuPGjf1TjPKYPA3aULA!!',
+                    token  : "wXTx4NnbKL.ptlV-WZfzKDS6XNvDgaCq.-nNXlOuUDtyv-HLFRtG-Q-sM9hvxGe0dl6OTnWp7S5CipWEXZjUdtnv0W866RlsjO9VHaVNJ8Y!",
                     device : 'google',
                     ver    : '1.0.9.3',
                     rand   :  Date.now()
@@ -134,7 +134,7 @@
                 .then(result => {
                     if(result.data != 0) {
                         console.log('result.data', result.data)
-                        this.onLogin({user : result.data.user})
+                        this.onLogin({user : result.data.user, token : data.token})
                         this.setHallSetting(result.data);
                     } else console.log('获取配置失败!');
                 })
@@ -154,9 +154,10 @@
     text-align              : center;
 }
 body{
-  overflow-x : hidden;
-  overflow-y : auto;
-  margin: 0;
+  overflow-x       : hidden;
+  overflow-y       : auto;
+  margin           : 0;
+  background-color : #f3f0e3;
 }
 h4{
     margin : 0;

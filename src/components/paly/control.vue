@@ -49,11 +49,11 @@
 			}),
 			iconClass() {
 				return {
-					up    : `background-image: url(/static/images/hall/videoplay/up.png); margin-bottom:5px;`,
-					down  : `background-image: url(/static/images/hall/videoplay/down.png); margin-top:5px;`,
-					left  : `background-image: url(/static/images/hall/videoplay/left.png); margin-right:5px;`,
-					right : `background-image: url(/static/images/hall/videoplay/right.png); margin-left:5px;`,
-					claw  : `background-image: url(/static/images/hall/videoplay/claw.png);`
+					up    : `background-image: url(./static/images/hall/videoplay/up.png); margin-bottom:5px;`,
+					down  : `background-image: url(./static/images/hall/videoplay/down.png); margin-top:5px;`,
+					left  : `background-image: url(./static/images/hall/videoplay/left.png); margin-right:5px;`,
+					right : `background-image: url(./static/images/hall/videoplay/right.png); margin-left:5px;`,
+					claw  : `background-image: url(./static/images/hall/videoplay/claw.png);`
 				}
 			}
 		},

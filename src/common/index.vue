@@ -21,7 +21,8 @@
 				</div>
 
 			</div>
-			<v-menu></v-menu>
+			<v-daily-bonus />
+			<v-menu :index="0"></v-menu>
 		</div>
 	</div>	
 </template>
@@ -29,8 +30,9 @@
 <script>
 	import Pubsub from 'pubsub-js';
 	import {mapState, mapGetters, mapActions} from 'vuex'
-	import Swiper from '@/components/swiper'
-	import Tabs   from '@/components/hall/tabs'
+	import Swiper     from '@/components/swiper'
+	import Tabs       from '@/components/hall/tabs'
+	import DailyBonus from '@/components/hall/dailyBonus'
 	
 	export default{
 		name: 'index',
@@ -40,8 +42,9 @@
 			}
 		},
 		components : {
-			'v-swiper' : Swiper,
-			'v-tabs'   : Tabs
+			'v-swiper'      : Swiper,
+			'v-tabs'        : Tabs,
+			'v-daily-bonus' : DailyBonus
 		},
 		computed : {
 			...mapState({
@@ -71,7 +74,10 @@
 	}
 </script>
 
-<style>
+
+<style lang="scss">
+	$apiurl: 'http://c.waguo.net/h5/wawa';
+
 	.index{
 		padding: 8px;
 	    color: #2c3e50;
@@ -109,7 +115,7 @@
 		background-repeat   : no-repeat;
 		background-size     : cover;
 		background-position : top center;
-		background-image    : url('/static/images/hall/cardback.png');
+		background-image    : url($apiurl + '/static/images/hall/cardback.png');
 	}
 	.item-content{
 		padding: 5px 7px;

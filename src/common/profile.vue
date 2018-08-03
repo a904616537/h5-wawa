@@ -72,7 +72,7 @@
 				</div>
 			</div>
 		</div>
-		<v-menu></v-menu>
+		<v-menu :index="3"></v-menu>
 	</div>
 </template>
 

@@ -79,7 +79,7 @@
 				 	url			: this.src,
 				 	canvas		: document.getElementById(this.v_id),
 				 	videoinfo	: { width : 360, height : 640},
-                    jspath      : "/static/js/"
+                    jspath      : "./static/js/"
 				 });
 
         		this.onStart();

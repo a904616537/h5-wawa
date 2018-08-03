@@ -361,7 +361,9 @@
 	}
 </script>
 
-<style>
+<style lang="scss">
+	$apiurl: 'http://c.waguo.net/h5/wawa';
+
 	.play{
 		padding          : 8px;
 		left             : 0;
@@ -383,14 +385,14 @@
 		align-items         : center;
 		justify-content     : center;
 		overflow            : hidden;
-		background-image    : url('/static/images/hall/videoback.jpg');
+		background-image    : url($apiurl + '/static/images/hall/videoback.jpg');
 		position: relative;
 	}
 	.play .video .videoload {
 		width            : 30vw;
 		height           : 30vw;
 		background-size  : 100% 100%;
-		background-image : url(/static/images/hall/1.png);
+		background-image : url($apiurl + '/static/images/hall/1.png');
 	}
 	.play .video .view-user {
 
@@ -408,10 +410,10 @@
 		background-size : 100% 100%;
 	}
 	.play .icon.rank {
-		background-image: url(/static/images/hall/videoplay/icon_rank_list.png);
+		background-image: url($apiurl + '/static/images/hall/videoplay/icon_rank_list.png');
 	}
 	.play .icon.detail {
-		background-image: url(/static/images/hall/videoplay/icon_wawa_detail.png);
+		background-image: url($apiurl + '/static/images/hall/videoplay/icon_wawa_detail.png');
 	}
 	.play .machine {
 		opacity: 0;

@@ -53,7 +53,8 @@
     }
 </script>
 
-<style>
+<style lang="scss">
+	$apiurl: 'http://c.waguo.net/h5/wawa';
 .play_success {
 	top              : 0;
 	left             : 0;
@@ -73,7 +74,7 @@
 	align-items      : center;
 	justify-content  : flex-end;
 	background-size  : 100% 100%;
-	background-image : url('/static/images/hall/videoplay/bgFail.png');
+	background-image : url($apiurl + '/static/images/hall/videoplay/bgFail.png');
 }
 .failure_view ._view {
 	

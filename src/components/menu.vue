@@ -2,24 +2,24 @@
 	<div class="menu-box">
 		<ul class="clear-float">
 			<router-link to="/">
-				<li>
-					<icon name="icon_home" :w="20" :h="20"></icon>
+				<li :class="{selected : index == 0}">
+					<div class="icon" :style="'background-image: url('+ (index == 0?(src + 'icon-home_select.png'):(src + 'icon-home.png')) +');'"></div>
 					<div class="menu-title">首页</div>
 				</li>
 			</router-link>
-			<!-- <li @click="goBag">
-				<icon name="icon_bag" :w="20" :h="20"></icon>
+			<li @click="goBag" :class="{selected : index == 1}">
+				<div class="icon" :style="'background-image: url('+ (index == 1?(src + 'icon_bag_select.png'):(src + 'icon_bag.png')) +');'"></div>
 				<div class="menu-title">红包</div>
 			</li>
 			<router-link to="/shop">
-				<li>
-					<icon name="icon_shop" :w="20" :h="20"></icon>
+				<li :class="{selected : index == 2}">
+					<div class="icon" :style="'background-image: url('+ (index == 2?(src + 'icon_shop_select.png'):(src + 'icon_shop.png')) +');'"></div>
 					<div class="menu-title">商城</div>
 				</li>
-			</router-link> -->
+			</router-link>
 			<router-link to="/profile">
-				<li>
-					<icon name="icon_me" :w="20" :h="20"></icon>
+				<li :class="{selected : index == 3}">
+					<div class="icon" :style="'background-image: url('+ (index == 3?(src + 'icon_me_select.png'):(src + 'icon_me.png')) +');'"></div>
 					<div class="menu-title">我的</div>
 				</li>
 			</router-link>
@@ -32,7 +32,13 @@
 		name: 'menu-box',
 		data() {
 			return {
-
+				src : './static/images/hall/userinfo/'
+			}
+		},
+		props : {
+			index : {
+				type    : Number,
+				default : 0
 			}
 		},
 		methods : {
@@ -68,12 +74,25 @@
 		background-color : #fff;
 	}
 	.menu-box li{
-		float      : left;
-		width      : 50%;
-		/*width    : 25%;*/
-		list-style : none;
-		font-size  : 12px;
-		color      : #333;
-		padding    : 10px 0;
+		float           : left;
+		/*width           : 50%;*/
+		width           : 25%;
+		list-style      : none;
+		font-size       : 12px;
+		color           : #333;
+		padding         : 10px 0;
+		display         : flex;
+		flex-direction  : column;
+		justify-content : center;
+		align-items     : center;
+	}
+	.menu-box li.selected{
+		color : #f9da39;
+	}
+	.icon {
+		width           : 2em;
+		height          : 2em;
+		background-size : 100% 100%;
+		
 	}
 </style>
