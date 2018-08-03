@@ -20,7 +20,7 @@
 					<div class="challenge">本期挑战</div>
 				</div>
 				<div class="inner">
-					<div class="item">
+					<div class="item" @click="showPriz">
 						<div class="img-box"><img src="static/images/monthtosign/礼盒灰.png" class="prize-img"></div>
 						<p>连续6天</p>
 					</div>
@@ -57,7 +57,7 @@
 
 
 		<v-rule v-if="show" :close="showRule"></v-rule>	
-		<v-prize v-if="isShow"></v-prize>	
+		<v-prize v-if="isShow" :close="showPriz"></v-prize>	
 		<v-recommend></v-recommend>
 
 	</div>
@@ -75,7 +75,7 @@
 				tickets : '145',
 				day     : '2',
 				show    : false,
-				isShow  : true
+				isShow  : false
 			}
 		},
 		components : {
@@ -86,6 +86,9 @@
 		methods : {
 			showRule() {
 				this.show = !this.show
+			},
+			showPriz() {
+				this.isShow = !this.isShow
 			}
 		}
 	}
