@@ -73,6 +73,11 @@
 			</div>
 		</div>
 		<v-menu></v-menu>
+		<div class="service">
+			<div class="service-inner">
+				请添加微信客服zhuawawa1314
+			</div>
+		</div>
 	</div>
 </template>
 
@@ -212,5 +217,20 @@
 		color: #999;
 		font-size: 12px;
 		margin-left: 10px;
+	}
+	.service{
+		position: absolute;
+		top: 0;
+		left: 0;
+		right: 0;
+		background-color: rgba(0,0,0,.2);
+		height: 100%;
+	}
+	.service .service-inner{
+		margin: 70% auto;
+		width: 300px;
+		background-color: #fff;
+		padding: 50px 10px;
+		border-radius: 14px;
 	}
 </style>
