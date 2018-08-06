@@ -105,7 +105,7 @@
 			avatar() {
 				if(this.user && this.user.avatar != '') {
 					return this.user.avatar;
-				} else return 'static/images/detail/avatar_default.png'
+				} else return './static/images/detail/avatar_default.png'
 			},
 			room_card() {
 				const re=/(?=(?!(\b))(\d{3})+$)/g;

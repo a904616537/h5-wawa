@@ -13,6 +13,10 @@ import Bag      from '@/common/bag' //红包（没有礼包页）
 import FirstPayBag from '@/common/firstPayBag' //红包（赠送礼包页）
 import Payintro from '@/common/payintro'
 import Ticket   from '@/common/tickets'
+import ShopItem from '@/common/shopItem'
+import Covert from '@/common/covert' 
+import CovertMore from '@/common/covertMore'
+import Sign     from '@/common/sign'      //签到   
 import Menu   from '@/components/menu'
 
 Vue.use(Router)
@@ -74,6 +78,22 @@ var routers = [
 	{
 		path : '/ticket',
 		component : Ticket
+	},
+	{
+		path : '/shopItem',
+		component : ShopItem
+	},
+	{
+		path : '/covert',
+		component : Covert
+	},
+	{
+		path : '/covertMore',
+		component : CovertMore
+	},
+	{
+		path : '/sign',
+		component : Sign
 	}
 ]
 

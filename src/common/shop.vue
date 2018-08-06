@@ -2,95 +2,112 @@
 	<div class="shop">
 		<div class="tab">
 			<div class="tab-list">
-				<img src="static/images/shop/icon_vouchers.png" class="icon-style" />
-				我的王国券：<span>{{tickets}}</span>	
+				<img :src="ticketsbg" class="icon-style" />
+				我的王国券：<span>{{ticket}}</span>	
 			</div>
-			<div class="tab-list">
-				<img src="static/images/shop/icon_record.png" class="icon-style" />
+			<div class="tab-list" @click="toCovert">
+				<img :src="recordbg" class="icon-style" />
 				兑换记录
 			</div>
 		</div>
 		<div class="banner" @click="toTicket"></div>
 		<div class="title">精选推荐</div>
 		<div class="content">
-			<div class="item">
-				<div class="inner">
-					<div class="img-style"></div>
-					<div class="item-bottom">
-						<div class="productName">商品名称</div>
-						<div class="tickets">
-							<img src="static/images/shop/icon_vouchers.png" class="icon-style" />
-							{{productTicket}}王国券
-						</div>
-					</div>
-				</div>
-			</div>
-			<div class="item">
-				<div class="inner">
-					<div class="img-style"></div>
-					<div class="item-bottom">
-						<div class="productName">商品名称</div>
-						<div class="tickets">
-							<img src="static/images/shop/icon_vouchers.png" class="icon-style" />
-							{{productTicket}}王国券
-						</div>
-					</div>
-				</div>
-			</div>
-			<div class="item">
-				<div class="inner">
-					<div class="img-style"></div>
-					<div class="item-bottom">
-						<div class="productName">商品名称</div>
-						<div class="tickets">
-							<img src="static/images/shop/icon_vouchers.png" class="icon-style" />
-							{{productTicket}}王国券
-						</div>
-					</div>
-				</div>
-			</div>
-			<div class="item">
-				<div class="inner">
-					<div class="img-style"></div>
-					<div class="item-bottom">
-						<div class="productName">商品名称</div>
-						<div class="tickets">
-							<img src="static/images/shop/icon_vouchers.png" class="icon-style" />
-							{{productTicket}}王国券
-						</div>
-					</div>
-				</div>
-			</div>
-			<div class="item">
-				<div class="inner">
-					<div class="img-style"></div>
-					<div class="item-bottom">
-						<div class="productName">商品名称</div>
-						<div class="tickets">
-							<img src="static/images/shop/icon_vouchers.png" class="icon-style" />
-							{{productTicket}}王国券
-						</div>
-					</div>
-				</div>
-			</div>
+			<v-item v-for="(item, index) in products" :key="index" :data="item"/>
 		</div>
 		<v-menu :index="2"></v-menu>
 	</div>
 </template>
 
 <script>
+	import Vue from 'vue';
+	import {
+		mapState,
+		mapGetters,
+		mapActions
+	} from 'vuex'
+	import axios      from 'axios';
+	import PubSub     from 'pubsub-js';
+	import pomelo_key from '@/utils/pomelo_key';
+	import VItem      from '@/components/shop/listItem';
+
 	export default{
 		name : 'shop',
 		data() {
 			return {
-				tickets : '145',
-				productTicket : '9999999'
+				ticketsbg : './static/images/shop/icon_vouchers.png',
+				recordbg  : './static/images/shop/icon_record.png',
+				task_list : []
 			}
 		},
+		components : {
+			'v-item' : VItem
+		},
+		computed : {
+			...mapState({
+				pomelo       : state => state.Pomelo.pomelo,
+				pomelo_login : state => state.Pomelo.login,
+				token        : state => state.User.token,
+				user         : state => state.User.user,
+				products     : state => state.Shop.products,
+				init         : state => state.Shop.init,
+				ticket       : state => state.Vouchers.ticket
+			}),
+		},
+		watch: {
+	    	pomelo_login : function(val, oldVal) {
+	    		if(val && this.pomelo) {
+	    			while(this.task_list.length > 0) {
+	    				const task = this.task_list.pop();
+	    				this.pomelo.request(task.key, {uid : this.user.uid}, task.next);
+	    			}
+	    			if(!this.init) this.onInitShop();
+	    		}
+	    	}
+	    },
 		methods : {
-			toTicket() {
+			...mapActions([
+				'initShop',
+				'setTicket'
+			]),
+			/**
+			 * [onInitShop 初始化商城数据]
+			 */
+			onInitShop() {
+				axios.get(Vue.setting.api + '/exchange_list',{
+					params : {token : this.token}
+				})
+				.then(result => result.data)
+				.then(result => {
+					if(result.ret == 0) {
+						console.log('result', result)
+						this.initShop(result)
+						this.setTicket(result.ticket)
+					}
+				})
+				.catch(err => {
+					console.log('error', err)
+				})
+			
+			},
+			toTicket() {   // 跳转到兑换王国券
 				this.$router.push({ path : '/ticket' })
+			},
+			toCovert() {   // 跳转到兑换记录
+				this.$router.push({ path : '/covert' })
 			}
+		},
+		created() {
+			this.onInitShop();
+			const event = {key : pomelo_key.user.get, next : (result) => {
+	            if (result.code == 200) {
+	            	console.log(pomelo_key.user.get, result)
+	                //  执行
+	                PubSub.publish(pomelo_key.user.info, result)
+	            }
+			}};
+			if(this.pomelo) this.pomelo.request(event.key, {uid : this.user.uid}, event.next);
+			else this.task_list.unshift(event);
 		}
 	}
 </script>
@@ -98,7 +115,7 @@
 <style lang="scss">
 	$apiurl: 'http://c.waguo.net/h5/wawa';
 	.shop{
-		background-color: #f4f4f4;      /* 需要更换背景色 */
+		background-color: #f4f4f4;
 		position: absolute;
 		top: 0;
 		left: 0;
@@ -112,7 +129,7 @@
 		top: 0;
 		left: 0;
 		right: 0;
-		background-color: #f4f4f4;       /* 需要更换背景色 */
+		background-color: #f4f4f4;
 	}
 	.shop .tab{
 		content: '';
@@ -121,8 +138,9 @@
 		overflow: hidden;
 	}
 	.shop .tab-list{
-		float: left;
-		width: 49.8%;
+		float : left;
+		width : 49.8%;
+		color : #afafaf;
 	}
 	.shop .tab-list:first-child{
 		border-right: 1px solid #999;
@@ -176,11 +194,11 @@
 		overflow: hidden;
 	}
 	.shop .item .img-style{
-		background-image: url($apiurl + '/static/images/hall/cardback.png');
-		background-repeat: no-repeat;
-		background-size: contain;
-		background-position: center;
-		height: 150px;
+		background-repeat   : no-repeat;
+		background-size     : cover;
+		background-position : center;
+		height              : 150px;
+		border-radius       : 0;
 	}
 	.shop .item .item-bottom{
 		color: #b0b0b0;

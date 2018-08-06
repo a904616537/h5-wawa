@@ -75,11 +75,12 @@ const mixin = {
         ]),
         onReset() {
         	setTimeout(() => {
-		    	 console.log('重新连接 Pomelo')
+        		console.log('重新连接 Pomelo')
 		    	this.onPomeloInit();
 		    }, 3000);
         },
         onStart() {
+        	console.log('连接 Pomelo')
         	this.onPomeloInit({next : () => {
         	}});
         },

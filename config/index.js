@@ -37,13 +37,13 @@ module.exports = {
   },
 
   build: {
-    index      : path.resolve(__dirname, '../dist/index.html'),
-    assetsRoot : path.resolve(__dirname, '../dist'),
+    // index      : path.resolve(__dirname, '../dist/index.html'),
+    // assetsRoot : path.resolve(__dirname, '../dist'),
     // Template for index.html
-    // index: path.resolve(__dirname, '/usr/local/Cellar/nginx/1.15.0/wawa/index.html'),
+    index: path.resolve(__dirname, '/usr/local/Cellar/nginx/1.15.0/wawa/index.html'),
 
     // Paths
-    // assetsRoot: path.resolve(__dirname, '/usr/local/Cellar/nginx/1.15.0/wawa'),
+    assetsRoot: path.resolve(__dirname, '/usr/local/Cellar/nginx/1.15.0/wawa'),
     assetsSubDirectory: 'static',
     assetsPublicPath: './',
 

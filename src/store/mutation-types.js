@@ -38,3 +38,19 @@ export const HALL_ROOM_SET    = 'hall/room/set'
 export const ROOM_INFO   = 'room/info'
 export const ROOM_STATUS = 'room/status'
 export const ROOM_MASTER = 'room/master'
+
+
+/**
+ * 商城
+ */
+export const SHOP_INIT   = 'shop/init'
+
+
+
+/**
+ * 王国券
+ */
+export const VOUCHERS_INIT   = 'vouchers/init'
+export const VOUCHERS_TICKET = 'vouchers/ticket'
+
+

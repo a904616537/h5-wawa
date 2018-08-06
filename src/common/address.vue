@@ -28,7 +28,7 @@
 		</div>
 
 		<div class="bottom-btn" @click="add">添加收货地址</div>
-		<v-add ref="editAddress" :close="(data) => close(data)" v-show="add_show"></v-add>
+		<v-add ref="editAddress" :close="close" :onPress="(data) => close(data)" v-show="add_show"></v-add>
 	</div>                    
 </template>
 
@@ -89,7 +89,10 @@
 			},
 			onSubmit(next) {
 				const request_data = {uid : this.user.uid, address: this.address};
+				console.log('request_data', request_data)
 				this.pomelo.request('hall.user.modifyMyInfo', request_data, (result) => {
+					console.log('地址操作！', result)
+					
 					if(next) next();
 				})
 			},

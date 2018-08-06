@@ -24,7 +24,7 @@
 			</div>
 			<div class="bottom">
 				<div class="c-btn inner-btn" @click="close">取消</div>
-				<div class="e-btn inner-btn" @click="onPress">完成</div>
+				<div class="e-btn inner-btn" @click="onSubmit">完成</div>
 			</div>	
 		</div>
 	</div>
@@ -60,6 +60,10 @@
 			close : {
 				type    : Function,
 				default : () => {console.log('close')}
+			},
+			onPress : {
+				type    : Function,
+				default : () => {console.log('onPress')}
 			}
 		},
 		computed : {
@@ -82,10 +86,9 @@
 		        	this.data.area = result.area.name;
 		        }
 			},
-			onPress() {
-				console.log('this.is_default', this.$refs.switch.me_checked)
+			onSubmit() {
 				this.data.default = this.$refs.switch.me_checked?1:0;
-				this.close(this.data);
+				this.onPress(this.data);
 			},
 			onEdit(data) {
 				this.data = data;

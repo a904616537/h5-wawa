@@ -31,6 +31,7 @@ const mutations = {
 			reconnectDelay       : 3000,	// 连接超时事件
 			maxReconnectAttempts : 10		// 最大重连次数
 		}, (res) => {
+			console.log('pomelo 连接成功', res)
 			state.pomelo = pomelo;
 		    if(data && data.next) data.next();
 		    

@@ -28,10 +28,12 @@
             'v-adv' : Adv
         },
         computed : mapState({
-            user     : state => state.User.user,
-            token    : state => state.User.token,
-            is_login : state => state.User.isLogin
-
+            user         : state => state.User.user,
+            token        : state => state.User.token,
+            is_login     : state => state.User.isLogin,
+            platformData : state => {
+                return state.User.platformData && state.User.platformData !='undefined'? true : false
+            }
         }),
         methods : {
             ...mapActions([
@@ -99,7 +101,7 @@
 
             const code = getUrlParam('code');
             console.log('code', code)
-            if(this.is_login) {
+            if(this.is_login && this.platformData) {
                 console.log('缓存登陆', this.user)
                 const data = {
                     token  : this.token,

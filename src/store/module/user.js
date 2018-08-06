@@ -3,19 +3,16 @@ import Cookie      from 'vue-cookie';
 
 // initial state
 const state = {
-	showFrom   : false,
-	isLogin    : Cookie.get('user-token') != null && Cookie.get('user-token') != 'undefined',
-	user       : JSON.parse(Cookie.get('user')),
-	token      : Cookie.get('user-token'),
-	platformData : {
-		openid  : 'od6pg0mQqGiRtn30Z0y3cuT4EWXg',
-		unionid : 'osj021Fy4BCiUDLb-N-Op_XLVRFI'
-	},
-	address    : [],	// 地址
-	delivery   : [],	// 配送中
-	post       : [],	// 消息
-	wawas      : [],	// 我的物品
-	wawaplayer : {
+	showFrom     : false,
+	isLogin      : Cookie.get('user-token') != null && Cookie.get('user-token') != 'undefined',
+	user         : JSON.parse(Cookie.get('user')),
+	token        : Cookie.get('user-token'),
+	platformData : Cookie.get('platform-data'),
+	address      : [],	// 地址
+	delivery     : [],	// 配送中
+	post         : [],	// 消息
+	wawas        : [],	// 我的物品
+	wawaplayer   : {
 		delivery_card_num : 0,	// 包邮卡
 		firstpay          : 0,	// 首充用户
 		recharge          : 0,	// 
@@ -23,7 +20,7 @@ const state = {
 		total_gift_num    : 0	// 总礼物数
 	},
 	wechat           : {},
-	address_selected : {}		// 配送选中地址
+	address_selected : null		// 配送选中地址
 }
 
 const actions = {
@@ -40,7 +37,6 @@ const actions = {
 		commit(types.USER_SET_ADDRESS, data);
 	},
 	updateUserRoomCard({commit}, data) {
-		console.log('??????updateUserRoomCard', data)
 		commit(types.USER_SET_ROMMCARD, data)
 	},
 	updateUserInfo({commit}, data) {
@@ -71,7 +67,10 @@ const mutations = {
 			state.token    = token;
 			Cookie.set('user-token', token);
 		}
-		if(platformData) state.platformData = platformData;
+		if(platformData) {
+			Cookie.set('platform-data',JSON.stringify(platformData));
+			state.platformData = platformData;
+		}
 		console.log('get login', token)
 		state.isLogin  = true;
 		state.showFrom = false;
@@ -119,6 +118,9 @@ const mutations = {
 	},
 	[types.USER_UPDATE_EDIT_ADDRESS] (state, data) {
 		state.address = data;
+		const def_address = state.address.find(val => val.default == 1);
+		if(def_address) state.address_selected = def_address;
+		else if(state.address.length > 0) state.address_selected = state.address[0];
 	},
 	[types.USER_UPDATE_ROOMCARD] (state, data) {
 		state.user.room_card = data.room_card;

@@ -6,6 +6,8 @@ import User         from './module/user'
 import Pomelo       from './module/pomelo'
 import Hall         from './module/hall'
 import Room         from './module/room'
+import Shop         from './module/shop'
+import Vouchers     from './module/vouchers'
 
 Vue.use(Vuex)
 
@@ -16,7 +18,9 @@ export default new Vuex.Store({
 		User,
 		Pomelo,
 		Hall,
-		Room
+		Room,
+		Shop,
+		Vouchers
 	},
 	// strict  : debug
 })

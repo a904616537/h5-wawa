@@ -72,7 +72,7 @@
 		},
 		computed : {
 			will() {
-				return this.data.bonus_type == 1?true : true;
+				return this.data.bonus_type == 1?false : true;
 			},
 			btnText() {
 				return btn_status.get(this.data.state);
