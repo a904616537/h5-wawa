@@ -1,6 +1,6 @@
 <template>
 	<div class="delivery">
-
+		<v-nav>王国配送管理</v-nav>
 		<div v-for="(item, index) in delivery" class="card">
 			<div class="info">
 				<div class="left">

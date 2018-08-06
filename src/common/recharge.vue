@@ -1,5 +1,6 @@
 <template>
 	<div class="recharge">
+		<v-nav>充值王国币</v-nav>
 		<div class="banner" style="background-image: url('/static/images/activity/firstpay/wawwjpayad.png')" @click="payintro"></div>
 		<div class="gold-box">
 
@@ -130,8 +131,7 @@
 		background-repeat: no-repeat;
 		background-position: top center;
 		border-radius: 12px;
-		margin-top: 30px;
-		margin-bottom: 10px;
+		margin: 10px 0;
 	}
 	.recharge .gold-box{
 		background-color: #fff;

@@ -1,5 +1,6 @@
 <template>
 	<div class="sign">
+		<v-nav>今日签到</v-nav>
 		<div class="month">
 			<div class="head">
 				<div class="left">

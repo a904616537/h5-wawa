@@ -1,6 +1,7 @@
 <template>
 	<div class="index">
-		<div>
+		<v-nav>抓娃娃王国</v-nav>
+		<div class="content">
 			<v-swiper :data="banner"/>
 			<v-tabs :data="category" />
 			
@@ -79,9 +80,11 @@
 
 <style>
 	.index{
-		padding: 8px;
 	    color: #2c3e50;
       	background-color : #f3f0e3;
+	}
+	.index .content{
+		padding: 8px;
 	}
 	.list-box{
 		margin: 0px -5px;

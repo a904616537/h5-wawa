@@ -1,13 +1,13 @@
 <template>
 	<div class="share">
-		<div class="change_bg">
+		<!-- <div class="change_bg">
 			<div class="btn boy">
 				男生版
 			</div>
 			<div class="btn girl">
 				女生版
 			</div>
-		</div>
+		</div> -->
 	</div>
 </template>
 

@@ -1,5 +1,6 @@
 <template>
 	<div class="items">
+		<v-nav>详细资料</v-nav>
 		<div class="head">
 			<img class="user-head" :src="avatar"/>
 			<div>{{ decodeURI(user.nickname)}}</div>
@@ -85,7 +86,7 @@
 		background-color: #fff;	
 	}
 	.items .head{
-		padding: 30px 0 20px;
+		padding: 20px 0;
 		color: #BF6A0B;
 		background-color: #f2d56e;
 	}

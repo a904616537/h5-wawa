@@ -1,5 +1,6 @@
 <template>
 	<div class="shopItem">
+		<v-nav>商品名称</v-nav>
 		<div class="banner" style="background-image: url('static/images/activity/firstpay/wawwjad.png')"></div>
 		<div class="product">
 			<div class="info">

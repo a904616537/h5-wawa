@@ -1,5 +1,6 @@
 <template>
 	<div class="convert">
+		<v-nav>兑换记录</v-nav>
 		<div class="item" @click="showMore">
 			<div class="left">
 				<img src="static/images/shop/record/currency.png" class="img-style" />

@@ -1,7 +1,8 @@
 <template>
 	<div class="shop">
 		<div class="tab">
-			<div class="tab-list">
+			<v-nav>王国商城</v-nav>
+			<div class="tab-list tab-style">
 				<img src="static/images/shop/icon_vouchers.png" class="icon-style" />
 				我的王国券：<span>{{tickets}}</span>	
 			</div>
@@ -112,7 +113,6 @@
 	.shop .tab{
 		font-size: 12px;
 		color: #afafaf;
-		padding: 8px 0;
 		position: fixed;
 		top: 0;
 		left: 0;
@@ -128,8 +128,9 @@
 	.shop .tab-list{
 		float: left;
 		width: 49.8%;
+		margin: 8px 0;
 	}
-	.shop .tab-list:first-child{
+	.shop .tab-list.tab-style{
 		border-right: 1px solid #999;
 	}
 	.shop .icon-style{
@@ -146,7 +147,7 @@
 		background-position: top center;
 		height: 0;
 		padding-bottom: 28%;
-		margin-top: 33px;
+		margin-top: 70px;
 	}
 	.shop .title{
 		text-align: left;
