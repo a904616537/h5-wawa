@@ -33,6 +33,13 @@ const actions = {
 	},
 	setTicket({commit}, data) {
 		commit(types.VOUCHERS_TICKET, data);
+	},
+	// 补签
+	onSupplement({commit}, data) {
+		commit(types.VOUCHERS_SUPPLEMENT, data);
+	},
+	onObtain({commit}, data) {
+		commit(types.VOUCHERS_OBTAIN, data);
 	}
 }
 
@@ -47,6 +54,21 @@ const mutations = {
 	[types.VOUCHERS_TICKET] (state, data) {
 		console.log('更新王国券', data);
 		state.ticket = data;
+	},
+	[types.VOUCHERS_SUPPLEMENT] (state, data) {
+		// vouchers_number 消耗的券数量
+		const {vouchers_number, next} = data;
+		if(state.ticket >= vouchers_number) {
+    		// 网络请求处理，返回后执行
+			state.ticket -= 80;
+			if(next)next({status : true})
+		} else if(next) next({status : false, msg : '王国券不足'})
+	},
+	[types.VOUCHERS_OBTAIN](state, data) {
+		const {signin_type} = state;
+		const value = signin_type[data.signin_type];
+		state.ticket += value;
+
 	}
 }
 

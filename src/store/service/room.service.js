@@ -47,7 +47,7 @@ function roomCgdp(data, state) {
 
 
 export const onGame = (data, state) => {
-	if(data.c != 'CRSC') console.log('game data', data)
+	// if(data.c != 'CRSC') console.log('game data', data)
 	const fun = onClickMap.get(data.c);
 	if(fun) fun(data, state);
 }

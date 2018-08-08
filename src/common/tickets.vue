@@ -10,14 +10,14 @@
 					<div class="title">王国券签到</div>
 					参与王国券签到可获取一定量的积分
 				</div>
-				<div class="btn" @click="toSign">立即...</div>
+				<div class="btn" @click="toSign">立即前往</div>
 			</div>
 			<div class="card">
 				<div class="inner">
 					<div class="title">抓娃娃</div>
 					每局游戏结束后可获得一定王国券
 				</div>
-				<div class="btn" @click="toIndex">立即...</div>
+				<div class="btn" @click="toIndex">立即前往</div>
 			</div>
 		</div>
 	</div>
@@ -95,7 +95,7 @@
 	}
 	.ticket .card .btn{
 		float: right;
-		font-size: 16px;
+		font-size: 14px;
 		background-color: rgb(254,204,58);
 		color: #333;
 		padding: 0 16px;

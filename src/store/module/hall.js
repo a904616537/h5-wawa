@@ -12,7 +12,7 @@ const state = {
 	firstpay      : {},		// 首充礼包
 	pay_list      : [],		// 充值列表
 	shareNotice   : '', 	// 分享内容
-	shortpkey     : {},		// pomolo 链接内容
+	shortpkey     : null,		// pomolo 链接内容
 	task_pay_list : [],		// 付费任务列表
 	selected_cate : 1		// 当前选择的分类
 }
@@ -59,11 +59,14 @@ const mutations = {
 		state.selected_cate = data;
 	},
 	[types.HALL_ROOM] (state, data) {
-		for(let room of data) {
-            // 绑定分类
-            const cate = state.category.find(cate => (room.cate&cate.key) === cate.key);
-            if(cate) room = Object.assign(room, {order : cate.order, cateName : cate.cateName, key : cate.key});
-        }
+		// for(let room of data) {
+  //           // 绑定分类
+  //           const cate = state.category.find(cate => {
+  //           	console.log(room.gift_name, (room.cate&cate.key), room.cate,cate.key)
+  //           	return (room.cate&cate.key) === cate.key
+  //           });
+  //           if(cate) room = Object.assign(room, {order : cate.order, cateName : cate.cateName, key : cate.key});
+  //       }
         // 根据order 排序
         // data.sort(compare("order"));
         
@@ -73,9 +76,10 @@ const mutations = {
             if(cate.key === 1)
                 cate.list = data;
             else {
-                let list = data.filter(room => (room.cate&cate.key) === cate.key);
+                let list = data.filter(room => (room.cate&cate.key) == cate.key);
                 // 排序一下
                 // list.sort(compare("tp"));
+                
                 cate.list = list;
             }
             return cate

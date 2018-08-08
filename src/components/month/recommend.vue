@@ -5,17 +5,9 @@
 			<div class="more" @click="more">查看更多 ></div>
 		</div>
 		<div class="item-box">
-			<div class="item">
-				<div class="img-style" style="background-image: url('static/images/ad1.png');"></div>
-				{{product}}
-			</div>
-			<div class="item">
-				<div class="img-style" style="background-image: url('static/images/192.png');"></div>
-				{{product}}
-			</div>
-			<div class="item">
-				<div class="img-style"></div>
-				{{product}}
+			<div v-for="(item, index) in data" :key="index" class="item" @click="() => toItem(item.no)">
+				<div class="img-style" :style="bgimage(item.imgurl)"></div>
+				{{item.name}}
 			</div>
 		</div>
 	</div>
@@ -29,10 +21,26 @@
 				product : '商品名称'
 			}
 		},
+		props : {
+			data : {
+				type : Array,
+				default : () => []
+			}
+		},
 		methods: {
+			bgimage(imgurl) {
+				if(imgurl && imgurl != '') return `background-image: url('${imgurl}');`;
+				else return `background-image: url('./static/images/hall/cardback.png');`;
+			},
 			more() {
 				this.$router.push({ path : '/shop' })
-			}
+			},
+			toItem(gift_no) {   // 跳转到商品详情
+				this.$router.push({
+					path  : '/shopItem',
+					query : {gift_no}
+				})
+			},
 		}
 	}
 </script>

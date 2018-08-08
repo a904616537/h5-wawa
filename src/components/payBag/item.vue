@@ -78,7 +78,6 @@
 				return btn_status.get(this.data.state);
 			},
 			time() {
-				console.log('this.data.end_time', this.data.end_time)
 				return moment(this.data.end_time *1000).format('YYYY-MM-DD')
 			}
 		},

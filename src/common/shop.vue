@@ -80,7 +80,6 @@
 				.then(result => result.data)
 				.then(result => {
 					if(result.ret == 0) {
-						console.log('result', result)
 						this.initShop(result)
 						this.setTicket(result.ticket)
 					}

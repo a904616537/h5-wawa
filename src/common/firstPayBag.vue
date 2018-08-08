@@ -115,7 +115,6 @@
 		        	// 先找到支付商品
 		        	const paylist = this.pay_list.concat(this.task_pay_list);
 		        	const shopitem = paylist.find(shopitem => parseInt(shopitem.money) == item.pay);
-		        	console.log('shopitem', shopitem)
 		        	payment.onPayment(openid, unionid, shopitem.paykey)
 					.then(res => {
 						console.log('支付结果！', res)

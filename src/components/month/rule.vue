@@ -37,20 +37,22 @@
 
 <style>
 	.rule{
-		background-color: rgba(0,0,0,.2);
-		position: absolute;
-		top: 0;
-		right: 0;
-		left: 0;
-		height: 100%;
-		color: #999;
-		text-align: left;
+		top              : 0;
+		left             : 0;
+		height           : 100vh;
+		color            : #999;
+		position         : fixed;
+		text-align       : left;
+		display          : flex;
+		align-items      : center;
+		justify-content  : center;
+		background-color : rgba(0,0,0,.4);
 	}
 	.rule .inner{
-		background-color: #fff;
-		padding: 20px 30px 40px;
-		border-radius: 10px;
-		margin: 20px 70px;
+		margin           : 0 70px;
+		padding          : 20px 30px 40px;
+		border-radius    : 10px;
+		background-color : #fff;
 	}
 	.rule .inner .title{
 		text-align: center;

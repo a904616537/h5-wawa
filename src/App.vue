@@ -56,7 +56,7 @@
                 this.updateUserInfo(data);
             },
             onRefresh(code) {
-                 console.log('微信登陆 code', code)
+                console.log('微信登陆 code', code)
                 const data = {
                     platform : "weixin",
                     token    : code,
@@ -101,7 +101,11 @@
 
             const code = getUrlParam('code');
             console.log('code', code)
-            if(this.is_login && this.platformData) {
+            if(code) {
+                console.log('code 登陆')
+                this.onRefresh(code);
+            }
+            else if(this.is_login && this.platformData) {
                 console.log('缓存登陆', this.user)
                 const data = {
                     token  : this.token,
@@ -120,11 +124,8 @@
                 .catch(err => {
                     console.log('onGetSetting error', err);
                 });
-                
-            } else if(code) {
-                console.log('code 登陆')
-                this.onRefresh(code);
-            } else {
+            }
+            else {
                 console.log('测试玩家登陆');
                 const data = {
                     token  : "wXTx4NnbKL.ptlV-WZfzKDS6XNvDgaCq.-nNXlOuUDtyv-HLFRtG-Q-sM9hvxGe0dl6OTnWp7S5CipWEXZjUdtnv0W866RlsjO9VHaVNJ8Y!",
@@ -171,4 +172,19 @@ ul{
 li{
     list-style: none;
 }
+
+/* 可以设置不同的进入和离开动画 */
+/* 设置持续时间和动画函数 */
+.slide-fade-enter-active {
+  transition: all 1s ease;
+}
+.slide-fade-leave-active {
+  transition: all 0.5s cubic-bezier(1.0, 0.5, 0.8, 1.0);
+}
+.slide-fade-enter, .slide-fade-leave-to
+/* .slide-fade-leave-active for below version 2.1.8 */ {
+  transform: translateY(-100px);
+  opacity: 0;
+}
+
 </style>

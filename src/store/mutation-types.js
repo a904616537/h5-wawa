@@ -50,7 +50,25 @@ export const SHOP_INIT   = 'shop/init'
 /**
  * 王国券
  */
-export const VOUCHERS_INIT   = 'vouchers/init'
-export const VOUCHERS_TICKET = 'vouchers/ticket'
+export const VOUCHERS_INIT       = 'vouchers/init'
+export const VOUCHERS_TICKET     = 'vouchers/ticket'
+export const VOUCHERS_SUPPLEMENT = 'vouchers/supplement'
+export const VOUCHERS_OBTAIN     = 'vouchers/obtain'
+
+/**
+ * 王国日历
+ */
+export const INIT_MONTH              = 'month/init'
+export const SIGNIN_MONTH            = 'month/signin'
+export const CONTINUOUS_SIGNIN_MONTH = 'month/signin/continuous'
+
+/**
+ * 签到抽奖
+ */
+export const LUCKY_INIT     = 'lucky/init'
+export const LUCKY_DRAW     = 'lucky/draw'
+export const LUCKY_ADD_DRAW = 'lucky/add/draw'
+
+
 
 

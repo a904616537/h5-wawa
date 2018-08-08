@@ -72,6 +72,7 @@
 		padding          : 0;
 		width            : 100%;
 		background-color : #fff;
+
 	}
 	.menu-box li{
 		float           : left;

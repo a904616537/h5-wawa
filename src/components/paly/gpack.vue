@@ -78,10 +78,20 @@
 					wsHost		:'ws://106.14.162.126:8080', 
 				 	url			: this.src,
 				 	canvas		: document.getElementById(this.v_id),
-				 	videoinfo	: { width : 360, height : 640},
+				 	videoinfo	: { width : 360, height : 640, scale : 100},
                     jspath      : "./static/js/"
 				 });
 
+                // var context= this.player.dst_renderer._canvas.getContext('2d');
+                // // this.player.dst_renderer._canvas.width  = 424;
+                // // this.player.dst_renderer._canvas.height = 656;
+                // context.fillRect(10, 20, 424, 656);
+                // setTimeout(() => {
+                //     console.log('start', this.player.dst_renderer)
+
+                //     this.player.dst_renderer._context.scale(100, 100);
+                // }, 1000);
+                
         		this.onStart();
         	},
         	onStart() {
@@ -91,7 +101,6 @@
                 }, 1000);
         	},
         	onStop() {
-        		console.log('视频结束播放')
         		this.player.stop();
                 this.player = null;
         	},
@@ -108,7 +117,7 @@
             }
 		},
         destroyed() {
-            console.log('离开', this.player);
+            console.log('离开');
             this.onStop();
         }
     }

@@ -8,6 +8,8 @@ import Hall         from './module/hall'
 import Room         from './module/room'
 import Shop         from './module/shop'
 import Vouchers     from './module/vouchers'
+import MonthtoSign  from './module/monthtosign'
+import LuckyDraw    from './module/luckydraw'
 
 Vue.use(Vuex)
 
@@ -20,7 +22,9 @@ export default new Vuex.Store({
 		Hall,
 		Room,
 		Shop,
-		Vouchers
+		Vouchers,
+		MonthtoSign,
+		LuckyDraw
 	},
 	// strict  : debug
 })

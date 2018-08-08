@@ -19,6 +19,7 @@ const mixin = {
 	},
 	data() {
 		return {
+			is_set : false,
 			pomelo_Listen : new Map([
 				['chat', default_Fun],
 				['voice', default_Fun],
@@ -54,14 +55,28 @@ const mixin = {
 		}
 	},
 	computed : mapState({
-		pomelo    : state => state.Pomelo.pomelo,
-		shortpkey : state => state.Hall.shortpkey,
+		pomelo       : state => state.Pomelo.pomelo,
+		pomelo_login : state => state.Pomelo.login,
+		shortpkey    : state => state.Hall.shortpkey,
     }),
     // 监听用户获取状态
     watch: {
+    	// 是否有登陆
     	shortpkey : function(val, oldVal) {
+    		console.log('---------------shortpkey', val)
     		if(val === oldVal) return;
-    		this.setOnPomelo();
+    		if(this.pomelo_login && !this.is_set) {
+    			this.is_set = true;
+    			this.setOnPomelo();
+    		}
+    	},
+    	pomelo_login : function(val, old) {
+    		console.log('pomelo_login', val, this.is_set, this.shortpkey);
+    		
+    		if(val && !this.is_set && this.shortpkey){
+    			this.is_set = true;
+    			this.setOnPomelo();
+    		}
     	}
     },
 	methods: {
@@ -81,8 +96,7 @@ const mixin = {
         },
         onStart() {
         	console.log('连接 Pomelo')
-        	this.onPomeloInit({next : () => {
-        	}});
+        	this.onPomeloInit({next : () => {}});
         },
         setOnPomelo(){
         	const {pomelo_Listen, pomelo, listen, shortpkey} = this;

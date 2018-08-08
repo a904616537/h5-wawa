@@ -1,6 +1,5 @@
 import * as types  from '../mutation-types'
 import Pomelo from 'pomelo-client-websocket/core';
-const pomelo = new Pomelo();
 
 // initial state
 const state = {
@@ -23,6 +22,7 @@ const actions = {
 // mutations
 const mutations = {
 	[types.POMELO_INIT] (state, data) {
+		const pomelo = new Pomelo();
 		pomelo.init({
 			host                 : '106.15.90.130',
 			port                 : 80,
@@ -32,6 +32,7 @@ const mutations = {
 			maxReconnectAttempts : 10		// 最大重连次数
 		}, (res) => {
 			console.log('pomelo 连接成功', res)
+			state.login = true;
 			state.pomelo = pomelo;
 		    if(data && data.next) data.next();
 		    

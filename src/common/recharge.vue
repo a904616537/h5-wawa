@@ -81,7 +81,6 @@
 			},
 		},
 		mounted() {
-			console.log('state.Hall.pay_list', this.pay_list)
 			if(!this.pomelo_login) {
 				this.$router.replace('profile')
 			}
@@ -123,16 +122,16 @@
 		overflow: hidden;
 	}
 	.recharge .item{
-		float: left;
-		width: 50%;
-		padding: 10px 0;
-		font-size: 14px;
-		color: #BF6A0B;      /*需要更换字体颜色*/
+		float     : left;
+		width     : 50%;
+		padding   : 10px 0;
+		font-size : 14px;
+		color     : #8e562a;
 	}
 	.recharge .item .gold{
-		background-color: yellow;    /*需要更换颜色*/
-		height : 16vw;
-		padding: 0 10px;
+		background-color : #fef6e1;
+		height           : 16vw;
+		padding          : 0 10px;
 	}
 	.recharge .item .inner{
 		margin: 0 10px;
@@ -153,8 +152,8 @@
 		font-weight: bold;
 	}
 	.recharge .item .tip{
-		font-size: 12px;
-		color: red;            /*需要更换字体颜色*/
+		font-size : 12px;
+		color     : #da551f;
 	}
 	.recharge .img-style{
 		width: 16vw;
@@ -164,10 +163,10 @@
 		background-position: center;
 	}	
 	.recharge .money{
-		line-height: 30px;
-		font-size: 16px;
-		color: #fff;
-		font-weight: bold;
-		background-color: brown;   /*需要更换颜色*/
+		line-height      : 30px;
+		font-size        : 16px;
+		color            : #fff;
+		font-weight      : bold;
+		background-color : #da551f;
 	}
 </style>

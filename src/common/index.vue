@@ -1,10 +1,11 @@
 <template>
 	<div class="index">
-		<div>
+		<v-header />
+		<div class="main">
 			<v-swiper :data="banner"/>
 			<v-tabs :data="category" />
 			
-			<div class="list-box">
+			<div v-if="pomelo_login" class="list-box">
 
 				<div v-for="(item, index) in hallRooms" class="list-item" @click="play(item)">
 					<div class="inner">
@@ -19,7 +20,13 @@
 						</div>
 					</div>
 				</div>
-
+			</div>
+			<div v-else class="list-box">
+				
+				<div class="refresh">
+					<img :src="refresh">
+					<div>断线重连中，请稍后...</div>
+				</div>
 			</div>
 			<v-daily-bonus />
 			<v-menu :index="0"></v-menu>
@@ -33,24 +40,28 @@
 	import Swiper     from '@/components/swiper'
 	import Tabs       from '@/components/hall/tabs'
 	import DailyBonus from '@/components/hall/dailyBonus'
+	import Header from '@/components/hall/header'
 	
 	export default{
 		name: 'index',
 		data() {
 			return {
-				free   : false
+				refresh : './static/images/connection.png',
+				free    : false
 			}
 		},
 		components : {
 			'v-swiper'      : Swiper,
 			'v-tabs'        : Tabs,
-			'v-daily-bonus' : DailyBonus
+			'v-daily-bonus' : DailyBonus,
+			'v-header'      : Header
 		},
 		computed : {
 			...mapState({
-				banner   : state => state.Hall.banners,
-				category : state => state.Hall.category,
-				// rooms    : state => state.Hall.rooms
+				banner       : state => state.Hall.banners,
+				category     : state => state.Hall.category,
+				pomelo       : state => state.Pomelo.pomelo,
+				pomelo_login : state => state.Pomelo.login,
 			}),
 			...mapGetters([
 				'hallRooms',
@@ -68,7 +79,7 @@
 				this.$router.push({path : '/play', query : room})
 			}
 		},
-		created() {
+		mounted() {
 			Pubsub.subscribe('hall.room.update', this.setStatus)
 		}
 	}
@@ -77,11 +88,19 @@
 
 <style lang="scss">
 	$apiurl: 'http://c.waguo.net/h5/wawa';
-
+	
 	.index{
-		padding: 8px;
 	    color: #2c3e50;
       	background-color : #f3f0e3;
+	}
+	.index .main {
+		padding: 8px;
+	}
+	.index .refresh {
+		margin-top: 20vh;
+	}
+	.index .refresh img{
+    	width: 10vw;
 	}
 	.list-box{
 		margin: 0px -5px;
