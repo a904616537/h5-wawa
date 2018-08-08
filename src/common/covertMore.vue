@@ -1,5 +1,6 @@
 <template>
 	<div class="covertMore">
+		<v-nav>兑换记录</v-nav>
 		<div class="item head">
 			<img src="static/images/monthtosign/selected.png" class="img-style" />
 			恭喜兑换成功

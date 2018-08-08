@@ -8,7 +8,7 @@
 
 <template>
 	<div class="addressList">
-
+		<v-nav>收货地址管理</v-nav>
 		<div v-for="(item, index) in address" class="address-item">
 			<span>{{item.name}}</span>
 			<span class="float-right">{{item.tel}}</span>

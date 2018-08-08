@@ -30,6 +30,10 @@
 			</div>
 			<v-daily-bonus />
 			<v-menu :index="0"></v-menu>
+			<div class="float-icon" @click="sign">
+				<img src="static/images/monthtosign/sign_icon.png" alt="" class="icon-style">
+			</div>
+
 		</div>
 	</div>	
 </template>
@@ -77,6 +81,9 @@
 					return;
 				}
 				this.$router.push({path : '/play', query : room})
+			},
+			sign() {
+				this.$router.push({path : '/sign'})
 			}
 		},
 		mounted() {
@@ -169,5 +176,19 @@
 		background-color: #D5443D;
 		display: inline-block;
 	}
-
+	.index .float-icon{
+		position: fixed;
+		right: 0;
+		top: 65%;
+		background-color: #fff;
+		width: 40px;
+		height: 40px;
+		border-radius: 50px;
+		border: 1px solid #ccc;
+	}
+	.index .float-icon .icon-style{
+		width: 30px;
+		height: 30px;
+		margin-top: 3px;
+	}
 </style>

@@ -60,7 +60,7 @@
 				</div>
 				<div class="item">
 					<label class="title">客服</label>
-					<div class="right">
+					<div class="right" @click="service">
 						<label class="info">></label>
 					</div>
 				</div>
@@ -73,6 +73,11 @@
 			</div>
 		</div>
 		<v-menu :index="3"></v-menu>
+		<div class="service" v-show="isShow" @click="service">
+			<div class="service-inner">
+				请添加微信客服zhuawawa1314
+			</div>
+		</div>
 	</div>
 </template>
 
@@ -88,7 +93,8 @@
 		data() {
 			return {
 				value1    : true,
-				task_list : []		// pomelo 未链接上的时候处理队列
+				task_list : [],		// pomelo 未链接上的时候处理队列
+				isShow    : false
 			}
 		},
 
@@ -152,6 +158,9 @@
 			},
 			toDelivery() {
 				this.$router.push({ path : '/delivery' })
+			},
+			service() {
+				this.isShow = !this.isShow
 			}
 		},
 		mounted() {
@@ -212,5 +221,20 @@
 		color: #999;
 		font-size: 12px;
 		margin-left: 10px;
+	}
+	.service{
+		position: absolute;
+		top: 0;
+		left: 0;
+		right: 0;
+		background-color: rgba(0,0,0,.2);
+		height: 100%;
+	}
+	.service .service-inner{
+		margin: 70% auto;
+		width: 300px;
+		background-color: #fff;
+		padding: 50px 10px;
+		border-radius: 14px;
 	}
 </style>

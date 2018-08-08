@@ -18,9 +18,11 @@ import Covert from '@/common/covert'
 import CovertMore from '@/common/covertMore'
 import Sign     from '@/common/sign'      //签到   
 import Menu   from '@/components/menu'
+import Nav    from '@/components/nav' 
 
 Vue.use(Router)
 Vue.component('v-menu',Menu)
+Vue.component('v-nav',Nav)
 
 var routers = [
 	{

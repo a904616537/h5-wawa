@@ -1,8 +1,7 @@
 <template>
 	<div class="convert">
-
+		<v-nav>兑换记录</v-nav>
 		<v-item v-for="(item, index) in list" :key="index" :data="item" />
-
 		<p>已经没有更多了！</p>
 	</div>
 </template>

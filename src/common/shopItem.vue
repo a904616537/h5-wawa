@@ -1,5 +1,6 @@
 <template>
 	<div v-if="data" class="shopItem">
+		<v-nav>{{data.name}}</v-nav>
 		<div class="banner" :style="'background-image: url('+data.imgurl+')'"></div>
 		<div class="product">
 			<div class="info">

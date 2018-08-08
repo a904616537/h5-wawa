@@ -1,5 +1,6 @@
 <template>
 	<div class="ticket">
+		<v-nav>赚积分</v-nav>
 		<div class="banner">
 			<div class="img-style"></div>
 			<p>王国券可在王国商城中兑换大量奖品哦<br/>王国券、拍立得、精美娃娃等着你哦～</p>
