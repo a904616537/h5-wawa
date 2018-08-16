@@ -3,7 +3,7 @@
 		<div class="inner">
 			<div class="card">
 				<div v-for="(item, index) in data" class="item" >
-					<img class="user-icon item-style" :src="item.pic"/>
+					<img class="user-icon" :src="item.pic"/>
 					<div class="user item-style">{{decodeURI(item.nn)}}</div>
 					<div class="number">{{item.num}}次</div>
 				</div>
@@ -56,10 +56,14 @@
 		padding: 10px 20px;	
 	}
 	.record .item{
-		text-align: left;
-		line-height: 50px;
-		padding: 10px 0;
-		border-bottom: 1px solid #eee;
+		text-align    : left;
+		padding       : 10px 0;
+		line-height   : 50px;
+		border-bottom : 1px solid #eee;
+		display: flex;
+		justify-content: flex-start;
+		align-items: center;
+		flex-direction: row;
 	}
 	.record .item:after{
 		content : '';
@@ -69,13 +73,14 @@
 		overflow: hidden;
 	}
 	.record .item-style{
-		float: left;
+		flex:auto;
 	}
 	.record .user-icon{
-		width: 50px;
-		height: 50px;
-		border-radius: 50px;
-		margin-right: 20px;
+		width         : 40px;
+		height        : 40px;
+		border-radius : 50%;
+		margin-right  : 20px;
+		border        : none;
 	}
 	.record .number{
 		float: right;

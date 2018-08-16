@@ -25,6 +25,18 @@
 					<icon name="changeCamera" :w="30" :h="30"></icon>
 				</div>
 			</div>
+			<div class="view-bottom chatsbtn">
+				<div class="shot" @click="onChats">
+					<icon name="chat" :w="30" :h="30"></icon>
+				</div>
+			</div>
+
+			<!-- 玩家聊天 -->
+			<div class="chats">
+				<div v-for="(item, index) in chats_list" :key="index" class="chats-item">
+					<div class="chat">{{decodeURIComponent(item.nn)}}:<span>{{decodeURIComponent(item.msg)}}</span></div>
+				</div>
+			</div>
 		</div>
 		<div v-if="!start_paly" class="bottom">
 			<div class="coins item-btn">
@@ -42,16 +54,23 @@
 		<div class="bottom" v-if="start_paly">
 			<v-control :onOver="onOver"/>
 		</div>
+		
+		<v-barrage ref="barrage" type="PLAY"/>
 		<v-info v-if="show" :click="closeProductInfo"></v-info>
 		<v-record v-if="isShow" :data="topRank" :click="closeRecord"></v-record>
 		<v-success v-show="show_success" :data="gift_data" :onPress="onPlay" :onCancel="onCancel"/>
 		<v-failure v-show="show_fail" :data="gift_data" :onCancel="onCancel" :onToPay="onToPay" :onPress="onPlay"/>
+		
+		<input style="opacity: 0;" id="chats" maxlength="20" type="text" v-model.trim="chat" @change="onSubmitChat"/>
+		
 	</div>
 </template>
 
 <script>
 	import Vue from 'vue'
 	import {mapState, mapGetters, mapActions} from 'vuex'
+	import Pubsub from 'pubsub-js';
+	import Barrage     from '@/components/barrage'
 	import headbar     from '@/components/paly/playhead'
 	import productInfo from '@/components/paly/productInfo'
 	import seconds     from '@/components/paly/seconds'
@@ -70,6 +89,8 @@
 		name: 'play',
 		data() {
 			return {
+				show_input   : false,
+				chat         : '',		// 玩家聊天输入内容
 				top_rank     : [],		// 房间游戏排名
 				drop_rank    : [],		// 排名下降？？？？
 				chats        : [],		// 历史聊天消息
@@ -78,7 +99,6 @@
 				roundtime    : 0,		// 倒计时
 				play_fail    : PubSub.subscribe('hall.room.failure', this.onFail),
 				play_success : PubSub.subscribe('hall.room.success', this.onSuccess),
-
 				onPress      : () => {},
 				gift_data     : {},
 				show_fail    : false,	// 抓取失败界面
@@ -108,7 +128,8 @@
 			'v-control' : vControl,
 			'v-master'  : vMaster,
 			'v-success' : vSuccess,
-			'v-failure' : vFailure
+			'v-failure' : vFailure,
+			'v-barrage' : Barrage
 		},
 		computed : {
 			...mapState({
@@ -120,8 +141,12 @@
 				queue        : state => state.Room.queue,
 				master       : state => state.Room.master,
 				players      : state => state.Room.players,
-				topRank      : state => state.Room.top_rank
+				topRank      : state => state.Room.top_rank,
+				// chats        : state => state.Room.chats	// 聊天内容
 			}),
+			chats_list() {
+				return this.chats.slice(0, 3);
+			},
 			machine_class() {
 				return {
 					machine: this.btn_status == 'play_state_waiting_btn' || this.btn_status == 'play_cancel_queue_btn'
@@ -204,6 +229,8 @@
 			},
 			// 没有抓到娃娃
 			onFail(msg, data) {
+				// const text = `${decodeURIComponent(data.master.nn)}:未抓到娃娃，继续努力哦！`;
+	   //          Pubsub.publish('barrage', {text, color : 0});
 				if(data.master.uid == this.user.uid) {
 					this.gift_data = data;
 					this.show_fail = true;
@@ -211,6 +238,9 @@
 			},
 			// 抓到娃娃
 			onSuccess(msg, data) {
+				// const text = `${decodeURIComponent(data.master.nn)}:抓到了娃娃，恭喜恭喜！`;
+	   //          Pubsub.publish('barrage', {text, color : 0});
+
 				// 判断是不是自己
 				if(data.master.uid == this.user.uid) {
 					this.gift_data = data;
@@ -324,6 +354,7 @@
 				this.show_video = true;
 			},
 			toBack() {
+				this.onClaw();
 				this.$router.back();
 			},
 			productInfo() {
@@ -338,6 +369,25 @@
 			closeRecord() {
 				this.isShow = false
 			},
+			onChats() {
+				this.show_input = true;
+				document.getElementById('chats').focus();
+			},
+			onSubmitChat(e) {
+				if(this.chat=="")return;
+				this.chat = this.chat.replace(/\d{4,14}|wx|w.*x|微.*信|坑|松|欺|骗|邀请|卡/ig,"*");
+				const msg = encodeURIComponent(this.chat);
+				const model = {msg, bubble:-1};
+
+				this.chats.unshift({
+					msg : msg,
+					nn  : this.user.nickname,
+					uid : this.user.uid
+				});
+				this.chat = '';
+				this.pomelo.request('hall.user.chat', model);
+
+			},
 			onInit() {
 				if(this.rooms.length > 0) this.setRoom({gsid : this.data.gsid});
 				// 向服务器发送加入房间消息
@@ -346,8 +396,8 @@
 						this.$router.back();
 						return;
 					}
-					
 					this.setMaster(result)
+					this.chats = result.chats.reverse();
 				}};
 				if(this.pomelo) this.pomelo.request(event.key, {gsid : event.value}, event.next);
 				else this.task_list.unshift(event);
@@ -356,7 +406,7 @@
 		},
 		mounted() {
             wx.hideAllNonBaseMenuItem();
-			this.onInit();	
+			this.onInit();
 		}
 	}
 </script>
@@ -387,6 +437,27 @@
 		overflow            : hidden;
 		background-image    : url($apiurl + '/static/images/hall/videoback.jpg');
 		position: relative;
+
+		.chats{
+			position   : absolute;
+			left       : 0;
+			bottom     : 0;
+			text-align : left;
+
+			.chats-item {
+				font-size        : 9pt;
+				color            : #f9da39;
+				width            : 35vw;
+				line-height      : 3.5vh;
+				margin           : 1vh;
+				border-radius    : 2vh;
+				background-color : #00000022;
+				span {
+					color       : #fff;
+					margin-left : 1vw;
+				}
+			}
+		}
 	}
 	.play .video .videoload {
 		width            : 30vw;
@@ -395,7 +466,7 @@
 		background-image : url($apiurl + '/static/images/hall/1.png');
 	}
 	.play .video .view-user {
-
+		
 	}
 	.play .video .default-img{
 		width    : 150px;
@@ -429,12 +500,16 @@
 	}
 	.play .view-bottom{
 		position                  : absolute;
-		top                       : 35vh;
+		top                       : 30vh;
 		right                     : 0;
 		padding                   : 5px;
 		border-top-left-radius    : 50%;
 		border-bottom-left-radius : 50%;
 		background-color          : #f2d56e;
+		
+	}
+	.play .view-bottom.chatsbtn {
+		top : 36vh;
 	}
 	.play .bottom{
 		margin-top      : 2vh;

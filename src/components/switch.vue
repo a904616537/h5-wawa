@@ -9,18 +9,23 @@
 		name : 'vueSwitch',
 		data() {
 			return {
-				me_checked: this.value
+				me_checked : this.value
 			}
 		},
 		props : {
 			value : {
 				type : Boolean,
 				default : true
+			},
+			onPress : {
+				type    : Function,
+				default : () => {}
 			}
 		},
 		methods: {
 	      	toggle() {
 	        	this.me_checked = !this.me_checked;
+	        	this.onPress(this.me_checked);
 	      	}
 	    }
 	}

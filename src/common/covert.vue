@@ -67,14 +67,9 @@
 
 <style>
 	.convert{
-		position: absolute;
-		top: 0;
-		left: 0;
-		right: 0;
-		overflow: hidden;
-		height: 100%;
-		font-size: 14px;
-		background-color: #f4f4f4;     /*需要更换背景颜色*/
+		height           : 100%;
+		font-size        : 14px;
+		background-color : #f4f4f4;     /*需要更换背景颜色*/
 	}
 	.convert .item{
 		background-color : #fff;

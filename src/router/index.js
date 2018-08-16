@@ -1,22 +1,26 @@
-import Vue      from 'vue'
-import Router   from 'vue-router'
-import Index    from '@/common/index'
-import Play     from '@/common/play'
-import Profile  from '@/common/profile'
-import Recharge from '@/common/recharge'
-import Items    from '@/common/items'
-import Address  from '@/common/address'
-import Share    from '@/common/share'
-import Delivery from '@/common/delivery'
-import Shop     from '@/common/shop'
-import Bag      from '@/common/bag' //红包（没有礼包页）
-import FirstPayBag from '@/common/firstPayBag' //红包（赠送礼包页）
-import Payintro from '@/common/payintro'
-import Ticket   from '@/common/tickets'
-import ShopItem from '@/common/shopItem'
-import Covert from '@/common/covert' 
-import CovertMore from '@/common/covertMore'
-import Sign     from '@/common/sign'      //签到   
+import Vue           from 'vue'
+import Router        from 'vue-router'
+import Index         from '@/common/index'
+import Play          from '@/common/play'
+import Profile       from '@/common/profile'
+import Recharge      from '@/common/recharge'
+import Items         from '@/common/items'
+import Address       from '@/common/address'
+import Share         from '@/common/share'
+import Delivery      from '@/common/delivery'
+import Shop          from '@/common/shop'
+import Bag           from '@/common/bag' //红包（没有礼包页）
+import FirstPayBag   from '@/common/firstPayBag' //红包（赠送礼包页）
+import Payintro      from '@/common/payintro'
+import Ticket        from '@/common/tickets'
+import ShopItem      from '@/common/shopItem'
+import Covert        from '@/common/covert' 
+import CovertMore    from '@/common/covertMore'
+import Sign          from '@/common/sign'      //签到   
+import PlayLog       from '@/common/playLog'
+import PlayLogInfo   from '@/common/playLogInfo'
+import PlayLogReport from '@/common/playLogReport'
+
 import Menu   from '@/components/menu'
 import Nav    from '@/components/nav' 
 
@@ -28,75 +32,164 @@ var routers = [
 	{
 		name : 'home',
 		path : '/',
-		component : Index
+		component : Index,
+		$$routerTransition: {
+			forward : 'roll'
+		}
 	},
 	{
 		name      : 'play',
 		path      : '/play',
 		component : Play,
-		props     : (route) => ({ data : route.query })
+		props     : (route) => ({ data : route.query }),
+		$$routerTransition: {
+			forward : 'roll',
+			back    : 'roll'
+		}
 	},
 	{
 		name : 'profile',
 		path : '/profile',
-		component : Profile
+		component : Profile,
+		$$routerTransition: {
+			forward : 'roll'
+		}
 	},
 	{
 		path : '/recharge',
-		component : Recharge
+		component : Recharge,
+		$$routerTransition: {
+			forward : 'roll',
+			back    : 'roll'
+		}
 	},
 	{
 		path : '/items',
-		component : Items
+		component : Items,
+		$$routerTransition: {
+			forward : 'roll',
+			back    : 'roll'
+		}
 	},
 	{
 		path : '/address',
-		component : Address
+		component : Address,
+		$$routerTransition: {
+			forward : 'roll',
+			back    : 'roll'
+		}
 	},
 	{
 		path : '/share',
-		component : Share
+		component : Share,
+		$$routerTransition: {
+			forward : 'roll',
+			back    : 'roll'
+		}
 	},
 	{
 		path : '/delivery',
-		component : Delivery
+		component : Delivery,
+		$$routerTransition: {
+			forward : 'roll',
+			back    : 'roll'
+		}
 	},
 	{
 		path : '/bag',
-		component : Bag
+		component : Bag,
+		$$routerTransition: {
+			forward : 'roll',
+			back    : 'roll'
+		}
 	},
 	{
 		path : '/shop',
-		component : Shop
+		component : Shop,
+		$$routerTransition: {
+			forward : 'roll'
+		}
 	},
 	{
 		path : '/payintro',
-		component : Payintro
+		component : Payintro,
+		$$routerTransition: {
+			forward : 'roll',
+			back    : 'roll'
+		}
 	},
 	{
 		path : '/firstPayBag',
-		component : FirstPayBag
+		component : FirstPayBag,
+		$$routerTransition: {
+			forward : 'roll'
+		}
 	},
 	{
 		path : '/ticket',
-		component : Ticket
+		component : Ticket,
+		$$routerTransition: {
+			forward : 'roll',
+			back    : 'roll'
+		}
 	},
 	{
 		path : '/shopItem',
-		component : ShopItem
+		component : ShopItem,
+		$$routerTransition: {
+			forward : 'roll',
+			back    : 'roll'
+		}
 	},
 	{
 		path : '/covert',
-		component : Covert
+		component : Covert,
+		$$routerTransition: {
+			forward : 'roll',
+			back    : 'roll'
+		}
 	},
 	{
 		path : '/covertMore',
-		component : CovertMore
+		component : CovertMore,
+		$$routerTransition: {
+			forward : 'roll',
+			back    : 'roll'
+		}
 	},
 	{
 		path : '/sign',
-		component : Sign
-	}
+		component : Sign,
+		$$routerTransition: {
+			forward : 'roll',
+			back    : 'roll'
+		}
+	},
+	{
+		path : '/playlog',
+		component : PlayLog,
+		$$routerTransition: {
+			forward : 'roll',
+			back    : 'roll'
+		}
+	},
+	{
+		path : '/playloginfo',
+		component : PlayLogInfo,
+		$$routerTransition: {
+			forward : 'roll',
+			back    : 'roll'
+		}
+	},
+	{
+		path : '/playlogreport',
+		component : PlayLogReport,
+		$$routerTransition: {
+			forward : 'roll',
+			back    : 'roll'
+		}
+	},
+	
 ]
 
 const router = new Router({

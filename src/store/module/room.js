@@ -61,6 +61,8 @@ const mutations = {
 		state.chats     = chats;
 		state.duration  = duration;
 		state.roundtime = roundtime;
+
+		console.log('set romm chats????????', chats)
 	}
 }
 

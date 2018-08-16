@@ -1,6 +1,7 @@
 <template>
 	<div class="index">
-		<v-header />
+		<v-barrage ref="barrage"/>
+		<v-header :onShowShare="() => show_share = true"/>
 		<div class="main">
 			<v-swiper :data="banner"/>
 			<v-tabs :data="category" />
@@ -35,34 +36,54 @@
 			</div>
 
 		</div>
+		<!-- 邀请分享 -->
+		<v-share v-if="show_share" :onPress="onShare"/>
+		<!-- 领取分享奖励 -->
+		<v-check-invite v-if="show_check" :onPress="onShare"/>
+		<!-- 领取宝箱奖励 -->
+		<v-bonusbox v-if="open_box" />
 	</div>	
 </template>
 
 <script>
 	import Pubsub from 'pubsub-js';
 	import {mapState, mapGetters, mapActions} from 'vuex'
-	import Swiper     from '@/components/swiper'
-	import Tabs       from '@/components/hall/tabs'
-	import DailyBonus from '@/components/hall/dailyBonus'
-	import Header from '@/components/hall/header'
+	import Swiper       from '@/components/swiper'
+	import Barrage      from '@/components/barrage'
+	import Tabs         from '@/components/hall/tabs'
+	import DailyBonus   from '@/components/hall/dailyBonus'
+	import Header       from '@/components/hall/header'
+	import Share        from '@/components/hall/share'
+	import CheckInvite  from '@/components/hall/checkInvite'
+	import BonusboxView from '@/components/hall/bonusboxView'
 	
 	export default{
 		name: 'index',
 		data() {
 			return {
-				refresh : './static/images/connection.png',
-				free    : false
+				refresh    : './static/images/connection.png',
+				free       : false,
+				show_share : false,
+				show_check : false
 			}
 		},
 		components : {
-			'v-swiper'      : Swiper,
-			'v-tabs'        : Tabs,
-			'v-daily-bonus' : DailyBonus,
-			'v-header'      : Header
+			'v-swiper'       : Swiper,
+			'v-tabs'         : Tabs,
+			'v-daily-bonus'  : DailyBonus,
+			'v-header'       : Header,
+			'v-share'        : Share,
+			'v-check-invite' : CheckInvite,
+			'v-barrage'      : Barrage,
+			'v-bonusbox'     : BonusboxView
 		},
 		computed : {
 			...mapState({
-				banner       : state => state.Hall.banners,
+				banner       : state => {
+					console.log('state.Hall.banners', state.Hall.banners)
+					return state.Hall.banners
+				},
+				open_box     : state => state.Hall.open_box,
 				category     : state => state.Hall.category,
 				pomelo       : state => state.Pomelo.pomelo,
 				pomelo_login : state => state.Pomelo.login,
@@ -84,10 +105,30 @@
 			},
 			sign() {
 				this.$router.push({path : '/sign'})
+			},
+			onShare(type) {
+				this.show_share = false;
+				this.show_check = false;
+				setTimeout(() => {
+					if(!type || type == 'share') this.$router.push({path : '/share'});
+					else this.show_check = true;
+				}, 300);
+			},
+			sendBarrage(key, msg) {
+				if ( msg.giftNum > 0){
+					const room = this.hallRooms.find(val => val.gsid);
+					if(room && room != undefined ) {
+						let nRoomID = ( msg.gsid.split( '_' ) )[ 2 ];
+	                    let strMsg = `${decodeURIComponent( msg.master.nn )}:在${nRoomID}号房间抓到了个${room.gift_name}恭喜恭喜！`;
+	                    Pubsub.publish('barrage', {text : strMsg, color : 0, type : 'HALL'});
+					}
+	            }
 			}
 		},
 		mounted() {
-			Pubsub.subscribe('hall.room.update', this.setStatus)
+			Pubsub.subscribe('hall.room.update', this.setStatus);
+			// 监听抓到娃娃, 发送大厅弹幕
+			PubSub.subscribe('hall.room.success', this.sendBarrage);
 		}
 	}
 </script>
@@ -97,8 +138,9 @@
 	$apiurl: 'http://c.waguo.net/h5/wawa';
 	
 	.index{
-	    color: #2c3e50;
-      	background-color : #f3f0e3;
+		color            : #2c3e50;
+		overflow         : hidden;
+		background-color : #f3f0e3;
 	}
 	.index .main {
 		padding: 8px;

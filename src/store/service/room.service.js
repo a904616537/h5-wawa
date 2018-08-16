@@ -2,7 +2,7 @@ import Pubsub from 'pubsub-js';
 
 const onClickMap = new Map([
 	['USJN', updateRoomJoin], 	// 进入房间
-	['USLV', () => {}], 		// 退出房间
+	['USLV', roomUslv], 		// 退出房间
 	['CGDP', roomCgdp], 		// 抓到娃娃
 	['CGD0', updateUserCard], 	// 没有抓到娃娃
 	['CSCE', setRoomMaster], 	// 房间状态变化
@@ -31,6 +31,13 @@ function updateUserCard(data, state) {
  */
 function updateRoomJoin(data, state) {
 	console.log('进入房间 ========》', data)
+	const strMsg = `${decodeURIComponent(data.player.nn)}进入房间`;
+	Pubsub.publish('barrage', {text : strMsg, color : 1, type : 'PLAY'});
+}
+function roomUslv(data, state) {
+	console.log('离开房间 ========》', data)
+	// const strMsg = `${decodeURIComponent(data.player.nn)}离开了房间`;
+	// Pubsub.publish('barrage', {text : strMsg, color : 3, type : 'PLAY'});
 }
 /**
  * [updateRoomQueue 玩家队列更新]

@@ -9,16 +9,16 @@
 <template>
 	<div class="control_btn">
 		<div class="rocker">
-			<div class="iconbtn" :style="iconClass.left" @click="left"></div>
+			<div class="iconbtn" :style="iconClass.left" @click.prevent="left"></div>
 			<div>
-				<div class="iconbtn" :style="iconClass.up" @click="up"></div>
-				<div class="iconbtn" :style="iconClass.down" @click="down"></div>
+				<div class="iconbtn" :style="iconClass.up" @click.prevent="up"></div>
+				<div class="iconbtn" :style="iconClass.down" @click.prevent="down"></div>
 			</div>
 			
-			<div class="iconbtn" :style="iconClass.right" @click="right"></div>
+			<div class="iconbtn" :style="iconClass.right" @click.prevent="right"></div>
 		</div>
 		<div class="claws">
-			<div class="iconbtn claws" :style="iconClass.claw" @click="claw"></div>
+			<div class="iconbtn claws" :style="iconClass.claw" @click.prevent="claw"></div>
 		</div>
 	</div>
 </template>

@@ -5,6 +5,7 @@ import Cookie     from 'vue-cookie';
 
 // initial state
 const state = {
+	open_box      : false,	// 打开宝箱抽奖
 	weixin_pay    : 0,		// 无首充？？？
 	category      : [],		// 大厅分类
 	rooms         : [],		// 大厅房间
@@ -12,12 +13,16 @@ const state = {
 	firstpay      : {},		// 首充礼包
 	pay_list      : [],		// 充值列表
 	shareNotice   : '', 	// 分享内容
-	shortpkey     : null,		// pomolo 链接内容
+	shortpkey     : null,	// pomolo 链接内容
 	task_pay_list : [],		// 付费任务列表
+	share_link    : '',		// 分享链接
 	selected_cate : 1		// 当前选择的分类
 }
 
 const actions = {
+	openBox({commit}, data) {
+		commit(types.HALL_OPEN_BOX, data);
+	},
 	setHallSetting({commit}, data) {
 		commit(types.HALL_SETTING, data);
 	},
@@ -53,6 +58,7 @@ const mutations = {
 		state.shareNotice   = data.shareNotice;
 		state.task_pay_list = data.task_pay_list;
 		state.shortpkey     = data.shortpkey;
+		state.share_link    = data.share_link;
 	},
 	// 选择分类
 	[types.HALL_SELECTED] (state, data) {
@@ -101,6 +107,10 @@ const mutations = {
 		if(room) {
 			room.status = data.s;
 		}
+	},
+	[types.HALL_OPEN_BOX] (state, data) {
+		// 宝箱
+		state.open_box = data;
 	}
 }
 

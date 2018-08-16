@@ -76,7 +76,6 @@
 					console.log('支付结果！', res)
 				})
 				.catch(err => {
-					alert('微信支付调用失败！');
 					this.isShowComfilm = true
 				})
 			},
@@ -90,6 +89,7 @@
 </script>
 
 <style>
+	
 	.recharge{
 		padding: 0 8px;
 		background-color: #f2d56e;
@@ -131,7 +131,7 @@
 	.recharge .item .gold{
 		background-color : #fef6e1;
 		height           : 16vw;
-		padding          : 0 10px;
+		padding          : 0 1vw;
 	}
 	.recharge .item .inner{
 		margin: 0 10px;
@@ -142,11 +142,11 @@
 		float: left;
 	}
 	.recharge .gold .info{
-		height : 16vw;
-		width: 20vw;
-		text-align: right;
-		display: table-cell;
-		vertical-align: middle;
+		height         : 16vw;
+		width          : 22vw;
+		text-align     : right;
+		display        : table-cell;
+		vertical-align : middle;
 	}
 	.recharge .item .gold-num{
 		font-weight: bold;

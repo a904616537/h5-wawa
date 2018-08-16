@@ -55,12 +55,12 @@
 				<div class="item">
 					<label class="title">音乐</label>
 					<div class="right">
-						<v-switch v-model="value1"></v-switch>
+						<v-switch v-model="offPlayer" :onPress="controlPlater"></v-switch>
 					</div>
 				</div>
-				<div class="item">
+				<div class="item" @click="service">
 					<label class="title">客服</label>
-					<div class="right" @click="service">
+					<div class="right">
 						<label class="info">></label>
 					</div>
 				</div>
@@ -106,7 +106,11 @@
 				wawas        : state => state.User.wawas,
 				delivery     : state => state.User.delivery,
 				post         : state => state.User.post.length,
-				wawaplayer   : state => state.User.wawaplayer
+				wawaplayer   : state => state.User.wawaplayer,
+				offPlayer    : state => {
+					let is_off = state.User.offPlayer;
+					return is_off.toString() == 'true'
+				}
 			}),
 			avatar() {
 				if(this.user && this.user.avatar != '') {
@@ -144,6 +148,9 @@
 	    	}
 	    },
 		methods : {
+			...mapActions([
+                'controlPlater',
+            ]),
 			recharge() {
 				this.$router.push({ path : '/recharge' })
 			},

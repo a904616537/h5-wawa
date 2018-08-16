@@ -234,7 +234,9 @@
 		font-size: 14px;
 	}
 	.shopItem .details .img-style{
-		width: 100%;
+		width  : 100%;
+		height : auto;
+		border-radius: 0px;
 	}
 	.shopItem .bottom{
 		background-color: #fff;
@@ -245,13 +247,13 @@
 		padding: 20px 0;
 	}
 	.shopItem .bottom .btn{
-		width: 70%;
-		margin: 0 auto;
-		background-color: #f2d56e;   /*需要更换背景颜色*/
-		color: #fff;
-		line-height: 40px;
-		font-size: 16px;
-		border-radius: 50px;
+		width            : 70%;
+		margin           : 0 auto;
+		background-color : #f2d56e;
+		color            : #fff;
+		line-height      : 50px;
+		font-size        : 16px;
+		border-radius    : 50px;
 	}
 	.shopItem .bottom .btn-default{
 		background-color: rgba(242,213,110,.6);
