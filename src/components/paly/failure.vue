@@ -2,7 +2,7 @@
     <div class="play_success">
     	<div class="failure_view">
     		 <div class="_view">
-    		 	<p class="text">本次掉落4王国券！</p>
+    		 	<p class="text">本次掉落{{data.ticket}}王国券！</p>
     		 </div>
     		 <div class="buttons">
     		 	<div class="btn" @click="onCancel">遗憾放弃</div>

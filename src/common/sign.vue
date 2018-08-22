@@ -267,7 +267,7 @@
 		created() {
 			// 初始化商城
 			this.onInitShop();
-			// 使出话签到
+			// 初始化签到
 			this.onInitExchange();
 			// 初始化抽奖
 			this.onLuckyInit({});
@@ -305,8 +305,8 @@
 		overflow: hidden;
 	}
 	.sign .head{
-		font-size: 14px;
-		padding: 14px 14px 14px 4px;
+		font-size : 10pt;
+		padding   : 1vw;
 	}
 	.sign .head .icon-img{
 		height: 15px;
@@ -319,12 +319,11 @@
 		font-weight: bold;
 	}
 	.sign .content{
-		background-color: #f3f0e3;
-		margin-top: 70px;
-		margin: 70px 30px 0;
-		color: #ccc;              /* 需要更改字体颜色 */
-		border-radius: 10px;
-		box-shadow: 3px 3px 20px rgba(0,0,0,.2);
+		background-color : #f3f0e3;
+		margin           : 10vh 5vw 0;
+		color            : #ccc;              /* 需要更改字体颜色 */
+		border-radius    : 10px;
+		box-shadow       : 3px 3px 20px rgba(0,0,0,.2);
 	}
 	.sign .content .top{
 		position: relative;
@@ -362,7 +361,7 @@
 	}
 	.sign .inner p{
 		margin    : 5px 0 30px;
-		font-size : 10px;
+		font-size : 9pt;
 	}
 	.sign .inner .img-box{
 		border-radius    : 50%;
@@ -377,7 +376,7 @@
 		margin-top : 5px;
 	}
 	.sign .inner .prize-text {
-		font-size : 10px;
+		font-size : 9pt;
 		margin    : 0;
 		padding   : 0;
 	}

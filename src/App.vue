@@ -71,6 +71,7 @@
             is_login     : state => state.User.isLogin,
             offPlayer    : state => {
                 let is_off = state.User.offPlayer;
+                console.log('is_off', is_off)
                 return is_off.toString() == 'true'
             },
             platformData : state => {
@@ -91,7 +92,7 @@
             },
             onUpdateUserRoomCard(msg, data) {
                 console.log('监听 ->', msg, data)
-                this.updateUserRoomCard(data);
+                if(data.master.uid == this.user.uid) this.updateUserRoomCard(data);
             },
             onUpdateUserInfo(msg, data) {
                 console.log('监听 ->', msg, data)
@@ -132,15 +133,18 @@
                 });
             },
             onInitWechatSDK() {
-                axios.get(`${Vue.setting.api}/getJssign`, {})
+                const localurl = location.href.split('#')[0];
+                axios.get(`${Vue.setting.api}/getJssign`, {
+                    params: {
+                        url : localurl
+                    }
+                })
                 .then(result => result.data.data)
                 .then((result) => {
-                    console.log('获取微信SDK', result);
-
-                    wx.config({
+                    const config = {
                         debug     : false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
                         appId     : result.appId, // 必填，公众号的唯一标识
-                        timestamp : result.timestamp, // 必填，生成签名的时间戳
+                        timestamp : parseInt(result.timestamp), // 必填，生成签名的时间戳
                         nonceStr  : result.nonceStr, // 必填，生成签名的随机串
                         signature : result.signature,// 必填，签名
                         jsApiList : [
@@ -149,12 +153,13 @@
                             'hideAllNonBaseMenuItem',   // 隐藏多余的微信按钮
                             'closeWindow'               // 离开微信浏览器
                         ]
-                    });
+                    };
+
+                    wx.config(config);
                     wx.ready(() => {
                         console.log('初始化微信SDK成功');
                         wx.hideAllNonBaseMenuItem();
                     });
-
                     wx.error((res) => {
                         console.log('微信验证失败！', res)
                     });
@@ -200,10 +205,16 @@
                     console.log('onGetSetting error', err);
                 });
             }
+            // else {
+            //     wx.ready(() => {
+            //         wx.closeWindow();
+            //     })
+            // }
             else {
                 console.log('测试玩家登陆');
                 const data = {
-                    token  : "wXTx4NnbKL.ptlV-WZfzKDS6XNvDgaCq.-nNXlOuUDtyv-HLFRtG-Q-sM9hvxGe0dl6OTnWp7S5CipWEXZjUdtnv0W866RlsjO9VHaVNJ8Y!",
+                    // token  : "wXTx4NnbKL.ptlV-WZfzKDS6XNvDgaCq.-nNXlOuUDtyv-HLFRtG-Q-sM9hvxGe0dl6OTnWp7S5CipWEXZjUdtnv0W866RlsjO9VHaVNJ8Y!",
+                    token : "Knx1ICw6sEtO-IOeRAzoPAuNJCl4UCoegGnvSWOOk3oDSEL82FgzXSMdWI5VLYC4a-U6lrVEpl39a6FEJhbtd55eQYPASMfYpTErFOUrvy8XcBvYu3-nVw!!",
                     device : 'google',
                     ver    : '1.0.9.3',
                     rand   :  Date.now()

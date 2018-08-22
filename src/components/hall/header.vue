@@ -16,7 +16,7 @@
 		<div class="header-title">
 			抓娃娃王国
 		</div>
-		<div class="header-price">
+		<div class="header-price" @click="toPay">
 			<div class="text" :style="pricebg">
 				{{user.room_card}}
 			</div>
@@ -52,6 +52,9 @@
 		methods : {
 			...mapActions([
             ]),
+            toPay() {
+            	this.$router.push({ path : '/recharge' })
+            }
         }
 	}
 </script>

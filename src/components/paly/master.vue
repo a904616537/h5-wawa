@@ -28,10 +28,7 @@
 		computed : {
 			...mapState({
 				pomelo : state => state.Pomelo.pomelo,
-				master : state => {
-					console.log('state.Room.master', state.Room.master)
-					return state.Room.master
-				}
+				master : state => state.Room.master
 			}),
 			name() {
 				if(this.master) return decodeURI(this.master.nn);

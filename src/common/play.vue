@@ -25,10 +25,11 @@
 					<icon name="changeCamera" :w="30" :h="30"></icon>
 				</div>
 			</div>
-			<div class="view-bottom chatsbtn">
+			<div class="view-bottom chatsbtn" :class="{active : show_input}">
 				<div class="shot" @click="onChats">
 					<icon name="chat" :w="30" :h="30"></icon>
 				</div>
+				<input id="chats" maxlength="20" type="text" v-model.trim="chat" @change="onSubmitChat"/>
 			</div>
 
 			<!-- 玩家聊天 -->
@@ -42,7 +43,7 @@
 			<div class="coins item-btn">
 				<div class="text">本次{{current_room.gold_price}}币</div>
 				<div class="text">余额{{user.room_card}}币</div>
-				<div class="recharge-btn" @click="onToPay">+去充币</div>
+				<div class="recharge-btn" @click="show_fastpay=true">+去充币</div>
 			</div>
 			<div class="item-btn">
 				<v-button :onPress="onPress" :btn="btn_status"/>
@@ -60,9 +61,7 @@
 		<v-record v-if="isShow" :data="topRank" :click="closeRecord"></v-record>
 		<v-success v-show="show_success" :data="gift_data" :onPress="onPlay" :onCancel="onCancel"/>
 		<v-failure v-show="show_fail" :data="gift_data" :onCancel="onCancel" :onToPay="onToPay" :onPress="onPlay"/>
-		
-		<input style="opacity: 0;" id="chats" maxlength="20" type="text" v-model.trim="chat" @change="onSubmitChat"/>
-		
+		<v-fastpay :show="show_fastpay" :onClose="closeFast"/>
 	</div>
 </template>
 
@@ -82,6 +81,7 @@
 	import vSuccess    from '@/components/paly/success'
 	import vFailure    from '@/components/paly/failure'
 	import record      from '@/components/record'
+	import Fastpay      from '@/components/paly/fastpay'
 
 	import pomelo_key, {RoomEnterState, ControlBtnStatus, RoomStatus} from '@/utils/pomelo_key';
 
@@ -89,6 +89,7 @@
 		name: 'play',
 		data() {
 			return {
+				show_fastpay : false,
 				show_input   : false,
 				chat         : '',		// 玩家聊天输入内容
 				top_rank     : [],		// 房间游戏排名
@@ -129,7 +130,8 @@
 			'v-master'  : vMaster,
 			'v-success' : vSuccess,
 			'v-failure' : vFailure,
-			'v-barrage' : Barrage
+			'v-barrage' : Barrage,
+			'v-fastpay' : Fastpay
 		},
 		computed : {
 			...mapState({
@@ -217,6 +219,9 @@
 				'setRoom',
 				'setMaster'
 			]),
+			closeFast() {
+				this.show_fastpay = false;
+			},
 			// 取消
 			onCancel() {
 				this.show_fail    = false;
@@ -232,6 +237,7 @@
 				// const text = `${decodeURIComponent(data.master.nn)}:未抓到娃娃，继续努力哦！`;
 	   //          Pubsub.publish('barrage', {text, color : 0});
 				if(data.master.uid == this.user.uid) {
+					console.log('没有抓到娃娃 ----->', data);
 					this.gift_data = data;
 					this.show_fail = true;
 				}
@@ -370,10 +376,14 @@
 				this.isShow = false
 			},
 			onChats() {
-				this.show_input = true;
-				document.getElementById('chats').focus();
+				if(this.show_input) this.show_input = false
+				else {
+					this.show_input = true;
+					document.getElementById('chats').focus();
+				}
 			},
 			onSubmitChat(e) {
+				this.show_input = false;
 				if(this.chat=="")return;
 				this.chat = this.chat.replace(/\d{4,14}|wx|w.*x|微.*信|坑|松|欺|骗|邀请|卡/ig,"*");
 				const msg = encodeURIComponent(this.chat);
@@ -447,10 +457,13 @@
 			.chats-item {
 				font-size        : 9pt;
 				color            : #f9da39;
-				width            : 35vw;
+				width            : 40vw;
 				line-height      : 3.5vh;
 				margin           : 1vh;
 				border-radius    : 2vh;
+				white-space      : nowrap;
+				text-overflow    : ellipsis;
+				overflow         : hidden;
 				background-color : #00000022;
 				span {
 					color       : #fff;
@@ -499,18 +512,35 @@
 		margin: 10px;
 	}
 	.play .view-bottom{
+		width                     : 40px;
+		height                    : 40px;
 		position                  : absolute;
 		top                       : 30vh;
 		right                     : 0;
-		padding                   : 5px;
-		border-top-left-radius    : 50%;
-		border-bottom-left-radius : 50%;
+		border-top-left-radius    : 20px;
+		border-bottom-left-radius : 20px;
 		background-color          : #f2d56e;
-		
+		display                   : flex;
+		align-items               : center;
+		padding-left              : 5px;
+		input {
+			width            : 140px;
+			height           : 20px;
+			margin-left      : 15px;
+			color            : #8e562a ;
+			border           : 1px solid #8e562a;
+			background-color : transparent;
+		}
 	}
 	.play .view-bottom.chatsbtn {
-		top : 36vh;
+		width : 180px;
+		top   : 36vh;
+		right : -140px;
 	}
+	.play .view-bottom.active {
+		right : 0;
+	}
+
 	.play .bottom{
 		margin-top      : 2vh;
 		display         : flex;

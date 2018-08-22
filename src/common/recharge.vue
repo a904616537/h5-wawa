@@ -1,10 +1,19 @@
 <template>
 	<div class="recharge">
 		<v-nav>充值王国币</v-nav>
-		<div class="banner" style="background-image: url('./static/images/activity/firstpay/wawwjpayad.png')" @click="payintro"></div>
+		<div
+		v-if="wawaplayer.recharge == 0"
+		class="banner"
+		style="background-image: url('./static/images/activity/firstpay/wawwjpayad.png')"
+		@click="payintro"></div>
+		<div class="balance" v-else>
+			<div class="price">{{room_card}}</div>
+			<div class="massage">账户余额(王国币)</div>
+		</div>
+		
 		<div class="gold-box">
 
-			<div  v-for="(item, index) in pay_list" class="item" @click="() => onPayment(item.paykey)">
+			<div v-for="(item, index) in pay_list" class="item" @click="() => onPayment(item.paykey)">
 				<div class="inner">
 					<div class="gold">
 						<div class="inline">
@@ -46,10 +55,17 @@
 			...mapState({
 				pomelo       : state => state.Pomelo.pomelo,
 				pomelo_login : state => state.Pomelo.login,
-				user         : state => state.User.user || {},
+				wawaplayer   : state => state.User.wawaplayer,
+				user         : state => state.User.user || {room_card : 0},
 				pay_list     : state => state.Hall.pay_list,
 				platformData : state => state.User.platformData
 			}),
+			room_card() {
+				const re=/(?=(?!(\b))(\d{3})+$)/g;
+				if(this.user.room_card)
+					return this.user.room_card.toString().replace(re,",");
+				else return 0;
+			},
 		},
 		methods : {
 			payintro() {
@@ -89,37 +105,39 @@
 </script>
 
 <style>
-	
 	.recharge{
-		padding: 0 8px;
-		background-color: #f2d56e;
-		position: absolute;
-		top: 0;
-		left: 0;
-		right: 0;
-		height: 100%;
+		top              : 0;
+		left             : 0;
+		right            : 0;
+		height           : 100%;
+		padding          : 0 8px;
+		position         : absolute;
+		background-color : #f2d56e;
 	}
 	.recharge .banner{
-		width: 100%;
-		height: 0;
-		padding-bottom: 25%;
-		background-size: contain;
-		background-repeat: no-repeat;
-		background-position: top center;
-		border-radius: 12px;
-		margin: 10px 0;
+		width               : 100%;
+		height              : 0;
+		margin              : 10px 0;
+		border-radius       : 12px;
+		padding-bottom      : 25%;
+		background-size     : contain;
+		background-repeat   : no-repeat;
+		background-position : top center;
+	}
+	.recharge .balance {
+		color : #8e562a;
 	}
 	.recharge .gold-box{
-		background-color: #fff;
-		border-radius: 20px;
-		height: 140vw;
+		border-radius    : 20px;
+		padding-bottom   : 20vh;
+		background-color : #fff;
 	}
 	.recharge .gold-box:after{
-		content : '';
-		display: block;
-		height: 0;
-		clear: both;
-		overflow: hidden;
+		height   : 0;
+		clear    : both;
+		content  : '';
+		display  : block;
+		overflow : hidden;
 	}
 	.recharge .item{
 		float     : left;
@@ -129,43 +147,43 @@
 		color     : #8e562a;
 	}
 	.recharge .item .gold{
-		background-color : #fef6e1;
 		height           : 16vw;
 		padding          : 0 1vw;
+		background-color : #fef6e1;
 	}
 	.recharge .item .inner{
-		margin: 0 10px;
-		border-radius: 10px;
-		overflow: hidden;
+		margin        : 0 10px;
+		border-radius : 10px;
+		overflow      : hidden;
 	}
 	.recharge .item .inline{
-		float: left;
+		float : left;
 	}
 	.recharge .gold .info{
-		height         : 16vw;
 		width          : 22vw;
-		text-align     : right;
+		height         : 16vw;
 		display        : table-cell;
+		text-align     : right;
 		vertical-align : middle;
 	}
 	.recharge .item .gold-num{
-		font-weight: bold;
+		font-weight : bold;
 	}
 	.recharge .item .tip{
-		font-size : 12px;
 		color     : #da551f;
+		font-size : 12px;
 	}
 	.recharge .img-style{
-		width: 16vw;
-		height: 16vw;
-		background-repeat: no-repeat;
-		background-size: contain;
-		background-position: center;
+		width               : 16vw;
+		height              : 16vw;
+		background-size     : contain;
+		background-repeat   : no-repeat;
+		background-position : center;
 	}	
 	.recharge .money{
-		line-height      : 30px;
-		font-size        : 16px;
 		color            : #fff;
+		font-size        : 16px;
+		line-height      : 30px;
 		font-weight      : bold;
 		background-color : #da551f;
 	}

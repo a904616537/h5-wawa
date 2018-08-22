@@ -22,7 +22,7 @@
 			</div>
 			<div class="cancel" @click="onBack">取消</div>
 		</div>
-		<v-dialog/>
+		<v-dialog width="80%"/>
 	</div>
 </template>
 
@@ -65,7 +65,7 @@
 				this.$router.back();
 			},
 			onMenuShareAppMessage() {
-				wx.onMenuShareAppMessage({
+                wx.onMenuShareAppMessage({
 					title   : '抓娃娃王国', // 分享标题
 					desc    : '超好抓到哦！', // 分享描述
 					link    : this.share_link, // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致

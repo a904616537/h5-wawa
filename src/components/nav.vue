@@ -2,7 +2,7 @@
 	<div class="navbar">
 		<div class="lrbtn">
 			<div v-if="!hidden" @click="toBack">
-				<icon name="back" :w="30" :h="30"></icon>
+				<icon name="back" :w="20" :h="20"></icon>
 			</div>
 		</div>
 		<div class="slot">

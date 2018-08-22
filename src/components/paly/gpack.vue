@@ -8,7 +8,7 @@
 
 <template>
     <div v-show="show" class="canvas">
-        <canvas :id="v_id" :width="width" :height="height"></canvas>
+        <canvas :id="v_id" :width="360" :height="height"></canvas>
     </div>
 </template>
 

@@ -64,7 +64,7 @@
 			...mapActions([
 				'openBox'
             ]),
-            onBonusOpen(next) {
+            onBonusOpen(index, next) {
             	// 通知服务端已开红包
             	axios.get(Vue.setting.api + '/time_bonus',{
 					params : {token : this.token}
@@ -73,6 +73,16 @@
 				.then(result => {
 					console.log('抽奖结果', result)
 					if(result.ret == 0) {
+						this.items = result.list.map(val => {
+							return {
+								selected : false,
+								text     : val
+							}
+						})
+						const findindex = this.items.findIndex(val => val.text == result.bonus);
+						const fval = this.items.splice(index, 1, this.items[findindex]);
+						this.items.splice(findindex, 1, ...fval);
+
 						if(next) next();
 					} else alert(`奖励有误，请联系客服人员 : ${result.msg}`)
 				})
@@ -82,7 +92,7 @@
             },
             onSelect(index) {
             	if(this.selected) return;
-            	this.onBonusOpen(() => {
+            	this.onBonusOpen(index, () => {
             		let item = this.items[index];
 	            	item.selected = true;
 	            	this.selected = true;

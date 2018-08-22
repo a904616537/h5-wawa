@@ -186,35 +186,36 @@
 
 <style>
 	.profile{
-		background-color: #f2d56e;	
-		position: absolute;
-		top: 0;
-		left: 0;
-		right: 0;
-		height: 100%;
+		top              : 0;
+		left             : 0;
+		right            : 0;
+		margin-bottom    : 8vh;
+		position         : absolute;
+		background-color : #f2d56e;	
 	}
 	.profile .head{
-		margin: 20px 0;
-		color: #BF6A0B;
+		margin : 20px 0;
+		color  : #BF6A0B;
 	}
 	.profile .user-head{
-		width: 80px;
-		height: 80px;
-		border-radius: 80px;
+		width         : 80px;
+		height        : 80px;
+		border-radius : 80px;
 	}
 	.profile .inner{
 		margin-bottom : 80px;
 	}
 	.profile .card{
-		background-color: #fff;
-		margin: 10px 8px;
-		text-align: left;
-		border-radius: 20px;
-		padding: 10px 20px;
-		line-height: 36px;
+		margin           : 10px 8px;
+		text-align       : left;
+		border-radius    : 20px;
+		padding          : 10px 20px;
+		line-height      : 36px;
+		background-color : #fff;
 	}
 	.profile .card .item .title {
-		flex: auto;
+		flex      : auto;
+		font-size : 10pt;
 	}
 	.profile .card .item:not(:last-child){
 		border-bottom : 1px solid #eee;
@@ -225,23 +226,27 @@
 		float: right;
 	}
 	.profile .card .info{
-		color: #999;
-		font-size: 12px;
-		margin-left: 10px;
+		color       : #999;
+		font-size   : 12px;
+		margin-left : 10px;
 	}
 	.service{
-		position: absolute;
-		top: 0;
-		left: 0;
-		right: 0;
-		background-color: rgba(0,0,0,.2);
-		height: 100%;
+		top              : 0;
+		left             : 0;
+		right            : 0;
+		height           : 100%;
+		display          : flex;
+		position         : fixed;
+		align-items      : center;
+		justify-content  : center;
+		background-color : rgba(0,0,0,.2);
+		
 	}
 	.service .service-inner{
-		margin: 70% auto;
-		width: 300px;
-		background-color: #fff;
-		padding: 50px 10px;
-		border-radius: 14px;
+		width            : 300px;
+		padding          : 50px 10px;
+		margin           : 70% auto;
+		border-radius    : 14px;
+		background-color : #fff;
 	}
 </style>

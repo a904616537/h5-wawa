@@ -9,7 +9,7 @@
 <template>
 
 <transition name="fade" >
-<div class="hall-share-view">
+<div class="hall-share-view" @click="onClose">
 		<div class="hall-share" :style="sharebg">
 			<div class="msg">已有{{invite_count}}名国民领取</div>
 			<div class="desc">您已成功邀请{{httpData.length}}人，{{is_check?'获得50元红包啦!':'加油哦'}}</div>
@@ -63,6 +63,10 @@
 			onPress : {
 				type    : Function,
 				default : (type) => { console.log(type)}
+			},
+			onClose : {
+				type    : Function,
+				default : () => {}
 			}
 		},
 		computed : {
@@ -86,12 +90,14 @@
 				.then(result => {
 					if(result.ret == 0) {
 						this.invite_count = result.invite_count;
-						this.httpData = Array.of(result.data);
+						
+						this.httpData = [...result.data];
 						this.arr = this.arr.map((val, index) => {
 							const data = result.data.pop();
 							if(data) return data;
 							else return val;
 						})
+
 					}
 				})
 				.catch(err => {
@@ -157,8 +163,8 @@
 	flex-direction  : column;
 }
 .hall-share .pople-list .pople-item img{
-	width         : 15vw;
-	height        : 15vw;
+	width         : 12vw;
+	height        : 12vw;
 	border-radius : 50%;
 	overflow      : hidden;
 }

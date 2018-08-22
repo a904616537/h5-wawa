@@ -192,9 +192,11 @@
 			// 开宝箱操作
 			onOpen(){
 				// 打开宝箱！
-				this.openBox(true);
-				this.bClose = false;
-				this.bVisible = false;
+				if(this.bBonus) {
+					this.openBox(true);
+					this.bClose = false;
+					this.bVisible = false;
+				}
 			}
         },
         mounted() {

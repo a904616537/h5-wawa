@@ -122,7 +122,6 @@
 					})
 					.catch(err => {
 						console.log('微信支付调用失败', err)
-						alert('微信支付调用失败！')
 					})
 		        }
 		    },

@@ -3,10 +3,10 @@
 		<v-barrage ref="barrage"/>
 		<v-header :onShowShare="() => show_share = true"/>
 		<div class="main">
-			<v-swiper :data="banner"/>
-			<v-tabs :data="category" />
+			<v-swiper :data="banners" :onPress="onClickBanner"/>
+			<v-tabs :data="category" :onScroll="onScroll"/>
 			
-			<div v-if="pomelo_login" class="list-box">
+			<div v-if="pomelo_login" class="list-box" :style="{ marginTop: marginTop }">
 
 				<div v-for="(item, index) in hallRooms" class="list-item" @click="play(item)">
 					<div class="inner">
@@ -37,7 +37,7 @@
 
 		</div>
 		<!-- 邀请分享 -->
-		<v-share v-if="show_share" :onPress="onShare"/>
+		<v-share v-if="show_share" :onPress="onShare" :onClose="() => {show_share=false}"/>
 		<!-- 领取分享奖励 -->
 		<v-check-invite v-if="show_check" :onPress="onShare"/>
 		<!-- 领取宝箱奖励 -->
@@ -64,7 +64,8 @@
 				refresh    : './static/images/connection.png',
 				free       : false,
 				show_share : false,
-				show_check : false
+				show_check : false,
+				isFixed    : false
 			}
 		},
 		components : {
@@ -79,10 +80,8 @@
 		},
 		computed : {
 			...mapState({
-				banner       : state => {
-					console.log('state.Hall.banners', state.Hall.banners)
-					return state.Hall.banners
-				},
+				banner       : state => state.Hall.banners,
+				wawaplayer   : state => state.User.wawaplayer,
 				open_box     : state => state.Hall.open_box,
 				category     : state => state.Hall.category,
 				pomelo       : state => state.Pomelo.pomelo,
@@ -90,12 +89,37 @@
 			}),
 			...mapGetters([
 				'hallRooms',
-			])
+			]),
+			marginTop() {
+				if(this.isFixed) {
+					return '6vh'
+				} else return 0;
+			},
+			banners() {
+				let banners = this.banner.map(val => {
+					val.onPress = () => {};
+					return val;
+				});
+				if(this.wawaplayer.recharge == 0) {
+					console.log('没有首充，应该加入首充广告', banners)
+					banners.unshift({
+						name    : '首充',
+						pic     : './static/images/activity/firstpay/wawwjad.png',
+						onPress : () => {
+							this.$router.push({path : '/payintro'})
+						}
+					});
+				}
+				return banners;
+			}
 		},
 		methods : {
 			...mapActions([
 				'setStatus',
 			]),
+			onScroll(isFixed) {
+				this.isFixed = isFixed;
+			},
 			play(room) {
 				if(room.status === 0) {
 					alert('系统升级中，请等待。。。')
@@ -123,6 +147,10 @@
 	                    Pubsub.publish('barrage', {text : strMsg, color : 0, type : 'HALL'});
 					}
 	            }
+			},
+			onClickBanner(index) {
+				const banner = this.banners[index];
+				if(banner.onPress) banner.onPress();
 			}
 		},
 		mounted() {
@@ -188,6 +216,11 @@
 	.item-content{
 		padding: 5px 7px;
 		color: #BF6A0B;
+		h4 {
+			white-space   : nowrap;
+			text-overflow : ellipsis;
+			overflow      : hidden;
+		}
 	}
 	.list-item .item-bottom{
 		font-size: 12px;
