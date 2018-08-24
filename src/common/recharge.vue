@@ -129,7 +129,7 @@
 	}
 	.recharge .gold-box{
 		border-radius    : 20px;
-		padding-bottom   : 20vh;
+		padding-bottom   : 15vh;
 		background-color : #fff;
 	}
 	.recharge .gold-box:after{
@@ -147,7 +147,7 @@
 		color     : #8e562a;
 	}
 	.recharge .item .gold{
-		height           : 16vw;
+		height           : 10vh;
 		padding          : 0 1vw;
 		background-color : #fef6e1;
 	}

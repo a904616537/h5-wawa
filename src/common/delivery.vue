@@ -23,7 +23,8 @@
 			
 			<div class="state">
 				<div class="status">状态: {{status(item.state)}}</div>
-				<div class="cancel" @click="() => onDel(item)"><span class="fa fa-minus-square icon"></span>取消配送</div>
+				<div v-if="item.state == 0" class="cancel" @click="() => onDel(item)"><span class="fa fa-minus-square icon"></span>取消配送</div>
+				<div v-else class="text">您的宝贝正由"{{express.get(item.express_type).ex_name}}"承运  单号：{{item.express_no}}</div>
 			</div>
 		</div>
 
@@ -45,7 +46,8 @@
 				pomelo       : state => state.Pomelo.pomelo,
 				pomelo_login : state => state.Pomelo.login,
 				user         : state => state.User.user || {},
-				delivery     : state => state.User.delivery
+				delivery     : state => state.User.delivery,
+				express      : state => state.Hall.express
 			}),
 		},
 		methods : {
@@ -71,6 +73,7 @@
 			}
 		},
 		mounted() {
+			console.log('expressexpressexpressexpress', this.express)
 			if(!this.pomelo_login) {
 				this.$router.replace('profile')
 			}
@@ -137,8 +140,11 @@
 		align-items     : center;
 		flex-direction  : row;
 	}
+	 .delivery .state .text{
+	 	background-color: #FeE6Ca;
+	 }
 	.delivery .cancel{
-		width      : 20vw;
+		width      : 22vw;
 		text-align : right;
 	}
 	.delivery .cancel .icon {

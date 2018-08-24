@@ -42,6 +42,7 @@
 		<v-check-invite v-if="show_check" :onPress="onShare"/>
 		<!-- 领取宝箱奖励 -->
 		<v-bonusbox v-if="open_box" />
+		<v-new-user-bonus/>
 	</div>	
 </template>
 
@@ -52,6 +53,8 @@
 	import Barrage      from '@/components/barrage'
 	import Tabs         from '@/components/hall/tabs'
 	import DailyBonus   from '@/components/hall/dailyBonus'
+	import NewUserBonus from '@/components/hall/newUserBonus'
+
 	import Header       from '@/components/hall/header'
 	import Share        from '@/components/hall/share'
 	import CheckInvite  from '@/components/hall/checkInvite'
@@ -69,14 +72,16 @@
 			}
 		},
 		components : {
-			'v-swiper'       : Swiper,
-			'v-tabs'         : Tabs,
-			'v-daily-bonus'  : DailyBonus,
-			'v-header'       : Header,
-			'v-share'        : Share,
-			'v-check-invite' : CheckInvite,
-			'v-barrage'      : Barrage,
-			'v-bonusbox'     : BonusboxView
+			'v-swiper'         : Swiper,
+			'v-tabs'           : Tabs,
+			'v-daily-bonus'    : DailyBonus,
+			'v-header'         : Header,
+			'v-share'          : Share,
+			'v-check-invite'   : CheckInvite,
+			'v-barrage'        : Barrage,
+			'v-bonusbox'       : BonusboxView,
+			'v-new-user-bonus' : NewUserBonus,
+			
 		},
 		computed : {
 			...mapState({

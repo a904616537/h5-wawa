@@ -20,7 +20,12 @@
 			</div>
 		</div>
 		<div class="float-right" style="flex: auto;">
-			<div v-for="(item, index) in player_user" :key="index" class="user-img" :style="'background-image:url('+(item.pic?item.pic:default_img)+')'">
+			<div
+			v-for="(item, index) in player_user"
+			:key="index"
+			class="user-img"
+			:style="'background-image:url('+(item.pic?item.pic:default_img)+')'"
+			@click="toInfo(item)">
 			</div>
 		</div>
 		<div class="float-right" @click="onFeedback">
@@ -67,6 +72,9 @@
 			}
 		},
 		methods : {
+			toInfo(player) {
+				this.$router.push({path : '/items', query : player});
+			},
 			onFeedback() {
 				this.$router.push({path : '/playlog', query : {gsid : this.room.gsid}});
 			}

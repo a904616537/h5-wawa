@@ -72,6 +72,11 @@
 	justify-content : center;
 	flex-direction  : column;
 }
+.master .master_text .name{
+	overflow      : hidden;
+	text-overflow : ellipsis;
+	white-space   : nowrap;
+}
 .master .master_text .status {
 	font-size        : 10px;
 	border-radius    : 10px;

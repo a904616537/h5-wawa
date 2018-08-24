@@ -67,10 +67,11 @@
 
 <style>
 .fixedBar {
-	top              : 0;
-	width            : 100%;
-	z-index          : 999;
-	position         : fixed;
+	top      : 0;
+	left     : 0;
+	width    : 100%;
+	z-index  : 1;
+	position : fixed;
 }
 .bar-list ul{
 	width            : 100%;

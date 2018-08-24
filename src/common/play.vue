@@ -7,7 +7,7 @@
 			<!-- <v-video v-show="show_video && !show_top" :src="video_left" :onReloadEnd="onReloadEnd"/>
 			<v-video v-show="show_video && show_top" :src="video_top"/> -->
 			<v-gpack :show="show_video && !show_top" :index="0" :src="video_left" :onReloadEnd="onReloadEnd"/>
-			<v-gpack :show="show_video && show_top" :index="1" :src="video_top"/>
+			<v-gpack :show="show_video && show_top" :index="1" :src="video_top" :isforesight="is_master"/>
 
 			<v-master />
 			<v-seconds ref="seconds" :show="start_paly" :maxSec="roundtime" :duration="duration" :onEnd="onClaw"/>
@@ -20,17 +20,19 @@
 					<div class="icon rank"></div>
 				</div>
 			</div>
-			<div class="view-bottom">
-				<div class="shot" @click="onSwitch">
-					<icon name="changeCamera" :w="30" :h="30"></icon>
+			<div class="view-bottoms">
+				<div class="view-bottom">
+					<div class="shot" @click="onSwitch">
+						<icon name="changeCamera" :w="30" :h="30"></icon>
+					</div>
+				</div>
+				<div class="view-bottom chatsbtn">
+					<div class="shot" @click="onChats">
+						<icon name="chat" :w="30" :h="30"></icon>
+					</div>
 				</div>
 			</div>
-			<div class="view-bottom chatsbtn" :class="{active : show_input}">
-				<div class="shot" @click="onChats">
-					<icon name="chat" :w="30" :h="30"></icon>
-				</div>
-				<input id="chats" maxlength="20" type="text" v-model.trim="chat" @change="onSubmitChat"/>
-			</div>
+			
 
 			<!-- 玩家聊天 -->
 			<div class="chats">
@@ -62,6 +64,15 @@
 		<v-success v-show="show_success" :data="gift_data" :onPress="onPlay" :onCancel="onCancel"/>
 		<v-failure v-show="show_fail" :data="gift_data" :onCancel="onCancel" :onToPay="onToPay" :onPress="onPlay"/>
 		<v-fastpay :show="show_fastpay" :onClose="closeFast"/>
+
+
+		<modal name="chats" width="80%" height="100px">
+			<div class="chats-view">
+				<textarea class="chats-textarea" rows="2" cols="20" placeholder="输入弹幕（最多25个字）" maxlength="25" v-model.trim="chat"/>
+				<button class="chats-btn" @click="onSubmitChat">发送</button>
+			</div>
+		</modal>
+		
 	</div>
 </template>
 
@@ -144,8 +155,13 @@
 				master       : state => state.Room.master,
 				players      : state => state.Room.players,
 				topRank      : state => state.Room.top_rank,
+				wawaplayer   : state => state.User.wawaplayer
 				// chats        : state => state.Room.chats	// 聊天内容
 			}),
+			is_master() {
+				if(this.master && this.wawaplayer.total_gift_num == 0 || this.wawaplayer.recharge > 0) return this.master.uid == this.user.uid;
+				else return false;
+			},
 			chats_list() {
 				return this.chats.slice(0, 3);
 			},
@@ -376,13 +392,10 @@
 				this.isShow = false
 			},
 			onChats() {
-				if(this.show_input) this.show_input = false
-				else {
-					this.show_input = true;
-					document.getElementById('chats').focus();
-				}
+				this.$modal.show('chats');
 			},
 			onSubmitChat(e) {
+				this.$modal.hide('chats');
 				this.show_input = false;
 				if(this.chat=="")return;
 				this.chat = this.chat.replace(/\d{4,14}|wx|w.*x|微.*信|坑|松|欺|骗|邀请|卡/ig,"*");
@@ -448,12 +461,15 @@
 		background-image    : url($apiurl + '/static/images/hall/videoback.jpg');
 		position: relative;
 
-		.chats{
-			position   : absolute;
-			left       : 0;
-			bottom     : 0;
-			text-align : left;
 
+		.chats{
+			left           : 0;
+			bottom         : 0;
+			text-align     : left;
+			display        : flex;
+			position       : absolute;
+			flex-direction : column-reverse;
+			
 			.chats-item {
 				font-size        : 9pt;
 				color            : #f9da39;
@@ -461,10 +477,7 @@
 				line-height      : 3.5vh;
 				margin           : 1vh;
 				border-radius    : 2vh;
-				white-space      : nowrap;
-				text-overflow    : ellipsis;
-				overflow         : hidden;
-				background-color : #00000022;
+				background-color : rbga(0,0,0,0.3);
 				span {
 					color       : #fff;
 					margin-left : 1vw;
@@ -511,34 +524,23 @@
 	.play .view-top .top-bg{
 		margin: 10px;
 	}
+	.play .view-bottoms{
+		position       : absolute;
+		top            : 30vh;
+		right          : 0;
+		display        : flex;
+		flex-direction : column;
+	}
 	.play .view-bottom{
 		width                     : 40px;
 		height                    : 40px;
-		position                  : absolute;
-		top                       : 30vh;
-		right                     : 0;
 		border-top-left-radius    : 20px;
 		border-bottom-left-radius : 20px;
 		background-color          : #f2d56e;
 		display                   : flex;
 		align-items               : center;
 		padding-left              : 5px;
-		input {
-			width            : 140px;
-			height           : 20px;
-			margin-left      : 15px;
-			color            : #8e562a ;
-			border           : 1px solid #8e562a;
-			background-color : transparent;
-		}
-	}
-	.play .view-bottom.chatsbtn {
-		width : 180px;
-		top   : 36vh;
-		right : -140px;
-	}
-	.play .view-bottom.active {
-		right : 0;
+		margin                    : 0.5vh 0;
 	}
 
 	.play .bottom{
@@ -566,5 +568,28 @@
 	}
 	.play .bottom .item-btn:last-child{
 		margin : 0 5px;
+	}
+	.chats-view {
+		display          : flex;
+		width            : 100%;
+		height           : 100%;
+		flex-direction   : column;
+		background-color : #eee;
+		align-items      : center;
+		justify-content  : center;
+	}
+	.chats-textarea {
+		width         : 80%;
+		padding       : 2vw;
+		border-radius : 1vw;
+	}
+	.chats-btn {
+		margin-top       : 2vh;
+		font-size        : 9pt;
+		color            : #fff;
+		background-color : #ff8447;
+		border           : 1px solid #ff8447;
+		border-radius    : 15px;
+		padding          : 0 5vw;
 	}
 </style>

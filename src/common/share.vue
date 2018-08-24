@@ -11,14 +11,15 @@
 		<img :src="share_link" class="qrcode" :class="{iphonex : proportion}">
 		<div class="wechat-view">
 			<div class="wechat-btns">
-				<div class="wechat-item" @click="onMenuShareAppMessage">
+				<span>点击右上角分享噢！</span>
+				<!-- <div class="wechat-item" @click="onMenuShareAppMessage">
 					<img :src="wechat">
 					<span>分享给好友</span>
 				</div>
-				<div class="wechat-item" @click="onMenuShareTimeline">
+				<div class="wechat-item"  @click="onMenuShareTimeline">
 					<img :src="wechatTimeline">
 					<span>分享到朋友圈</span>
-				</div>
+				</div> -->
 			</div>
 			<div class="cancel" @click="onBack">取消</div>
 		</div>
@@ -52,7 +53,7 @@
 				return this.is_girlbg?this.girlbg : this.boybg
 			},
 			share_img() {
-				return this.is_girlbg?'http://waguo.vip/h5/wawa/static/images/hall/sharebg1.jpg':'http://waguo.vip/h5/wawa/static/images/hall/sharebg0.jpg'
+				return this.is_girlbg?'http://waguo.vip/h5/wawa/static/images/192.png':'http://waguo.vip/h5/wawa/static/images/192.png'
 			},
 			proportion() {
 				const height = window.screen.height;
@@ -65,49 +66,63 @@
 				this.$router.back();
 			},
 			onMenuShareAppMessage() {
-                wx.onMenuShareAppMessage({
-					title   : '抓娃娃王国', // 分享标题
-					desc    : '超好抓到哦！', // 分享描述
-					link    : this.share_link, // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
-					imgUrl  : this.share_img, // 分享图标
-					type    : 'link', // 分享类型,music、video或link，不填默认为link
-					success : function () {
-				    	console.log('分享给朋友成功')
-				    	this.$modal.show('dialog', {
-							title   : '分享成功啦！',
-							text    : '干的漂亮！',
-							buttons : [{
-								title   : '知道了，退下吧',
-								handler : () => { 
-									this.$modal.hide('dialog');
-								}
-							}]
-						})
-					},
-				});
+				console.log('分享给好友')
 			},
 			onMenuShareTimeline() {
-				wx.onMenuShareTimeline({
-					title   : '抓娃娃王国', // 分享标题
-					link    : this.share_link, // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
-					imgUrl  : this.share_img, // 分享图标
-					success : function () {
-				    	console.log('分享到朋友圈成功')
-				    	this.$modal.show('dialog', {
-							title   : '分享成功啦！',
-							text    : '干的漂亮！',
-							buttons : [{
-								title   : '知道了，退下吧',
-								handler : () => { 
-									this.$modal.hide('dialog');
-								}
-							}]
-						})
-					},
-				})
-			}
+				console.log('分享到朋友圈')
+			},
 		},
-		created() {
+		mounted() {
+			wx.onMenuShareAppMessage({
+				title   : '抓娃娃王国', // 分享标题
+				desc    : '手机随时随地抓娃娃，抓中包邮送到家！送你55币免费抓娃娃，已有92%玩家免费抓到娃娃！', // 分享描述
+				link    : this.url, // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+				imgUrl  : this.share_img, // 分享图标
+				type    : 'link', // 分享类型,music、video或link，不填默认为link
+				success : () => {
+			    	console.log('分享给朋友成功')
+			    	this.$modal.show('dialog', {
+						title   : '分享成功啦！',
+						text    : '干的漂亮！',
+						buttons : [{
+							title   : '知道了，退下吧',
+							handler : () => { 
+								this.$modal.hide('dialog');
+							}
+						}]
+					})
+				},
+				cancel(res) {
+					// alert('取消分享'+JSON.stringify(res))
+				},
+				fail(res) {
+					// alert('分享失败'+JSON.stringify(res))
+				}
+			});
+			wx.onMenuShareTimeline({
+				title   : '抓娃娃王国', // 分享标题
+				desc    : '手机随时随地抓娃娃，抓中包邮送到家！送你55币免费抓娃娃，已有92%玩家免费抓到娃娃！', // 分享描述
+				link    : this.url, // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+				imgUrl  : this.share_img, // 分享图标
+				success : () => {
+			    	this.$modal.show('dialog', {
+						title   : '分享成功啦！',
+						text    : '干的漂亮！',
+						buttons : [{
+							title   : '知道了，退下吧',
+							handler : () => { 
+								this.$modal.hide('dialog');
+							}
+						}]
+					})
+				},
+				cancel(res) {
+					// alert('取消分享'+JSON.stringify(res))
+				},
+				fail(res) {
+					// alert('分享失败'+JSON.stringify(res))
+				}
+			})
 		}
 	}
 </script>

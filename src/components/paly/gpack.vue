@@ -8,6 +8,9 @@
 
 <template>
     <div v-show="show" class="canvas">
+        <div v-if="isforesight" class="foresight">
+            <img :src="foresight">
+        </div>
         <canvas :id="v_id" :width="360" :height="height"></canvas>
     </div>
 </template>
@@ -17,11 +20,16 @@
     export default{
         data() {
             return {
-				player : null	
+                player    : null,
+                foresight : './static/images/hall/videoplay/foresight.png'
             }
         },
         props: {
             show : {
+                type    : Boolean,
+                default : false
+            },
+            isforesight : {
                 type    : Boolean,
                 default : false
             },
@@ -48,10 +56,7 @@
                     this.player._url.tcUrl = this.src;
                     this.onStop();
                     this.onInit();
-                    // this.onReloadEnd();
-                } else {
-                    this.onInit();
-                }
+                } else this.onInit();
             }
         },
 		computed : {
@@ -74,58 +79,77 @@
 		},
         methods : {
         	onInit() {
+                 console.log('新的视频插件加载');
         		this.player = new GLPlayer({
-					wsHost		:'ws://106.14.162.126:8080', 
-				 	url			: this.src,
-				 	canvas		: document.getElementById(this.v_id),
-				 	videoinfo	: { width : 360, height : 640, scale : 100},
-                    jspath      : "./static/js/"
+                     wsHost        :'ws://106.14.162.126:8080', 
+                     url           : this.src,
+                     canvas        : document.getElementById(this.v_id),
+                     videoinfo     : { width : 360, height : 640, scale : 100},
+                     jspath        : "./static/js/",
+                     startCallBack : this.onReloadEnd
 				 });
-
-                // var context= this.player.dst_renderer._canvas.getContext('2d');
-                // // this.player.dst_renderer._canvas.width  = 424;
-                // // this.player.dst_renderer._canvas.height = 656;
-                // context.fillRect(10, 20, 424, 656);
-                // setTimeout(() => {
-                //     console.log('start', this.player.dst_renderer)
-
-                //     this.player.dst_renderer._context.scale(100, 100);
-                // }, 1000);
                 
         		this.onStart();
         	},
         	onStart() {
                 this.player.start();
-                setTimeout(() => {
-                    this.onReloadEnd();
-                }, 1000);
         	},
         	onStop() {
+                 console.log('结束插件')
         		this.player.stop();
                 this.player = null;
         	},
         	onPause() {
-        		console.log('视频暂停播放')
         		this.player.pause();
         	},
         },
 
         mounted() {
         	if(this.src != '') {
-                console.log('初始化视频插件')
                 this.onInit();
             }
 		},
         destroyed() {
-            console.log('离开');
             this.onStop();
         }
     }
 </script>
 
 <style>
-.canvas {
-    width  : 100%;
-    height : 80vh;
+@keyframes foresightFade{
+    from{
+        opacity : 0.4;
+    },
+    to{
+        opacity : 1;
+    }
 }
+.canvas {
+    position : relative;
+    width    : 100%;
+    height   : 100vh;
+}
+.foresight {
+    top             : 0;
+    left            : 0;
+    width           : 100%;
+    height          : 100%;
+    display         : flex;
+    position        : absolute;
+}
+.foresight img {
+    width                     : 20vw;
+    height                    : 20vw;
+    top                       : 35vh;
+    left                      : 12vw;
+    position                  : absolute;
+    animation-name            : foresightFade;
+    animation-duration        : 1s;
+    animation-timing-function : ease-out;
+    animation-delay           : 1s;
+    animation-iteration-count : infinite;  
+    animation-direction       : alternate;
+}
+
+
 </style>

@@ -125,7 +125,7 @@
 	align-items      : center;
 }
 .hall-share{
-	width             : 90vw;
+	width             : 90%;
 	height            : 40vh;
 	padding-top       : 20vh;
 	display           : flex;

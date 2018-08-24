@@ -22,6 +22,7 @@
 			</div>
 
 		</div>
+		<v-dialog width="80%"/>
 	</div>
 </template>
 
@@ -71,15 +72,63 @@
 				} else this.checked.push(index)
 			},
 			onSubmit() {
-				if(this.checked.length < 1) alert('至少选择一个娃娃！');
-				const deliverys = this.checked.map(val => {
-					let wawa = this.wawas[val]
-					let item = Object.assign(wawa, this.address,{del : 0});
-					return item;
-				})
+				if(this.checked.length < 1) {
+					this.$modal.show('dialog', {
+						title   : '至少选择一个娃娃！',
+						buttons : [{
+							title   : '知道啦！',
+							handler : () => { 
+								this.$modal.hide('dialog');
+							}
+						}]
+					})
+					return;
+				}
 
-				this.onSend(deliverys);
-				this.onCanel();
+				if(this.checked.length < 2 && this.wawaplayer.delivery_card_num < 1) {
+					this.$modal.show('dialog', {
+						title   : '您没有包邮卡',
+						text    : '必须拥有2件以上物品可以包邮，充值可获赠包邮卡（1个包邮）',
+						buttons : [{
+							title   : '重新选择',
+							handler : () => { 
+								this.$modal.hide('dialog');
+							}
+						},{
+							title   : '前往充值',
+							handler : () => { 
+								this.$modal.hide('dialog');
+								this.$router.push({ path : '/recharge' })
+							}
+						}]
+					});
+					return;
+				}
+
+				this.$modal.show('dialog', {
+					title   : '确认发货吗？',
+					text    : '申请后无法取消订单，物品将在3-5个工作日内发货！',
+					buttons : [{
+						title   : '容我三思',
+						handler : () => { 
+							this.$modal.hide('dialog');
+						}
+					}, {
+						title   : '我要发货',
+						handler : () => { 
+							this.$modal.hide('dialog');
+							const deliverys = this.checked.map(val => {
+								let wawa = this.wawas[val]
+								let item = Object.assign(wawa, this.address,{del : 0});
+								return item;
+							})
+
+							this.onSend(deliverys);
+							this.onCanel();
+						}
+					}]
+				})
+				
 			},
 			onSend(data) {
 				if(this.wawaplayer.delivery_card_num > 0 || data.length > 1) {
@@ -148,7 +197,7 @@
 	color            : #fff;
 	width            : 140px;
 	height           : 40px;
-	border-radius: 15px;
+	border-radius    : 15px;
 	line-height      : 40px;
 	align-self       : center;
 	background-color : #EE9900;

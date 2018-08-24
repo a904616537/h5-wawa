@@ -116,7 +116,7 @@
 		font-size  : 12px;
 	}
 	.payintro .bag-number{
-		margin-top  : 19.5vw;
+		margin-top  : 10vh;
 		font-size   : 3.5rem;
 		font-weight : 800;
 		color       : #f27048;

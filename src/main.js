@@ -24,6 +24,7 @@ import 'videojs-contrib-hls'
 import 'swiper/dist/css/swiper.css'
 // import 'vue-material/dist/vue-material.min.css'
 import 'video.js/dist/video-js.css'
+import '../static/css/iconfont.css'
 
 import Mixins from './Mixins';
 

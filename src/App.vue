@@ -2,7 +2,17 @@
   <div id="app">
     <router-view/>
     <v-adv />
-    <aplayer v-if="offPlayer" v-show="false" :mini="true" :shuffle="true" repeat="repeat-all" autoplay :music="music" :list="music_list"/>
+    <aplayer
+    ref="aplayer"
+    v-show="false"
+    :mini="true"
+    :shuffle="true"
+    repeat="repeat-all"
+    :autoplay="offPlayer"
+    :muted ="false"
+    :music="music"
+    :error="onCanplay"
+    :list="music_list"/>
   </div>
 </template>
 
@@ -71,13 +81,21 @@
             is_login     : state => state.User.isLogin,
             offPlayer    : state => {
                 let is_off = state.User.offPlayer;
-                console.log('is_off', is_off)
                 return is_off.toString() == 'true'
             },
             platformData : state => {
                 return state.User.platformData && state.User.platformData !='undefined'? true : false
             }
         }),
+        watch : {
+            offPlayer : function(val) {
+                if(val) {
+                    this.$refs.aplayer.play();
+                } else {
+                    this.$refs.aplayer.pause()
+                }
+            }
+        },
         methods : {
             ...mapActions([
                 'setHallSetting',
@@ -86,6 +104,9 @@
                 'updateUserRoomCard',
                 'updateUserInfo'
             ]),
+            onCanplay(e) {
+                console.log('音乐播放了错误', e)
+            },
             onSub(msg, data) {
                 console.log('监听 ->', msg, data)
                 this.setRoomInfo(data);
@@ -156,10 +177,7 @@
                     };
 
                     wx.config(config);
-                    wx.ready(() => {
-                        console.log('初始化微信SDK成功');
-                        wx.hideAllNonBaseMenuItem();
-                    });
+                    
                     wx.error((res) => {
                         console.log('微信验证失败！', res)
                     });
@@ -205,32 +223,40 @@
                     console.log('onGetSetting error', err);
                 });
             }
-            // else {
-            //     wx.ready(() => {
-            //         wx.closeWindow();
-            //     })
-            // }
             else {
-                console.log('测试玩家登陆');
-                const data = {
-                    // token  : "wXTx4NnbKL.ptlV-WZfzKDS6XNvDgaCq.-nNXlOuUDtyv-HLFRtG-Q-sM9hvxGe0dl6OTnWp7S5CipWEXZjUdtnv0W866RlsjO9VHaVNJ8Y!",
-                    token : "Knx1ICw6sEtO-IOeRAzoPAuNJCl4UCoegGnvSWOOk3oDSEL82FgzXSMdWI5VLYC4a-U6lrVEpl39a6FEJhbtd55eQYPASMfYpTErFOUrvy8XcBvYu3-nVw!!",
-                    device : 'google',
-                    ver    : '1.0.9.3',
-                    rand   :  Date.now()
-                };
-                login_help.onGetSetting(data, 'config')
-                .then(result => {
-                    if(result.data != 0) {
-                        console.log('result.data', result.data)
-                        this.onLogin({user : result.data.user, token : data.token})
-                        this.setHallSetting(result.data);
-                    } else console.log('获取配置失败!');
+                wx.ready(() => {
+                    wx.closeWindow();
                 })
-                .catch(err => {
-                    console.log('onGetSetting error', err);
-                });
             }
+            // else {
+            //     console.log('测试玩家登陆');
+            //     const data = {
+            //         token  : "wXTx4NnbKL.ptlV-WZfzKDS6XNvDgaCq.-nNXlOuUDtyv-HLFRtG-Q-sM9hvxGe0dl6OTnWp7S5CipWEXZjUdtnv0W866RlsjO9VHaVNJ8Y!",
+            //         // token : "Knx1ICw6sEtO-IOeRAzoPAuNJCl4UCoegGnvSWOOk3oDSEL82FgzXSMdWI5VLYC4a-U6lrVEpl39a6FEJhbtd55eQYPASMfYpTErFOUrvy8XcBvYu3-nVw!!",
+            //         device : 'google',
+            //         ver    : '1.0.9.3',
+            //         rand   :  Date.now()
+            //     };
+            //     login_help.onGetSetting(data, 'config')
+            //     .then(result => {
+            //         if(result.data != 0) {
+            //             console.log('result.data', result.data)
+            //             this.onLogin({user : result.data.user, token : data.token})
+            //             this.setHallSetting(result.data);
+            //         } else console.log('获取配置失败!');
+            //     })
+            //     .catch(err => {
+            //         console.log('onGetSetting error', err);
+            //     });
+            // }
+        },
+        mounted() {
+            if(this.offPlayer) this.$refs.aplayer.play();
+            const u = navigator.userAgent;
+            const isAndroid = u.indexOf('Android') > -1 || u.indexOf('Adr') > -1; //android终端
+            console.log('isAndroid', isAndroid)
+
+
         }
     }
 </script>
@@ -250,6 +276,9 @@ body{
   margin           : 0;
   background-color : #f3f0e3;
 }
+a{
+    text-decoration : none;
+}
 h4{
     margin : 0;
 }
@@ -259,6 +288,20 @@ ul{
 }
 li{
     list-style: none;
+}
+*{
+    -webkit-touch-callout:none;  /*系统默认菜单被禁用*/
+    -webkit-user-select:none; /*webkit浏览器*/
+    -khtml-user-select:none; /*早期浏览器*/
+    -moz-user-select:none;/*火狐*/
+    -ms-user-select:none; /*IE10*/
+    user-select:none;
+}
+input,textarea {
+    -webkit-user-select:auto; /*webkit浏览器*/
+    margin: 0px;
+    padding: 0px;
+    outline: none;
 }
 
 /* 可以设置不同的进入和离开动画 */
