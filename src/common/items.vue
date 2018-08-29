@@ -2,37 +2,45 @@
 	<div class="items">
 		<v-nav>详细资料</v-nav>
 		<div class="head">
-			<img class="user-head" :src="avatar"/>
-			<div>{{ decodeURI(user.nickname)}}</div>
-			<div>剩余包邮卡: {{wawaplayer.delivery_card_num}}</div>
+			<img class="user-head" :src="detail.avatar"/>
+			<div>{{detail.name}}</div>
+			<div v-if="detail.is_master">剩余包邮卡: {{detail.wawaplayer.delivery_card_num}}</div>
 		</div>
-		<div class="item-box">
-
-			<div v-for="(item, index) in wawas" class="inner" :key="index">
+		<div v-if="detail.wawas.length > 0" class="item-box">
+			<div v-for="(item, index) in detail.wawas" class="inner" :key="index">
 				<div class="card" :style="'background-image: url('+item.gift_pic+')'">
 					<div class="info">
 						<div class="product">{{item.gift_name}}</div>
 						<div class="moment">{{fromDate(item.ltime)}}</div>
-						<div v-if="item.is_delivery == 0" @click="() => onPress(index)" class="send-btn">开始配送</div>
+						<div v-if="item.is_delivery == 0 && detail.is_master" @click="() => onPress(index)" class="send-btn">开始配送</div>
 					</div>
 				</div>
 			</div>
-
 		</div>
-		<v-select-address v-if="show_selected" :onPress="onSelected" :onCanel="onCanelSelected"/>
-		<v-select-delivery v-if="show_delivery" :select="select" :onCanel="onCanelSelected"/>
+		<div v-else class="notlist">
+			<img :src="notlistbg1">
+			<img :src="notlistbg2">
+		</div>
+		<v-select-address v-if="show_selected && detail.is_master" :onPress="onSelected" :onCanel="onCanelSelected"/>
+		<v-select-delivery v-if="show_delivery && detail.is_master" :select="select" :onCanel="onCanelSelected"/>
 	</div>
 </template>
 
 <script>
 	import moment                             from 'moment';
 	import {mapState, mapGetters, mapActions} from 'vuex';
-	import vAddress  from '@/components/profile/address';
-	import vDelivery from '@/components/profile/delivery';
+	import vAddress   from '@/components/profile/address';
+	import vDelivery  from '@/components/profile/delivery';
+	import pomelo_key from '@/utils/pomelo_key';
+
 	export default{
 		name : 'wawa_items',
 		data() {
 			return {
+				wawauser      : {},		// 查看用户
+				wawalist      : [],		// 娃娃列表
+				notlistbg1     : './static/images/hall/jiayou.png',
+				notlistbg2     : './static/images/hall/4.png',
 				show_selected : false,
 				show_delivery : false,
 				select        : -1,		// 配送的礼物
@@ -50,11 +58,29 @@
 				wawaplayer   : state => state.User.wawaplayer,
 				wawas        : state => state.User.wawas
 			}),
-			avatar() {
-				if(this.user && this.user.avatar != '') {
-					return this.user.avatar;
-				} else return 'static/images/detail/avatar_default.png'
-			},
+			detail() {
+				if(this.wawauser.uid) {
+					const avatar = this.wawauser && this.wawauser.pic != ''?this.wawauser.pic:'./static/images/detail/avatar_default.png'
+					return {
+						avatar,
+						name       : decodeURI(this.wawauser.nn),
+						user       : this.wawauser,
+						wawaplayer : this.wawaplayer,
+						wawas      : this.wawalist,
+						is_master  : false
+					}
+				} else {
+					const avatar = this.user && this.user.avatar != ''?this.user.avatar:'./static/images/detail/avatar_default.png'
+					return {
+						avatar,
+						name       : decodeURI(this.user.nickname),
+						user       : this.user,
+						wawaplayer : this.wawaplayer,
+						wawas      : this.wawas,
+						is_master  : true
+					}
+				}	
+			}
 		},
 		methods : {
 			fromDate(time) {
@@ -74,6 +100,12 @@
 			}
 		},
 		mounted() {
+			this.wawauser = this.$route.query;
+			if(this.wawauser.uid) {
+				this.pomelo.request(pomelo_key.hall.user.wawalist, {uid : this.wawauser.uid}, (data) => {
+					this.wawalist = data.wawas;
+				})
+			}
 			if(!this.pomelo_login) {
 				this.$router.replace('profile')
 			}
@@ -110,18 +142,18 @@
 		float: left;
 	}
 	.items .card{
-		margin: 5px;
-		height: 0;
-		padding-bottom: 94.53%;
-		border-radius: 20px;
-		border: 1px solid #f2d56e;
-		background-size: contain;
-		background-position: center;
-		background-repeat: no-repeat;
-		position: relative;
-		color: #fff;
-		font-weight: bold;
-		font-size: 14px;
+		margin              : 5px;
+		height              : 0;
+		font-size           : 14px;
+		padding-bottom      : 94.53%;
+		border-radius       : 20px;
+		border              : 1px solid #f2d56e;
+		background-size     : cover;
+		background-position : center;
+		background-repeat   : no-repeat;
+		position            : relative;
+		color               : #fff;
+		font-weight         : bold;
 	}
 	.items .card .info{
 		position: absolute;
@@ -139,5 +171,17 @@
 		text-shadow: none;
 		border-radius: 8px;
 		width: 100px;
+	}
+	.items .notlist{
+		width           : 100%;
+		height          : 70vh;
+		padding-top     : 5vh;
+		display         : flex;
+		flex-direction  : column;
+		justify-content : flex-start;
+		align-items     : center;
+	}
+	.items .notlist img {
+		width : 30%;
 	}
 </style>

@@ -12,7 +12,7 @@
 		<div class="addresss">
 			<div class="title">选择地址</div>
 
-			<div v-for="(item, index) in address" :key="index" class="item" @click="() => onClick(item)">
+			<div v-if="showAdd" v-for="(item, index) in address" :key="index" class="item" @click="() => onClick(item)">
 				<div class="info">
 					<div class="userinfo">
 						<div class="name">{{item.name}}</div>
@@ -23,6 +23,17 @@
 					</div>
 				</div>
 				<div v-if="item.default == 1" class="fa fa-check select"></div>
+			</div>
+			<div v-if="!showAdd" class="item gray" @click="toAddress">
+				<div class="info">
+					<div class="userinfo">
+						你还没有配送地址
+					</div>
+					<div class="distribution">
+						前往地址管理
+					</div>
+				</div>
+				<div class="fa fa-angle-right"></div>
 			</div>
 		</div>
 	</div>
@@ -51,6 +62,9 @@
 			...mapState({
 				address : state => state.User.address,
 			}),
+			showAdd() {
+				return this.address.length > 0;
+			}
 		},
 		methods: {
 			...mapActions([
@@ -62,6 +76,9 @@
 			onClick(data) {
 				this.updateAddress(data);
 				this.onPress();
+			},
+			toAddress() {
+				this.$router.push({path : '/address'})
 			}
 		}
 	}
@@ -106,6 +123,9 @@
 	display          : flex;
 	flex-direction   : row;
 	align-items      : center;
+}
+.addresss .item.gray {
+	color: #666;
 }
 .addresss .item .info {
 	width          : 90vw;

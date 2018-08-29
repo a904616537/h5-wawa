@@ -50,7 +50,8 @@ const mixin = {
 				['matchConfirm', default_Fun],
 				['stonesChange', default_Fun],
 				['close', this.onReset],
-				['error', default_Fun]
+				['error', default_Fun],
+				['wawasChange', (data) => {console.log('------->>>wawasChange', data)}]
 			])
 		}
 	},
@@ -63,7 +64,6 @@ const mixin = {
     watch: {
     	// 是否有登陆
     	shortpkey : function(val, oldVal) {
-    		console.log('---------------shortpkey', val)
     		if(val === oldVal) return;
     		if(this.pomelo_login && !this.is_set) {
     			this.is_set = true;

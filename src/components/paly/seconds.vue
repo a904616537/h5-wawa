@@ -63,10 +63,12 @@
                 clearInterval(this.timer);
                 this.timer   = null;
                 this.lastsec = 30;
+
             },
             setSeconds() {
                 this.$refs.line.setText(`${this.lastsec}s`)
-                this.$refs.line.animate(1.0)                
+                this.$refs.line.set(0)
+                this.$refs.line.animate(1.0)
                 let sec = this.maxSec - this.duration,
                 sttime  = Date.now() + sec;
 

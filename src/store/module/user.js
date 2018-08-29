@@ -4,6 +4,7 @@ import Cookie      from 'vue-cookie';
 // initial state
 const state = {
 	showFrom     : false,
+	offPlayer    : Cookie.get('off-player') || true, // 关闭音乐
 	isLogin      : Cookie.get('user-token') != null && Cookie.get('user-token') != 'undefined',
 	user         : JSON.parse(Cookie.get('user')),
 	token        : Cookie.get('user-token'),
@@ -53,11 +54,18 @@ const actions = {
 	},
 	onRoomCardsChange({commit}, data) {
 		commit(types.USER_UPDATE_ROOMCARD, data);
+	},
+	controlPlater({commit}, data) {
+		commit(types.USER_CONTROL_PLATER, data);	
 	}
 }
 
 // mutations
 const mutations = {
+	[types.USER_CONTROL_PLATER] (state, data) {
+		state.offPlayer = data;
+		Cookie.set('off-player', state.offPlayer);
+	},
 	[types.USER_LOGIN] (state, data) {
 		const {user, token, platformData} = data;
 		state.user     = user;

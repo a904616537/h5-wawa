@@ -13,7 +13,7 @@
 		<div >礼物</div>
 	</div>
 	<div class="content">
-		<div class="product">10王国币（每天可领）</div>
+		<div class="product">{{data.gift_name}}</div>
 		<div class="status">成功</div>
 	</div>
 	<img :src="icon_image" class="icon-style" />

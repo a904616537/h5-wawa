@@ -54,10 +54,11 @@
 		overflow: scroll;
 	}
 	.productInfo .inner .img-style{
-		width: 100%;
-		padding-bottom: 100%;
-		background-repeat: no-repeat;
-		background-size: 100% 100%;
-		background-position: top center;
+		width               : 100%;
+		height              : auto;
+		padding-bottom      : 100%;
+		background-size     : 100% auto;
+		background-repeat   : no-repeat;
+		background-position : top center;
 	}
 </style>

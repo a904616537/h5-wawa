@@ -1,7 +1,7 @@
 <template>
 	<div class="shop">
 		<div class="tab">
-			<v-nav>王国商城</v-nav>
+			<v-nav :hidden="true">王国商城</v-nav>
 			<div class="tab-list tab-style">
 				<img :src="ticketsbg" class="icon-style" />
 				我的王国券：<span>{{ticket}}</span>
@@ -187,6 +187,7 @@
 		float: left;
 		width: 50%;
 	}
+
 	.shop .content .inner{
 		background-color: #fff;
 		margin: 5px;
@@ -206,6 +207,11 @@
 		padding: 5px 10px;
 		line-height: 20px;
 		font-size: 14px;
+	}
+	.shop .item .item-bottom .productName{
+		overflow      : hidden;
+		text-overflow : ellipsis;
+		white-space   : nowrap;
 	}
 	.shop .item .item-bottom .tickets{
 		color: #ff5854;

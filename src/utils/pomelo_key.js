@@ -10,7 +10,8 @@ export default {
 	hall : {
 		user : {
 			joinRoom     : 'hall.user.joinRoom',
-			modifyMyInfo : 'hall.user.modifyMyInfo'
+			modifyMyInfo : 'hall.user.modifyMyInfo',
+			wawalist     : 'hall.user.getMyWawaList'
 		}
 	},
 	room : {
@@ -26,8 +27,8 @@ export default {
 		}
 	},
 	user : {
-		info : "modifyMyInfo",
-		get  : 'hall.user.getMyInfo'
+		info     : "modifyMyInfo",
+		get      : 'hall.user.getMyInfo',
 	}
 }
 

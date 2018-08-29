@@ -39,7 +39,6 @@ const mutations = {
 		// 		return url;
 		// 	} else return '';
 		// });
-		console.log('data.lives', data.lives)
 		data.videos = data.lives;
 		state.current_room = data;
 	},
@@ -61,6 +60,7 @@ const mutations = {
 		state.chats     = chats;
 		state.duration  = duration;
 		state.roundtime = roundtime;
+
 	}
 }
 

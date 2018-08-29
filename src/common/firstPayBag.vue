@@ -1,7 +1,7 @@
 <template>
 	<div>
 	<div class="firstPayBag">
-		<vue-tabs :activeTextColor="activeTextColor">
+		<vue-tabs :active-tab-color="activeTabColor" :active-text-color="activeTextColor">
 			<v-tab title="未开启">
 				<div class="content">
 					<v-item v-for="(item, index) in notData" :key="index" :data="item" :onShowRules="onShowRules" :onPress="(item) => clickItem(item)"/>
@@ -40,6 +40,7 @@
 		data() {
 			return {
 				data            : [],
+				activeTabColor  : '#f2d56e',
 				activeTextColor : '#fff',
 				showAlert       : false
 			}
@@ -121,7 +122,6 @@
 					})
 					.catch(err => {
 						console.log('微信支付调用失败', err)
-						alert('微信支付调用失败！')
 					})
 		        }
 		    },
@@ -175,15 +175,16 @@
 		line-height: 50px;
 		font-size: 14px;
 	}
+
 	.vue-tabs .nav-tabs > li > a {
 		border: none;
 		border-radius: 0;
 		color: #8e562a;
 	}
-	.vue-tabs .nav-tabs > li.active > a, .vue-tabs .nav-tabs > li.active > a:hover, .vue-tabs .nav-tabs > li.active > a:focus{
-		border : none;
-		background-color: transparent;
-		border-bottom: 4px solid rgb(254,232,95);
+	.vue-tabs .nav-tabs>li.active>a, .vue-tabs .nav-tabs>li.active>a:focus, .vue-tabs .nav-tabs>li.active>a:hover{
+		border           : none;
+		background-color : transparent;
+		border-bottom    : 4px solid #fee85f;
 	}
 	.firstPayBag li.checked{
 		border-bottom: 4px solid rgb(254,232,95);   /*需要更换border-bottom的颜色 */

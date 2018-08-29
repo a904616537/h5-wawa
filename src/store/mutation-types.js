@@ -11,6 +11,8 @@ export const  USER_UPDATE_PLAYER       = 'user/set/player';
 export const  USER_UPDATE_DEF_ADDRESS  = 'user/set/def/address';
 export const  USER_UPDATE_EDIT_ADDRESS = 'user/set/edit/address';
 export const  USER_UPDATE_ROOMCARD     = 'user/update/roomcard';
+export const  USER_CONTROL_PLATER      = 'user/control/player';
+
 
 
 
@@ -24,11 +26,13 @@ export const POMELO_LOGIN = 'pomelo/login'
 /**
  * 大厅 Key 管理
  */
-export const HALL_SETTING     = 'hall/setting'
-export const HALL_ROOM        = 'hall/room'
-export const HALL_SELECTED    = 'hall/selected'
-export const HALL_ROOM_STATUS = 'hall/room/status'
-export const HALL_ROOM_SET    = 'hall/room/set'
+export const HALL_SETTING        = 'hall/setting'
+export const HALL_ROOM           = 'hall/room'
+export const HALL_SELECTED       = 'hall/selected'
+export const HALL_ROOM_STATUS    = 'hall/room/status'
+export const HALL_ROOM_SET       = 'hall/room/set'
+export const HALL_OPEN_BOX       = 'hall/box/opend'
+export const HALL_SHOW_NEW_STATE = 'hall/show/new_state'
 
 
 

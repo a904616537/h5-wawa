@@ -1,9 +1,9 @@
 <template>
-    <div class="play_success">
+    <div class="play_success" @click="onCancel">
     	<div class="success_view">
     		<img :src="data.gift_pic"/>
     		<div class="buttons">
-    		 	<div class="btn" @click="onCancel">我真厉害</div>
+    		 	<div class="btn" @click="onShare">炫耀一下</div>
     		 	<div class="btn" @click="onPress">再抓一个</div>
     		 </div>
     	</div>
@@ -32,10 +32,12 @@
         	}
         },
         mounted() {
-        	console.log('success', this.data);
-            
+        	console.log('success', this.data);  
         },
         methods : {
+        	onShare() {
+        		this.$router.push({ path : '/share' })
+        	}
         }
     }
 </script>

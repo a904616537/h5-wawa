@@ -7,15 +7,23 @@
 		</div>
 		<div class="inner">
 			<div class="card">
+				<a  target="_blank" :href="downloadurl"  class="item" style="color: #8e562a;">
+					<label class="title"><i class="iconfont icon-download"></i>下载APP</label>
+					<div class="right">
+						<label class="info" style="margin-right: 70px;color: #8e562a;"></label>
+						<label class="info"  style="color: #8e562a;">免费领娃娃 ></label>
+					</div>
+				</a>
 				<div class="item"  @click="recharge">
-					<label class="title">王国金币</label>
+					
+					<label class="title"><i class="iconfont icon-coin"></i>王国金币</label>
 					<div class="right">
 						<label class="info" style="margin-right: 70px;">{{room_card}}</label>
 						<label class="info">充值 ></label>
 					</div>
 				</div>
 				<div class="item" @click="items">
-					<label class="title">我的物品(娃娃)</label>
+					<label class="title"><i class="iconfont icon-liwu"></i>我的物品(娃娃)</label>
 					<div class="right">
 						<label class="info">数量: {{wawa_number}}</label>
 						<label class="info">包邮卡: {{wawaplayer.delivery_card_num}}</label>
@@ -23,7 +31,8 @@
 					</div>
 				</div>
 				<div class="item"  @click="toDelivery">
-					<label class="title">王国配送信息</label>
+					
+					<label class="title"><i class="iconfont icon-wuliuqiache2"></i>王国配送信息</label>
 					<div class="right">
 						<label class="info">等待中: {{delivery_0}}</label>
 						<label class="info">运送中: {{delivery_1}}</label>
@@ -31,21 +40,23 @@
 					</div>
 				</div>
 				<div class="item" @click="address">
-					<label class="title">收货地址</label>
+
+					<label class="title"><i class="iconfont icon-12"></i>收货地址</label>
 					<div class="right">
 						<label class="info">管理 ></label>
 					</div>
 				</div>
 			</div>
 			<div class="card">
-				<div class="item">
-					<label class="title">邀请好友</label>
+				<div class="item" @click="share">
+					<label class="title"><i class="iconfont icon-share"></i>邀请好友</label>
 					<div class="right">
-						<label class="info" @click="share">添加公众号"王国服务"成为王国推...></label>
+						<div class="info">添加公众号"王国服务"成为王国推送员</div>
 					</div>
+					<label class="right info">></label>
 				</div>
 				<div class="item">
-					<label class="title">消息</label>
+					<label class="title"><i class="iconfont icon-xiaoxi"></i>消息</label>
 					<div class="right">
 						<label class="info">{{post}} ></label>
 					</div>
@@ -53,19 +64,19 @@
 			</div>
 			<div class="card">
 				<div class="item">
-					<label class="title">音乐</label>
+					<label class="title"><i class="iconfont icon-yinle"></i>音乐</label>
 					<div class="right">
-						<v-switch v-model="value1"></v-switch>
+						<v-switch v-model="offPlayer" :onPress="controlPlater"></v-switch>
 					</div>
 				</div>
-				<div class="item">
-					<label class="title">客服</label>
-					<div class="right" @click="service">
+				<div class="item" @click="service">
+					<label class="title"><i class="iconfont icon-wenti"></i>客服</label>
+					<div class="right">
 						<label class="info">></label>
 					</div>
 				</div>
 				<div class="item">
-					<label class="title">版本号</label>
+					<label class="title"><i class="iconfont icon-gengduomore12"></i>版本号</label>
 					<div class="right">
 						<label class="info">1.2.5.23</label>
 					</div>
@@ -106,7 +117,11 @@
 				wawas        : state => state.User.wawas,
 				delivery     : state => state.User.delivery,
 				post         : state => state.User.post.length,
-				wawaplayer   : state => state.User.wawaplayer
+				wawaplayer   : state => state.User.wawaplayer,
+				offPlayer    : state => {
+					let is_off = state.User.offPlayer;
+					return is_off.toString() == 'true'
+				}
 			}),
 			avatar() {
 				if(this.user && this.user.avatar != '') {
@@ -127,6 +142,14 @@
 			},
 			delivery_1() {
 				return this.delivery.filter(val => val.state == 1).length;
+			},
+			downloadurl() {
+				const u = navigator.userAgent;
+				const isAndroid = u.indexOf('Android') > -1 || u.indexOf('Adr') > -1; //android终端
+				const isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
+				console.log('是否是Android：'+isAndroid);
+				console.log('是否是iOS：'+isiOS);
+				return isiOS?'https://itunes.apple.com/app/id1344635762':'http://c.waguo.net/apps/wawa-1.2.1-wawa.apk';
 			}
 		},
 		components : {
@@ -144,6 +167,9 @@
 	    	}
 	    },
 		methods : {
+			...mapActions([
+                'controlPlater',
+            ]),
 			recharge() {
 				this.$router.push({ path : '/recharge' })
 			},
@@ -179,35 +205,41 @@
 
 <style>
 	.profile{
-		background-color: #f2d56e;	
-		position: absolute;
-		top: 0;
-		left: 0;
-		right: 0;
-		height: 100%;
+		top              : 0;
+		left             : 0;
+		right            : 0;
+		margin-bottom    : 8vh;
+		position         : absolute;
+		background-color : #f2d56e;	
 	}
 	.profile .head{
-		margin: 20px 0;
-		color: #BF6A0B;
+		margin : 20px 0;
+		color  : #BF6A0B;
 	}
 	.profile .user-head{
-		width: 80px;
-		height: 80px;
-		border-radius: 80px;
+		width         : 80px;
+		height        : 80px;
+		border-radius : 80px;
 	}
 	.profile .inner{
 		margin-bottom : 80px;
 	}
 	.profile .card{
-		background-color: #fff;
-		margin: 10px 8px;
-		text-align: left;
-		border-radius: 20px;
-		padding: 10px 20px;
-		line-height: 36px;
+		margin           : 10px 8px;
+		text-align       : left;
+		border-radius    : 20px;
+		padding          : 10px 20px;
+		line-height      : 36px;
+		background-color : #fff;
 	}
 	.profile .card .item .title {
-		flex: auto;
+		flex      : auto;
+		font-size : 10pt;
+		min-width : 25vw;
+	}
+	.profile .card .item .title i{
+		color: #8e562a;
+		margin-right: 1vw;
 	}
 	.profile .card .item:not(:last-child){
 		border-bottom : 1px solid #eee;
@@ -218,23 +250,31 @@
 		float: right;
 	}
 	.profile .card .info{
-		color: #999;
-		font-size: 12px;
-		margin-left: 10px;
+		color         : #999;
+		font-size     : 12px;
+		margin-left   : 2vw;
+		overflow      : hidden;
+		text-overflow : ellipsis;
+		white-space   : nowrap;
+		max-width     : 50vw;
 	}
 	.service{
-		position: absolute;
-		top: 0;
-		left: 0;
-		right: 0;
-		background-color: rgba(0,0,0,.2);
-		height: 100%;
+		top              : 0;
+		left             : 0;
+		right            : 0;
+		height           : 100%;
+		display          : flex;
+		position         : fixed;
+		align-items      : center;
+		justify-content  : center;
+		background-color : rgba(0,0,0,.2);
+		
 	}
 	.service .service-inner{
-		margin: 70% auto;
-		width: 300px;
-		background-color: #fff;
-		padding: 50px 10px;
-		border-radius: 14px;
+		width            : 300px;
+		padding          : 50px 10px;
+		margin           : 70% auto;
+		border-radius    : 14px;
+		background-color : #fff;
 	}
 </style>

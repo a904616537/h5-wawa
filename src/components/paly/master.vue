@@ -28,10 +28,7 @@
 		computed : {
 			...mapState({
 				pomelo : state => state.Pomelo.pomelo,
-				master : state => {
-					console.log('state.Room.master', state.Room.master)
-					return state.Room.master
-				}
+				master : state => state.Room.master
 			}),
 			name() {
 				if(this.master) return decodeURI(this.master.nn);
@@ -74,6 +71,11 @@
 	align-items     : flex-start;
 	justify-content : center;
 	flex-direction  : column;
+}
+.master .master_text .name{
+	overflow      : hidden;
+	text-overflow : ellipsis;
+	white-space   : nowrap;
 }
 .master .master_text .status {
 	font-size        : 10px;

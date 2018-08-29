@@ -124,7 +124,6 @@
 				})
 		    },
 		    onRequest(time, next) {
-		        if(next) next();
 
 		        axios.get(Vue.setting.api + '/month_bonus',{
 					params : {
@@ -136,9 +135,24 @@
 				.then(result => {
 					console.log('签到反馈', result)
 					if(result.ret === 1) {
+						//  王国券不足
+                		this.$modal.show('dialog', {
+							title   : result.msg,
+							text    : '可通过签到或抓娃娃来获得哦！',
+							buttons : [
+								{ title: '我不去' },
+								{
+									title   : '前往抓娃娃',
+									handler : () => {
+										this.$router.push({ path : '/' })
+										this.$modal.hide('dialog');
+									}
+								}
+							]
+						})
 						return;
 					} else {
-						
+						if(next) next();
 					}
 				})
 				.catch(err => {

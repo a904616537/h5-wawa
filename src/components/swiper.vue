@@ -21,6 +21,7 @@
 
 <script>
 	import { swiper, swiperSlide } from 'vue-awesome-swiper'
+	let vm = null;
 	export default{
 		name : 'v-swiper',
 		components: {
@@ -30,6 +31,13 @@
 		data() {
 			return {
 				swiperOption : {
+					preventLinksPropagation : false,
+					on: {
+						click : function () {
+							const realIndex = this.realIndex;
+							vm.onPress(realIndex);
+						}
+					},
 					autoplay : {
 						delay                : 3000,
 						stopOnLastSlide      : false,
@@ -46,6 +54,10 @@
 			data : {
 				type    : Array,
 				default : () => []
+			},
+			onPress : {
+				type    : Function,
+				default : () => {}
 			}
 		},
 		methods : {
@@ -53,8 +65,9 @@
 				console.log('callback', row)
 			}
 		},
-		updated() {
-		}
+		created() {
+			vm = this;
+		},
 	}
 </script>
 

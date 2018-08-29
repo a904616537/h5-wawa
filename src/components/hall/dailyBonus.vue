@@ -42,10 +42,11 @@
 		},
 		computed : {
 			...mapState({
-				pomelo        : state => state.Pomelo.pomelo,
-				pomelo_login  : state => state.Pomelo.login,
-				user          : state => state.User.user || {},
-				token         : state => state.User.token,
+				pomelo         : state => state.Pomelo.pomelo,
+				pomelo_login   : state => state.Pomelo.login,
+				user           : state => state.User.user || {},
+				token          : state => state.User.token,
+				show_new_state : state => state.Hall.show_new_state
 			}),
 			items() {
 				return this.httpData?this.httpData.config : [];
@@ -56,6 +57,14 @@
 			},
 			firstBonusDay() {
 				return this.items.filter(val => val.bonus_state == 1).length
+			}
+		},
+		watch : {
+			show_new_state : function(val, old) {
+				if(val) {
+					console.log('跳过新手，正常签到')
+					this.getData();
+				}
 			}
 		},
 		methods : {
@@ -113,7 +122,7 @@
 		    }
         },
         mounted() {
-        	this.getData();
+        	// this.getData();
         }
 	}
 </script>

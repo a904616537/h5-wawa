@@ -28,7 +28,8 @@
 		</div>
 
 		<div class="bottom-btn" @click="add">添加收货地址</div>
-		<v-add ref="editAddress" :close="close" :onPress="(data) => close(data)" v-show="add_show"></v-add>
+		<v-add ref="editAddress" :close="() => close(false)" :onPress="(data) => close(data)" v-show="add_show"></v-add>
+		<v-dialog width="80%" class="dialog"/>
 	</div>                    
 </template>
 
@@ -61,7 +62,7 @@
 			]),
 			onEdit(index) {
 				const address = this.address[index];
-				this.$refs.editAddress.onEdit(address);
+				this.$refs.editAddress.onEdit({...address});
 				this.add_show = true
 			},
 			onDel(index) {
@@ -113,6 +114,15 @@
 			},
 			close(data) {
 				this.add_show = false;
+				if(!data) return;
+				if(data.tel == "" || data.name == "" || data.city == "" || data.area == "" || data.address == "") {
+					this.$modal.show('dialog', {
+						title   : '地址信息不完整！',
+						text    : '请检查地址信息！',
+						buttons : [{ title: '知道了！' }]
+					})
+					return;	
+				}
 				if(data) {
 					delete data.is_default;
 					if(data.id != 0) {

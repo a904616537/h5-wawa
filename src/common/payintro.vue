@@ -83,7 +83,6 @@
 				})
 				.catch(err => {
 					console.log('微信支付调用失败', err)
-					alert('微信支付调用失败！')
 				})
 			}
 		},
@@ -112,15 +111,15 @@
 		height: 100%;
 	}
 	.payintro .pay-infor{
-		color: red;      /*需要更换字体颜色*/
-		margin-top: 53vw;
-		font-size: 12px;
+		color      : #f27048;
+		margin-top : 50vw;
+		font-size  : 12px;
 	}
 	.payintro .bag-number{
-		margin-top: 19.5vw;
-		font-size: 3.5rem;
-		font-weight: 800;
-		color: red;     /*需要更换字体颜色*/
+		margin-top  : 10vh;
+		font-size   : 3.5rem;
+		font-weight : 800;
+		color       : #f27048;
 	}
 	.payintro .bag-number span{
 		display: inline-block;
@@ -128,7 +127,7 @@
 	}
 	@media screen and (max-width: 320px) {
 		.payintro .bag-number{
-			margin-top: 19.5vw;
+			margin-top: 10vh;
 			font-size: 2.8rem;
 		}
 		.payintro .bag-number span{
