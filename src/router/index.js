@@ -20,6 +20,8 @@ import Sign          from '@/common/sign'      //签到
 import PlayLog       from '@/common/playLog'
 import PlayLogInfo   from '@/common/playLogInfo'
 import PlayLogReport from '@/common/playLogReport'
+import Goods         from '@/common/goods' //新改我的物品页面
+import Postage       from '@/common/postage' //包邮卡信息页面
 
 import Menu   from '@/components/menu'
 import Nav    from '@/components/nav' 
@@ -189,7 +191,22 @@ var routers = [
 			back    : 'roll'
 		}
 	},
-	
+	{
+		path : '/goods',
+		component : Goods,
+		$$routerTransition: {
+			forward : 'roll',
+			back    : 'roll'
+		}
+	},
+	{
+		path : '/postage',
+		component : Postage,
+		$$routerTransition: {
+			forward : 'roll',
+			back    : 'roll'
+		}
+	},
 ]
 
 const router = new Router({
