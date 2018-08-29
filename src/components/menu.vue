@@ -76,7 +76,6 @@
 	}
 	.menu-box li{
 		float           : left;
-		/*width           : 50%;*/
 		width           : 25%;
 		list-style      : none;
 		font-size       : 12px;

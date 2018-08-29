@@ -22,7 +22,6 @@
 				</div>
 			</div>
 			<div v-else class="list-box">
-				
 				<div class="refresh">
 					<img :src="refresh">
 					<div>断线重连中，请稍后...</div>
@@ -33,18 +32,17 @@
 			<div class="float-icon" @click="sign">
 				<img src="static/images/monthtosign/sign_icon.png" alt="" class="icon-style">
 			</div>
-
 		</div>
 	</div>	
 </template>
 
 <script>
-	import Pubsub from 'pubsub-js';
+	import Pubsub     from 'pubsub-js'
 	import {mapState, mapGetters, mapActions} from 'vuex'
 	import Swiper     from '@/components/swiper'
 	import Tabs       from '@/components/hall/tabs'
 	import DailyBonus from '@/components/hall/dailyBonus'
-	import Header from '@/components/hall/header'
+	import Header     from '@/components/hall/header'
 	
 	export default{
 		name: 'index',
