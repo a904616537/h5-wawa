@@ -11,7 +11,7 @@
 			<div class="goods-carriage">
 				<div class="status-off">
 					寄存剩14天
-					<div class="goods-btn">
+					<div class="goods-btn" @click="goodsInfor">
 						免费获取
 					</div>
 				</div>
@@ -47,6 +47,9 @@
 		methods : {
 			postage() {
 				this.$router.push({ path : '/postage' })
+			},
+			goodsInfor() {
+				this.$router.push({ path : '/goodsInfor' })
 			}
 		}
 	}

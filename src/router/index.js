@@ -22,6 +22,8 @@ import PlayLogInfo   from '@/common/playLogInfo'
 import PlayLogReport from '@/common/playLogReport'
 import Goods         from '@/common/goods' //新改我的物品页面
 import Postage       from '@/common/postage' //包邮卡信息页面
+import GoodsInfor    from '@/common/goodsInfor' //我的娃娃详情(待发货)
+import Logistics     from '@/common/logistics' //物流信息
 
 import Menu   from '@/components/menu'
 import Nav    from '@/components/nav' 
@@ -202,6 +204,22 @@ var routers = [
 	{
 		path : '/postage',
 		component : Postage,
+		$$routerTransition: {
+			forward : 'roll',
+			back    : 'roll'
+		}
+	},
+	{
+		path : '/goodsInfor',
+		component : GoodsInfor,
+		$$routerTransition: {
+			forward : 'roll',
+			back    : 'roll' 
+		}
+	},
+	{
+		path : '/logistics',
+		component : Logistics,
 		$$routerTransition: {
 			forward : 'roll',
 			back    : 'roll'

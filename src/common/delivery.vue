@@ -83,7 +83,6 @@
 
 <style>
 	.delivery{
-		padding: 8px;
 		background-color: #f4f4f4;
 		font-size: 12px;
 		position: absolute;
