@@ -23,7 +23,7 @@ import PlayLogReport from '@/common/playLogReport'
 import Goods         from '@/common/goods' //新改我的物品页面
 import Postage       from '@/common/postage' //包邮卡信息页面
 import GoodsInfor    from '@/common/goodsInfor' //我的娃娃详情(待发货)
-import GoodsDeliver  from '@/common/goodsDeliver'
+import GoodsDeliver  from '@/common/goodsDeliver' //我的娃娃详情
 import Logistics     from '@/common/logistics' //物流信息
 
 import Menu   from '@/components/menu'
