@@ -102,7 +102,6 @@
 	.goodsDeliver .item .img-style{
 		width: 15vw;
 		height: 15vw;
-		background-color: red;
 	}
 	.goodsDeliver .item .infor{
 		margin: auto 0;
