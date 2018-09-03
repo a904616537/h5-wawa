@@ -159,7 +159,7 @@
 				// chats        : state => state.Room.chats	// 聊天内容
 			}),
 			is_master() {
-				if(this.master && this.wawaplayer.total_gift_num == 0 || this.wawaplayer.recharge > 0) return this.master.uid == this.user.uid;
+				if(this.master && (this.wawaplayer.total_gift_num == 0 || this.wawaplayer.recharge > 0)) return this.master.uid == this.user.uid;
 				else return false;
 			},
 			chats_list() {
