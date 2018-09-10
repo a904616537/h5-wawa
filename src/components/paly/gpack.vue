@@ -93,6 +93,9 @@
         	},
         	onStart() {
                 this.player.start();
+                setTimeout(() => {
+                    this.onReloadEnd();
+                }, 2000);
         	},
         	onStop() {
                  console.log('结束插件')

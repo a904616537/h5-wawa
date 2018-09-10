@@ -213,7 +213,6 @@
 		background-repeat   : no-repeat;
 		background-size     : cover;
 		background-position : top center;
-		background-image    : url($apiurl + '/static/images/hall/cardback.png');
 	}
 	.item-content{
 		padding: 5px 7px;

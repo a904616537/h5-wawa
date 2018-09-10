@@ -26,7 +26,7 @@
 					<label class="title"><i class="iconfont icon-liwu"></i>我的物品(娃娃)</label>
 					<div class="right">
 						<label class="info">数量: {{wawa_number}}</label>
-						<label class="info">包邮卡: {{wawaplayer.delivery_card_num}}</label>
+						<label class="info">包邮卡: {{delivery_card_num}}</label>
 						<label class="info">></label>
 					</div>
 				</div>
@@ -94,10 +94,11 @@
 
 <script>
 	import {mapState, mapGetters, mapActions} from 'vuex'
+	import moment                             from 'moment';
+	import PubSub                             from 'pubsub-js';
 	import menu                               from '@/components/menu'
 	import vueSwitch                          from '@/components/switch'
 	import pomelo_key                         from '@/utils/pomelo_key';
-	import PubSub                             from 'pubsub-js';
 
 	export default{
 		name : 'profile',
@@ -117,6 +118,7 @@
 				wawas        : state => state.User.wawas,
 				delivery     : state => state.User.delivery,
 				post         : state => state.User.post.length,
+				postcard     : state => state.User.postcard,
 				wawaplayer   : state => state.User.wawaplayer,
 				offPlayer    : state => {
 					let is_off = state.User.offPlayer;
@@ -134,7 +136,17 @@
 					return this.user.room_card.toString().replace(re,",");
 				else return 0;
 			},
+			delivery_card_num() {
+		        // const delivery_card_num = this.postcard.filter(card => {
+		        //     const endTime    = moment(card.expire_time)
+		        //     const outtime    = moment().isBefore(endTime);
+		        //     return card.is_used == 0 && outtime;
+		        // }).length;
+		        const delivery_card_num = this.postcard.length;
+		        return delivery_card_num;
+			},
 			wawa_number() {
+				// return this.wawas.filter(val => val.is_delivery == 0 && val.isExchange == 0).length;
 				return this.wawas.length;
 			},
 			delivery_0() {
@@ -147,8 +159,6 @@
 				const u = navigator.userAgent;
 				const isAndroid = u.indexOf('Android') > -1 || u.indexOf('Adr') > -1; //android终端
 				const isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
-				console.log('是否是Android：'+isAndroid);
-				console.log('是否是iOS：'+isiOS);
 				return isiOS?'https://itunes.apple.com/app/id1344635762':'http://c.waguo.net/apps/wawa-1.2.1-wawa.apk';
 			}
 		},
@@ -174,7 +184,7 @@
 				this.$router.push({ path : '/recharge' })
 			},
 			items() {
-				this.$router.push({ path : '/items' })
+				this.$router.push({ path : '/goods' })
 			},
 			address() {
 				this.$router.push({ path : '/address' })
@@ -190,9 +200,9 @@
 			}
 		},
 		mounted() {
+			if(!this.pomelo_login) this.$router.replace('/')
 			const event = {key : pomelo_key.user.get, next : (result) => {
 	            if (result.code == 200) {
-	            	console.log(pomelo_key.user.get, result)
 	                //  执行
 	                PubSub.publish(pomelo_key.user.info, result)
 	            }

@@ -9,11 +9,12 @@ const state = {
 	user         : JSON.parse(Cookie.get('user')),
 	token        : Cookie.get('user-token'),
 	platformData : Cookie.get('platform-data'),
-	address      : [],	// 地址
-	delivery     : [],	// 配送中
-	post         : [],	// 消息
-	wawas        : [],	// 我的物品
-	wawaplayer   : {
+	address    : [],	// 地址
+	delivery   : [],	// 配送中
+	post       : [],	// 消息
+	wawas      : [],	// 我的物品
+	postcard   : [],	// 包邮卡
+	wawaplayer : {
 		delivery_card_num : 0,	// 包邮卡
 		firstpay          : 0,	// 首充用户
 		recharge          : 0,	// 
@@ -57,6 +58,9 @@ const actions = {
 	},
 	controlPlater({commit}, data) {
 		commit(types.USER_CONTROL_PLATER, data);	
+	},
+	setWawas({commit}, data) {
+		commit(types.USER_UPDATE_WAWAS, data);
 	}
 }
 
@@ -110,6 +114,7 @@ const mutations = {
 			return val;
 		})
 		if(data.post) state.post = data.post;
+		if(data.postcard) state.postcard = data.postcard;
 		if(data.address) {
 			state.address  = data.address;
 			// 设置默认配送地址
@@ -133,6 +138,10 @@ const mutations = {
 	[types.USER_UPDATE_ROOMCARD] (state, data) {
 		state.user.room_card = data.room_card;
 		state.user = {...state.user};
+	},
+	[types.USER_UPDATE_WAWAS] (state, data) {
+		const {index, wawa} = data;
+		state.wawas.splice(index, 1, wawa);
 	}
 }
 

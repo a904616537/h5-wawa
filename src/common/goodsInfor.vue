@@ -7,53 +7,113 @@
 				<img src="" />
 			</div>
 			<div class="address">
-				收货人: 收货人姓名<br>
-				收货地址: 上海市浦东新区民生路1403号信息大厦29楼2903
+				<p>收货人: {{address.name}}<span style="float: right;">{{address.tel}}</span></p>
+				<p>收货地址: {{`${address.province}${address.city}${address.area}${address.address}`}}</p>
 			</div>
 		</div>
 		<div class="card">
-			<div class="item">
-				<img src="static/images/hall/1.png" class="img-style" />
+			
+			<div v-for="(item, index) in data" :key="index" class="item">
+				<img :src="item.gift_pic" class="img-style" />
 				<div class="infor">
-					商品名称
-					<div class="time">08/01 11:11:11</div>
+					{{item.gift_name}}
+					<div class="time">{{fromDate(item.ltime)}}</div>
 				</div>
 				<div class="count">
 					x 1
 				</div>
 			</div>
-			<div class="item">
-				<img src="static/images/hall/1.png" class="img-style" />
-				<div class="infor">
-					商品名称
-					<div class="time">08/01 11:11:11</div>
-				</div>
-				<div class="count">
-					x 1
-				</div>
-			</div>
-			<div class="item-bottom">
+			<div class="item-bottom" @click="share">
 				炫耀一下
 				<div class="float-right">></div>
 			</div>
 		</div>
-		<div class="bottom">
-			<div class="title">确定发货吗?</div>
-			<div class="content">申请后无法取消订单，物品将在3-5个工作日内发货!</div>
-			<div class="bottom-btn">
-				<div class="cancel puplic-btn">取消</div>
-				<div class="enter puplic-btn">确定</div>
-			</div>
+		<div class="submit">
+			<div class="button" @click="show = true">申请发货</div>
 		</div>
+		
+		<v-card v-if="show" class="card-style">
+			<div class="bottom">
+				<div class="title">确定发货吗?</div>
+				<div class="content">申请后无法取消订单，物品将在3-5个工作日内发货!</div>
+				<div class="bottom-btn">
+					<div class="cancel puplic-btn" @click="onCanel">取消</div>
+					<div class="enter puplic-btn" @click="onSuccess">确定</div>
+				</div>
+			</div>
+		</v-card>
+		<v-dialog width="80%"/>
 	</div>
 </template>
 
 <script>
+	import moment                             from 'moment';
+	import {mapState, mapGetters, mapActions} from 'vuex';
+	import pomelo_key from '@/utils/pomelo_key';
+	import Card       from '@/components/card';
+
 	export default{
 		name : 'goodsInfor',
 		data() {
 			return {
+				show    : false,
+				data    : this.$route.query.select,
+				address : this.$route.query.address
+			}
+		},
+		components: {
+			'v-card' : Card
+		},
+		computed : {
+			...mapState({
+				pomelo       : state => state.Pomelo.pomelo,
+				pomelo_login : state => state.Pomelo.login,
+				user         : state => state.User.user,
+			}),
+		},
+		methods : {
+			...mapActions([
+				'updateAddress',
+				'updateUserInfo'
+			]),
+			fromDate(time) {
+				return moment(time).format("YYYY.MM.DD HH:mm")
+			},
+			onCanel() {
+				this.show = false;
+			},
+			onSuccess() {
+				this.onCanel();
+				const deliverys = this.data.map(val => Object.assign(val, this.address,{del : 0}))
 
+				this.onSend(deliverys);
+			},
+			share() {
+				this.$router.replace({ path : '/share' })
+			},
+			onSend(data) {
+				this.pomelo.request(pomelo_key.hall.user.modifyMyInfo, {delivery : data, is_new : 1, uid : this.user.uid}, (msg) => {
+		            if (msg.code == 200) {
+		            	this.updateUserInfo(msg.msg)
+
+						this.$modal.show('dialog', {
+							title   : '已提交发货申请',
+							text    : '我们将在3个工作日内发货，节假日不算工作日',
+							buttons : [{
+								title   : '确定',
+								handler : () => { 
+									this.$modal.hide('dialog');
+									this.$router.go(-3)
+								}
+							}]
+						})
+		            } else alert('提交出错啦！')
+		        })
+			}
+		},
+		mounted() {
+			if(!this.pomelo_login) {
+				this.$router.replace('profile')
 			}
 		}
 	}
@@ -119,10 +179,7 @@
 		float: right;
 	}
 	.goodsInfor .bottom{
-		background-color: #fff;
-		padding: 5vw 10vw;
 		margin: 5vw;
-		border-radius: 10px;
 		color: #999;
 	}
 	.goodsInfor .bottom .title{
@@ -149,8 +206,29 @@
 		background-color: #ccc;
 	}
 	.goodsInfor .bottom-btn .enter{
-		background-color: rgb(243,141,92);
-		position: absolute;
-		right: 15vw;
+		background-color : rgb(243,141,92);
+		position         : absolute;
+		right            : 15vw;
+	}
+	.goodsInfor .submit {
+		width           : 100%;
+		height          : 10vh;
+		position        : fixed;
+		bottom          : 0;
+		margin          : 0 auto;
+		display         : flex;
+		justify-content : center;
+		align-items     : center;
+	}
+	.goodsInfor .submit .button{
+		font-size        : 12pt;
+		display          : flex;
+		justify-content  : center;
+		align-items      : center;
+		width            : 40vw;
+		height           : 6vh;
+		border-radius    : 3vh;
+		background-color : #f2d56e;
+		color            : #fff;
 	}
 </style>

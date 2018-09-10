@@ -3,17 +3,18 @@
 		<v-nav>娃娃详情</v-nav>
 		<div class="head">
 			<div class="title">
-				<div class="status">寄存剩{{day}}天</div>
+				<div v-if="disabled" class="status">已过期</div>
+				<div v-else class="status">寄存剩{{day}}天</div>
 				过期后不能发货
 			</div>
 			<img src="static/images/192.png" class="img-style" />
 		</div>
 		<div class="card">
 			<div class="item">
-				<img src="static/images/hall/1.png" class="img-style" />
+				<img :src="data.gift_pic" class="img-style" />
 				<div class="infor">
-					商品名称
-					<div class="time">08/01 11:11:11</div>
+					{{data.gift_name}}
+					<div class="time">{{fromDate(data.ltime)}}</div>
 				</div>
 				<div class="count">
 					x 1
@@ -22,10 +23,14 @@
 			<div class="item-bottom">
 				<div class="convert">
 					兑换王国币
-					<span @click="exchange">兑换999币</span>
+					<span @click="convert = true">
+						{{`兑换${is_vip?data.gift_expire_price_pay : data.gift_expire_price}币`}}
+					</span>
 				</div>
-				炫耀一下
-				<div class="float-right">></div>
+				<div @click="share">
+					炫耀一下
+					<div class="float-right">></div>
+				</div>
 			</div>
 		</div>
 		<div class="rule">
@@ -34,56 +39,148 @@
 				1. 申请发货成功后3个工作日内发货，节假日不算工作日
 			</div>
 		</div>
-		<div class="address">
-			<div class="title">选择发货地址<span>新增地址</span></div>
-			<div>
-				<span class="name">啦啦啦啦啦啦啦啦</span>13917223443<br/>
-				上海市上海市浦东新区民生路1403号信息大厦2903室	
+		<div v-if="!disabled" class="address">
+			<div class="title" @click="toAddress">选择发货地址<span>新增地址</span></div>
+			<div v-for="(item, index) in address" :key="index" @click="toInfo(index)">
+				<span class="name">{{item.name}}</span>{{item.tel}}<br/>
+				{{`${item.province}${item.city}${item.area}${item.address}`}}
 			</div>
 		</div>
+
+
 		<div class="popout" v-show="convert">
 			<div class="box">
-				<div class="title">确定将物品兑换为999王国币吗?</div>
+				<div class="title">
+					{{`确定将物品兑换为${is_vip?data.gift_expire_price_pay : data.gift_expire_price}王国币吗？`}}
+				</div>
 				<div class="bottom">
-					<div class="puplic-btn cancel" @click="exchange">取消</div>
-					<div class="puplic-btn enter">确认</div>
+					<div class="puplic-btn cancel" @click="convert = false">取消</div>
+					<div class="puplic-btn enter" @click="onPress">确认</div>
 				</div>
 			</div>
 		</div>
-		<v-card class="card-style">
+
+		<v-card v-if="false" class="card-style">
 			<img src="static/images/hall/pay/gold_3.png" class="gold-img" />
 			<div class="gold-style"><img src="static/images/hall/dailyBonus/coin.png" class="img-style" /><span>+ 7777</span></div>
 			兑换成功
 		</v-card>
-		<!-- <v-card class="card-style">
+		<v-card v-show="showwawalist" class="card-style">
 			<div class="title">请选择您一同运送的物品</div>
 			<ul>
-				<li>娃娃1</li>
-				<li>娃娃2</li>
-				<li>娃娃3</li>
-				<li>娃娃4</li>
+				<li v-for="(item, index) in wawaslist"
+				:key="index"
+				:class="{active : isSelect(item)}"
+				@click="onSelect(item)">
+					{{item.gift_name}}
+				<i class="fa" :class="[isSelect(item)?'fa-check-circle-o':'fa-circle-o']"></i></li>
 			</ul>
-			<div class="btn">提交</div>
-		</v-card> -->
+			<div class="btn" @click="onSubmit">提交</div>
+		</v-card>
+		<v-dialog width="80%"/>
 	</div>
 </template>
 
 <script>
+	import moment                             from 'moment';
+	import {mapState, mapGetters, mapActions} from 'vuex';
+
 	import Card from '@/components/card'
 	export default{
 		name : 'goodsDeliver',
 		data() {
 			return {
-				day : '14',
-				convert : false
+				data         : this.$route.query,
+				select_address : {},
+				select       : [{...this.$route.query}],
+				convert      : false,
+				showwawalist : false
 			}
 		},
 		components: {
 			'v-card' : Card
 		},
+		computed : {
+			...mapState({
+				pomelo       : state => state.Pomelo.pomelo,
+				pomelo_login : state => state.Pomelo.login,
+				user         : state => state.User.user || {},
+				address      : state => state.User.address || [],
+				wawaplayer   : state => state.User.wawaplayer,
+				wawas        : state => state.User.wawas
+			}),
+			is_vip() {
+				return this.wawaplayer.recharge > 0
+			},
+			wawaslist() {
+				return this.wawas.filter(val => {
+					const expireTime = moment(val.expire_time*1000);
+		            const disabled   = expireTime.isBefore(moment());
+		            return val.is_delivery == 0 && val.isExchange == 0 && !disabled;
+				});
+			},
+			disabled() {
+				return moment(this.data.expire_time*1000).isBefore(moment());
+			},
+			day() {
+				const outTime = this.data.expire_time == 0? 14 : moment(this.data.expire_time*1000).diff(moment(), 'days');
+				return outTime;
+			},
+		},
 		methods : {
-			exchange() {
-				this.convert = !this.convert
+			fromDate(time) {
+				return moment(time).format("YYYY.MM.DD HH:mm")
+			},
+			onPress() {
+				this.convert = false
+			},
+			toAddress() {
+				this.$router.push('address');
+			},
+			toInfo(index) {
+				this.select_address = this.address[index];
+				this.showwawalist = true;
+			},
+			isSelect(val) {
+				return this.select.find(item => val.lid == item.lid)?true:false;
+			},
+			onSelect(val) {
+				const index = this.select.findIndex(v => v.lid == val.lid)
+				if(index > -1) this.select.splice(index, 1);
+				else this.select.push(val);
+			},
+			share() {
+				this.$router.push({ path : '/share' })
+			},
+			onSubmit() {
+				this.showwawalist = false;
+				if(this.select.length < 2 && this.wawaplayer.delivery_card_num < 1) {
+
+		            this.$modal.show('dialog', {
+						title   : `您没有包邮卡`,
+						text    : '必须拥有2件以上物品可以包邮,充值可获赠包邮卡（1个包邮）',
+						buttons : [{
+							title   : '获取包邮卡',
+							handler : () => {
+								this.$modal.hide('dialog');
+								this.$router.push('recharge')
+							}
+						},{
+							title   : '取消',
+							handler : () => { 
+								this.$modal.hide('dialog');
+							}
+						}]
+					})
+		            return;
+		        } else {
+		        	this.$router.push({path : '/goodsInfor', query : {select : this.select, address : this.select_address}})
+		        }
+			}
+		},
+		mounted() {
+			if(!this.$route.query.lid || !this.pomelo_login) {
+				this.$router.replace('profile')
 			}
 		}
 	}
@@ -284,11 +381,17 @@
 		border-bottom: 1px solid #eee;
 	}
 	.card-style li{
-		padding: 0 40px;
-		text-align: left;
-		color: rgb(118,119,120);
-		line-height: 28px;
-		font-weight: normal;
+		padding     : 0 40px;
+		text-align  : left;
+		color       : #666;
+		line-height : 28px;
+		font-weight : normal;
+	}
+	.card-style li.active{
+		color: #f2d56e;
+	}
+	.card-style li i{ 
+		float : right;
 	}
 	.card-style .btn{
 		background-color: rgb(252,133,78);

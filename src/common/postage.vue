@@ -1,55 +1,65 @@
 <template>
 	<div class="postage">
-		<v-nav>包邮卡（{{num}}）</v-nav>
-		<div class="item">
+		<v-nav>包邮卡（{{delivery_card_num}}）</v-nav>
+
+		<div v-for="(item, index) in postcard" :key="index" class="item">
 			<div class="box">
 				<div class="inner">免费</div>
-			</div>
-			<div class="infor">
-				<div>包邮卡</div>
-				<div class="time">2018.08.01-2018.09.31</div>
-				<div class="tip">说明：一件物品申请发货时自动抵扣</div>
-			</div>
-		</div>	
-		<div class="item">
-			<div class="box">
-				<div class="inner">免费</div>
-				<div class="superscript">
+				<div v-if="onState(item) == 1" class="superscript superscript-off">
+					<div class="rect rect-off"></div>
+					<div class="desc">过期</div>
+				</div>
+				<div v-else-if="onState(item) == 2" class="superscript">
 					<div class="rect"></div>
 					<div class="desc">已用</div>
 				</div>
+				
 			</div>
 			<div class="infor">
 				<div>包邮卡</div>
-				<div class="time">2018.08.01-2018.09.31</div>
+				<div class="time">{{toformat(item.create_time)}}-{{toformat(item.expire_time)}}</div>
 				<div class="tip">说明：一件物品申请发货时自动抵扣</div>
 			</div>
-		</div>	
-		<div class="item">
-			<div class="box">
-				<div class="inner">免费</div>
-				<div class="superscript superscript-off">
-					<div class="rect rect-off"></div>
-					<div class="desc">已用</div>
-				</div>
-			</div>
-			<div class="infor">
-				<div>包邮卡</div>
-				<div class="time">2018.08.01-2018.09.31</div>
-				<div class="tip">说明：一件物品申请发货时自动抵扣</div>
-			</div>
-		</div>	
+		</div>
+
 	</div>
 </template>
 
 <script>
+	import moment                             from 'moment';
+	import {mapState, mapGetters, mapActions} from 'vuex';
+	
 	export default{
 		name : 'postage',
 		data() {
 			return {
 				num : '3'
 			}
+		},
+		computed : {
+			...mapState({
+				postcard : state => state.User.postcard,
+			}),
+			delivery_card_num() {
+		        const delivery_card_num = this.postcard.length;
+		        return delivery_card_num;
+			}
+		},
+		methods : {
+			toformat(time) {
+	        	return moment(time).format('YYYY.MM.DD')
+	    	},
+	    	onState(data) {
+				const endTime = moment(data.expire_time)
+				const outtime = moment().isBefore(endTime);
+				let label     = 0;
+
+				if(!outtime) label = 1
+				if(data.is_used != 0) label = 2;
+				return label;
+	    	}
 		}
+		
 	}
 </script>
 

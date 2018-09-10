@@ -1,6 +1,8 @@
 <template>
   <div id="app">
-    <router-view/>
+    <transition :name="transitionName">   
+        <router-view/>
+    </transition>
     <v-adv />
     <aplayer
     ref="aplayer"
@@ -30,6 +32,7 @@
         name: 'App',
         data() {
             return {
+                transitionName : '',
                 music : {
                     title  : '抓娃娃王国',
                     artist : '抓娃娃王国',
@@ -72,6 +75,23 @@
                 modifyMyInfo : PubSub.subscribe(pomelo_key.user.info, this.onUpdateUserInfo),
             }
         },
+        watch: {
+            // $route : function(to, from) {
+            //     console.log('this.transitionName --------->>>', to.meta.index, from.meta.index)
+            //     if(to.meta.index > from.meta.index){
+            //         this.transitionName = 'slide-left';
+            //     }else{
+            //         this.transitionName = 'slide-right';
+            //     }
+            // },
+            offPlayer : function(val) {
+                if(val) {
+                    this.$refs.aplayer.play();
+                } else {
+                    this.$refs.aplayer.pause()
+                }
+            }
+        },
         components : {
             'v-adv' : Adv
         },
@@ -87,15 +107,6 @@
                 return state.User.platformData && state.User.platformData !='undefined'? true : false
             }
         }),
-        watch : {
-            offPlayer : function(val) {
-                if(val) {
-                    this.$refs.aplayer.play();
-                } else {
-                    this.$refs.aplayer.pause()
-                }
-            }
-        },
         methods : {
             ...mapActions([
                 'setHallSetting',
@@ -223,32 +234,32 @@
                     console.log('onGetSetting error', err);
                 });
             }
-            else {
-                wx.ready(() => {
-                    wx.closeWindow();
-                })
-            }
             // else {
-            //     console.log('测试玩家登陆');
-            //     const data = {
-            //         token  : "wXTx4NnbKL.ptlV-WZfzKDS6XNvDgaCq.-nNXlOuUDtyv-HLFRtG-Q-sM9hvxGe0dl6OTnWp7S5CipWEXZjUdtnv0W866RlsjO9VHaVNJ8Y!",
-            //         // token : "Knx1ICw6sEtO-IOeRAzoPAuNJCl4UCoegGnvSWOOk3oDSEL82FgzXSMdWI5VLYC4a-U6lrVEpl39a6FEJhbtd55eQYPASMfYpTErFOUrvy8XcBvYu3-nVw!!",
-            //         device : 'google',
-            //         ver    : '1.0.9.3',
-            //         rand   :  Date.now()
-            //     };
-            //     login_help.onGetSetting(data, 'config')
-            //     .then(result => {
-            //         if(result.data != 0) {
-            //             console.log('result.data', result.data)
-            //             this.onLogin({user : result.data.user, token : data.token})
-            //             this.setHallSetting(result.data);
-            //         } else console.log('获取配置失败!');
+            //     wx.ready(() => {
+            //         wx.closeWindow();
             //     })
-            //     .catch(err => {
-            //         console.log('onGetSetting error', err);
-            //     });
             // }
+            else {
+                console.log('测试玩家登陆');
+                const data = {
+                    token  : "wXTx4NnbKL.ptlV-WZfzKDS6XNvDgaCq.-nNXlOuUDtyv-HLFRtG-Q-sM9hvxGe0dl6OTnWp7S5CipWEXZjUdtnv0W866RlsjO9VHaVNJ8Y!",
+                    // token : "Knx1ICw6sEtO-IOeRAzoPAuNJCl4UCoegGnvSWOOk3oDSEL82FgzXSMdWI5VLYC4a-U6lrVEpl39a6FEJhbtd55eQYPASMfYpTErFOUrvy8XcBvYu3-nVw!!",
+                    device : 'google',
+                    ver    : '1.0.9.3',
+                    rand   :  Date.now()
+                };
+                login_help.onGetSetting(data, 'config')
+                .then(result => {
+                    if(result.data != 0) {
+                        console.log('result.data', result.data)
+                        this.onLogin({user : result.data.user, token : data.token})
+                        this.setHallSetting(result.data);
+                    } else console.log('获取配置失败!');
+                })
+                .catch(err => {
+                    console.log('onGetSetting error', err);
+                });
+            }
         },
         mounted() {
             if(this.offPlayer) this.$refs.aplayer.play();
@@ -330,5 +341,31 @@ input,textarea {
 }
 .back-enter, .back-leave {
   transform: translate3d(100%, 0, 0);
+}
+
+
+.slide-right-enter-active,
+.slide-right-leave-active,
+.slide-left-enter-active,
+.slide-left-leave-active {
+  will-change: transform;
+  transition: all 500ms;
+  position: absolute;
+}
+.slide-right-enter {
+  opacity: 0;
+  transform: translate3d(-100%, 0, 0);
+}
+.slide-right-leave-active {
+  opacity: 0;
+  transform: translate3d(100%, 0, 0);
+}
+.slide-left-enter {
+  opacity: 0;
+  transform: translate3d(100%, 0, 0);
+}
+.slide-left-leave-active {
+  opacity: 0;
+  transform: translate3d(-100%, 0, 0);
 }
 </style>
