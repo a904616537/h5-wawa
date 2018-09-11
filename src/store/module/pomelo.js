@@ -24,11 +24,11 @@ const mutations = {
 	[types.POMELO_INIT] (state, data) {
 		const pomelo = new Pomelo();
 		pomelo.init({
-			// host                 : '106.15.90.130',
-			// port                 : 80,
+			host                 : '106.15.90.130',
+			port                 : 80,
 
-			host                 : '192.168.1.199',
-			port                 : 3301,
+			// host                 : '192.168.1.199',
+			// port                 : 3301,
 			scheme               : 'ws',
 			reconnect            : true,	// 开启重链
 			reconnectDelay       : 3000,	// 连接超时事件

@@ -3,14 +3,14 @@
 		<v-nav>物流详情</v-nav>
 		<div class="card">
 			<div class="img">
-				<img src="static/images/hall/1.png" class="img-style" />
-				<div class="img-title"><span class="font-style">共{{count}}件商品</span></div>
+				<img :src="data.pic" class="img-style" />
+				<div class="img-title"><span class="font-style">共1件商品</span></div>
 			</div>
 			<div class="infor">
 				物流公司: 百世快递<br>
 				物流单号: 71136264418351
 			</div>
-			<div class="btn">复制</div>
+			<div class="btn" v-clipboard="danhao" @success="handleSuccess" @error="handleError">复制</div>
 		</div>
 		<div class="content">
 			<div class="point">
@@ -44,16 +44,93 @@
 				</div>
 			</div>
 		</div>
+
+		<v-dialog width="80%"/>
 	</div>
 </template>
 
 <script>
+	import axios from 'axios';
 	export default{
 		name : 'logistics',
 		data() {
 			return {
-				count : '11'
+				count  : '11',
+				data   : {},
+				danhao : 71136264418351
 			}
+		},
+		methods : {
+			handleSuccess() {
+				this.$modal.show('dialog', {
+					title   : '已经复制到剪切板了！',
+					buttons : [{
+						title   : '确定',
+						handler : () => { 
+							this.$modal.hide('dialog');
+						}
+					}]
+				})
+			},
+			handleError() {
+				this.$modal.show('dialog', {
+					title   : '复制失败了！',
+					text    : '你到浏览器不支持此操作！',
+					buttons : [{
+						title   : '确定',
+						handler : () => { 
+							this.$modal.hide('dialog');
+						}
+					}]
+				})
+			},
+			_queryExpress(code) {
+		    	let url = `http://www.kuaidi100.com/autonumber/autoComNum`
+		    	const param = {
+					resultv2 : 1,
+					text     : code
+		    	}
+		    	axios.get(url,{
+					params : param,
+					responseType: 'jsonp'
+				})
+				.then(result => result.data)
+				.then(data => {
+		        	console.log('查询快递公司 结果', data)
+		        	if(data.auto && data.auto.length > 0) {
+		        		this._getExpressResult(data.auto[0].comCode, data.num);
+		        	}
+				})
+				.catch(err => {
+					console.log('error', err)
+				})
+		    },
+		    _getExpressResult(type, code) {
+		    	let url = 'http://www.kuaidi100.com/query'
+		    	const param = {
+					type,
+					postid : code
+		    	}
+
+		    	axios.get(url,{
+					params : param,
+					responseType: 'jsonp'
+				})
+				.then(result => result.data)
+				.then(data => {
+					console.log('查询快递结果', data);
+		        	if(data.ischeck == 1) {
+		        		this.logs = data.data;
+		        	}
+				})
+				.catch(err => {
+					console.log('error', err)
+				})
+		    }
+		},
+		created() {
+			console.log('this.$router', this.$route)
+			this.data = this.$route.query;
 		}
 	}
 </script>

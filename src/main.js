@@ -12,6 +12,8 @@ import VueTabs             from 'vue-nav-tabs'
 import VModal              from 'vue-js-modal'
 import VueAPlayer          from 'vue-aplayer'
 import VueRouterTransition from 'vue-router-transition'
+import VueClipboards       from 'vue-clipboards';
+
  
 
 import 'vue-nav-tabs/themes/vue-tabs.css'
@@ -34,6 +36,7 @@ Vue.use(VueProgress)
 Vue.use(VueVideoPlayer)
 Vue.use(VueTabs)
 Vue.use(VModal, { dialog: true })
+Vue.use(VueClipboards);
 Vue.component('aplayer', VueAPlayer)
 
 // Vue.transition('slideFromRightToLeft', {})

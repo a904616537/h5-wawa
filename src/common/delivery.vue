@@ -1,7 +1,7 @@
 <template>
 	<div class="delivery">
 		<v-nav>王国配送管理</v-nav>
-		<div v-for="(item, index) in delivery" class="card">
+		<div v-for="(item, index) in delivery" :key="index" class="card">
 			<div class="info">
 				<div class="left">
 					<div class="img-style" :style="'background-image: url('+item.pic+');'" ></div>
@@ -56,6 +56,10 @@
 			]),
 			status(state) {
 				return deliveryState.get(state);
+			},
+			toLogistics(item) {
+				this.$router.push({path : '/logistics', query : item})
+				// if(item.state == 1) this.$router.push({path : '/logistics', query : item})
 			},
 			onDel(item) {
 				const obj = {
