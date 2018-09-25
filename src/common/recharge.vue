@@ -12,7 +12,19 @@
 		</div>
 		
 		<div class="gold-box">
+			<!-- 月卡 和 周卡 -->
+			<div class="item">
+				<div class="inner" style="background-image: url('./static/images/top-up/week.png')">
+					<div class="glod">
+						<div class="float-left">周卡</div>
+						<div class="float-right">充380币</div>
+						<div class="tip">送120币+包邮卡*1+vip瞄准点</div>
+					</div>
+					<div class="money">¥ 38</div>
+				</div>
+			</div>
 
+			<!-- 充值金额 循环 -->
 			<div v-for="(item, index) in pay_list" class="item" @click="() => onPayment(item.paykey)">
 				<div class="inner">
 					<div class="gold">
