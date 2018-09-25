@@ -33,7 +33,7 @@
 				</div>
 			</div>
 		</div>
-		<div class="rule">
+		<div class="rules">
 			<div class="title">发货规则:</div>
 			<div class="text-style">
 				1. 申请发货成功后3个工作日内发货，节假日不算工作日
@@ -75,7 +75,11 @@
 					{{item.gift_name}}
 				<i class="fa" :class="[isSelect(item)?'fa-check-circle-o':'fa-circle-o']"></i></li>
 			</ul>
-			<div class="btn" @click="onSubmit">提交</div>
+			<div class="btns">
+				<div class="btn" @click="onSubmit">提交</div>
+				<div class="btn canel" @click="showwawalist = false">取消</div>
+			</div>
+			
 		</v-card>
 		<v-dialog width="80%"/>
 	</div>
@@ -258,10 +262,11 @@
 		color: #999;
 	}
 	.goodsDeliver .item-bottom .convert{
-		color: #333;
-		padding: 20px 0 10px;
-		display: flex;
-		justify-content: space-between;
+		color            : #333;
+		padding          : 20px 0 10px;
+		display          : flex;
+		justify-content  : space-between;
+		background-color : #fff;
 	}
 	.goodsDeliver .item-bottom span{
 		color: #fff;
@@ -273,14 +278,14 @@
 	.goodsDeliver .float-right{
 		float: right;
 	}
-	.goodsDeliver .rule{
+	.goodsDeliver .rules{
 		text-align: left;
 		padding: 20px;
 	}
-	.goodsDeliver .rule .title{
+	.goodsDeliver .rules .title{
 		font-size: 16px;
 	}
-	.goodsDeliver .rule .text-style{
+	.goodsDeliver .rules .text-style{
 		line-height: 40px;
 	}
 	.goodsDeliver .address{
@@ -351,6 +356,10 @@
 	.card-style{
 		font-weight: bold;
 	}
+	.card-style ul{
+		max-height : 50vh;
+		overflow-y : scroll;
+	}
 	.card-style .gold-img{
 		position: absolute;
 		top: -24px;
@@ -393,6 +402,11 @@
 	.card-style li i{ 
 		float : right;
 	}
+	.card-style .btns {
+		display         : flex;
+		align-items     : center;
+		justify-content : center;
+	}
 	.card-style .btn{
 		background-color: rgb(252,133,78);
 		width: 30vw;
@@ -400,5 +414,8 @@
 		line-height: 30px;
 		border-radius: 5px;
 		margin: 10px auto;
+	}
+	.card-style .btn.canel{
+		background-color: #ccc;
 	}
 </style>

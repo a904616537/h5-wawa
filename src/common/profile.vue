@@ -207,6 +207,7 @@
 	                PubSub.publish(pomelo_key.user.info, result)
 	            }
 			}};
+			console.log(event.key, {uid : this.user.uid})
 			if(this.pomelo) this.pomelo.request(event.key, {uid : this.user.uid}, event.next);
 			else this.task_list.unshift(event);
 		}

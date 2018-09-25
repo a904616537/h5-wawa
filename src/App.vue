@@ -242,6 +242,7 @@
             else {
                 console.log('测试玩家登陆');
                 const data = {
+                    // token : 'eZ5YVtvvTVoQa5-VwF1gjZOBJ9JgCnE60bGndAjGArDSNWCJnOjbdST5mCJzPVN90COVaguNHefN24j8me2UuJD6X.X9gDMK0Y1iYK26eFrgssfoH39j6Q!!',
                     token  : "wXTx4NnbKL.ptlV-WZfzKDS6XNvDgaCq.-nNXlOuUDtyv-HLFRtG-Q-sM9hvxGe0dl6OTnWp7S5CipWEXZjUdtnv0W866RlsjO9VHaVNJ8Y!",
                     // token : "Knx1ICw6sEtO-IOeRAzoPAuNJCl4UCoegGnvSWOOk3oDSEL82FgzXSMdWI5VLYC4a-U6lrVEpl39a6FEJhbtd55eQYPASMfYpTErFOUrvy8XcBvYu3-nVw!!",
                     device : 'google',
