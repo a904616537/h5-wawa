@@ -16,7 +16,7 @@
 		    <div v-show="show" class="fastpay">
 		    	<div class="header">请选择充值</div>
 		    	<div class="list">
-					<div v-if="firstpay.paykey" class="item" @click="() => onPayment(firstpay.paykey)" style="width: 90vw;">
+					<div v-if="firstpay.paykey" class="item" @click="() => onPayment(firstpay.paykey)" style="width: 100vw;">
 						<div class="gold">
 							<div class="img-style" :style="toIndex(0)"></div>
 							<div class="info">
