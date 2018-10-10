@@ -15,6 +15,29 @@
 			<div class="massage">账户余额(王国币)</div>
 		</div>
 		
+		<!-- vip -->
+		<div class="gold-box vip-box">
+			<div class="level" :style="'background-image: url('+vip_bg+')'">2</div>
+			<div class="bar">
+				<div class="text-style">充值<span class="light-style">51</span>元, 可升为<span class="light-style">VIP3</span></div>
+				<div class="bar-bg">
+					<div class="pb-wrapper">
+						<div class="pb-container">
+			                <div class="pb-text">50/100</div>
+			                <div class="pb-value" style="width: 50%;"></div>
+    			            <div class="next-level" :style="'background-image: url('+vip2_bg+')'">3</div>
+			            </div>
+					</div>
+				</div>	
+
+			</div>
+			<div class="privilege" :style="'background-image: url('+vip_btn+')'">VIP特权</div>
+		</div>
+
+
+
+
+
 		<div class="gold-box">
 			<!-- 月卡 和 周卡 -->
 			<div class="item-card">
@@ -85,6 +108,9 @@
 				golds   : '270币',
 				gold_bg : './static/images/hall/pay/gold_3.png',
 				coin    : './static/images/hall/dailyBonus/coin.png',
+				vip_bg  : './static/images/user/vip1.png',
+				vip2_bg : './static/images/user/vip2.png',
+				vip_btn : './static/images/user/button02.png',
 				bglist : new Map([
 					[0, "background-image: url('./static/images/hall/pay/gold_1.png')"],
 					[1, "background-image: url('./static/images/hall/pay/gold_2.png')"],
@@ -161,7 +187,6 @@
 		top              : 0;
 		left             : 0;
 		right            : 0;
-		height           : 100%;
 		padding          : 0 8px;
 	}
 	.recharge .banner{
@@ -183,7 +208,7 @@
 	}
 	.recharge .gold-box{
 		border-radius    : 20px;
-		padding-bottom   : 11vh;
+		padding-bottom   : 10vh;
 		background-color : #fff;
 		margin           : 3vw 0;
 	}
@@ -197,7 +222,7 @@
 	.recharge .item{
 		float     : left;
 		width     : 50%;
-		padding   : 10px 0;
+		padding   : 10px 0 5px;
 		font-size : 14px;
 		color     : #8e562a;
 	}
@@ -205,7 +230,7 @@
 		color: #fff;
 		float: left;
 		width: 50%;
-		padding: 10px 0;
+		padding: 10px 0 5px;
 		font-size: 12px;
 	}
 	.recharge .item-card .gold{
@@ -343,5 +368,90 @@
 		border-radius: 5px;
 		margin: 10px auto;
 	}
+
+	/* vip */
+	.recharge .vip-box{
+		display: flex;
+		flex: 1;
+		justify-content: space-between;
+		align-items: center;
+		padding-bottom: 0;
+		padding: 15px 10px;
+		border-radius: 15px;
+	}
+	.vip-box .level{
+		background-size: cover;
+		background-repeat: no-repeat;
+		text-align: center;
+		color: #fff;
+		font-weight: bold;
+		width: 18%;
+		line-height: 32px;
+	}
+	.vip-box .bar{
+		flex-grow: 1;
+		text-align: left;
+		padding: 0 5px;
+	}
+	.vip-box .bar .text-style{
+		font-size: 12px;
+		margin-left: 10px;
+	}
+	.vip-box .bar .light-style{
+		color: red;
+		font-weight: 500;
+	}
+	.vip-box .next-level{
+		background-size: cover;
+		background-repeat: no-repeat;
+		text-align: center;
+		color: #fff;
+		font-weight: bold;
+		width: 16%;
+		line-height: 18px;
+		position: absolute;
+		right: 2px;
+		top: 0;
+	}
+	.vip-box .privilege{
+		color: #fff;
+		background-position: center;
+		font-size: 12px;
+		padding: 0 10px;
+		line-height: 24px;
+		border-radius: 15px;
+		font-weight: bold;
+	}
 	-webkit-text-size-adjust:none;
+	.vip-box .bar-bg{
+		width:100px;
+    	display:inline-block;
+    	zoom:1;
+	}
+	.vip-box .pb-wrapper{
+	    position : relative;
+	    background : #eee;
+	    border-radius : 15px;
+	}
+	.vip-box .pb-container{
+	    height : 18px;
+	    position : relative;
+	    left : -1px;
+	    margin-right : -2px;
+	    font : 1px/0 arial;
+	}
+	.vip-box .pb-text{
+	    width:100%;
+	    position:absolute;
+	    left:0;
+	    top:0;
+	    text-align:center;
+	    color: #fff;
+	    font:10px/18px arial;
+	}
+	.vip-box .pb-value{
+		border-radius: 15px;
+		background: #FEEA34;
+		height: 100%;
+	}
 </style>

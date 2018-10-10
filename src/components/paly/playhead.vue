@@ -26,6 +26,7 @@
 			class="user-img"
 			:style="'background-image:url('+(item.pic?item.pic:default_img)+')'"
 			@click="toInfo(item)">
+				<div v-if="type === '2'" class="vip-icon" :style="'background-image:url('+vip_icon+')'">{{level}}</div>
 			</div>
 		</div>
 		<div class="float-right" @click="onFeedback">
@@ -40,7 +41,10 @@
 		data() {
 			return {
 				default_img : './static/images/detail/avatar_default.png',
-				feedback : './static/images/detail/reportBtnn.png'
+				feedback    : './static/images/detail/reportBtnn.png',
+				vip_icon    : './static/images/user/vip1.png',
+				level       : '2',
+				type        : '2'
 			}
 		},
 		props: {
@@ -143,9 +147,20 @@
 		margin: 0 5px;
 		border: 2px solid #FFFFAE66;
 		background-size: cover;
+		position: relative;
 	}
 	.playhead .feedback {
 		width : 25px;
 		height : 30px;
+	}
+	// vip 
+	.playhead .vip-icon{
+		background-size: contain;
+		background-repeat: no-repeat;
+		background-position: bottom;
+		position: absolute;
+		bottom: -3px;
+		left: 0;
+		right: 0;
 	}
 </style>

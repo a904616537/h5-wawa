@@ -10,11 +10,20 @@
 
 				<div v-for="(item, index) in hallRooms" class="list-item" @click="play(item)">
 					<div class="inner">
+						<!-- vip标签 -->
+						<div v-if="type === '1'" class="label-style" :style="'background-image: url('+vip_bg+');'">VIP{{level}}</div>
+
 						<div class="img-style" :style="'background-image : url('+item.gift_pic+');'"></div>
 						<div class="item-content">
 							<h4>{{item.gift_name}}</h4>
 							<div class="item-bottom">
-								<div class="price bottom-style">{{item.gold_price}} 币/次</div>
+								<!-- vip价格 -->
+								<div v-if="type === '1'" class="float-left">
+									<div class="price bottom-style line-style"><span class="old-price">{{item.gold_price}}币/次</span></div> <span class="vip-price">{{item.gold_price}}币</span>
+								</div>
+
+								<div v-else class="price bottom-style">{{item.gold_price}} 币/次</div>
+
 								<div class="status bottom-style" v-if="item.status == 1"><div class="radius"></div>空闲中</div>
 								<div class="status-nofree" v-else><div class="radius-nofree"></div>召唤中</div>
 							</div>
@@ -56,7 +65,7 @@
 	import Share        from '@/components/hall/share'
 	import CheckInvite  from '@/components/hall/checkInvite'
 	import BonusboxView from '@/components/hall/bonusboxView'
-	
+
 	export default{
 		name: 'index',
 		data() {
@@ -65,8 +74,11 @@
 				free       : false,
 				show_share : false,
 				show_check : false,
-				isFixed    : false
-			}
+				isFixed    : false,
+				vip_bg     : './static/images/user/vip_bg2.png',
+				level      : '2',
+				type       : '2'
+ 			}
 		},
 		components : {
 			'v-swiper'         : Swiper,
@@ -167,6 +179,9 @@
 <style lang="scss">
 	$apiurl: 'http://c.waguo.net/h5/wawa';
 	
+	.float-left{
+		float: left;
+	}
 	.index{
 		color            : #2c3e50;
 		overflow         : hidden;
@@ -206,6 +221,7 @@
 		margin           : 0 5px;
 		border-radius    : 5px;
 		background-color : #fff;
+		position         : relative;
 	}
 	.img-style{
 		height              : 24vh;
@@ -266,5 +282,28 @@
 		width: 30px;
 		height: 30px;
 		margin-top: 3px;
+	}
+	// vip
+	.index .inner .label-style{
+		position: absolute;
+		right: -5px;
+		top: 10px;
+		width: 30%;
+		color: #fff;
+		font-size: 12px;
+		font-weight: bold;
+		background-size: cover;
+		text-align: center;
+	}
+	.index .inner .line-style{
+		color: red;
+		text-decoration: line-through;	
+	}
+	.index .inner .old-price{
+		color: #BF6A0B;	
+	}
+	.index .inner .vip-price{
+		color: red;
+		margin-left: 5px;
 	}
 </style>

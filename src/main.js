@@ -19,7 +19,6 @@ import VueClipboards       from 'vue-clipboards';
 import 'vue-nav-tabs/themes/vue-tabs.css'
 import 'videojs-contrib-hls'
 
-
 // import SvgIcon from 'vue-svgicon'
 // import './assets/svgs'
 // require styles
