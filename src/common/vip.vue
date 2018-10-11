@@ -21,6 +21,12 @@
 		</div>
 		
 		<div class="gold-box">
+			<div class="tab">
+				<li class="checked">VIP1</li>
+				<li>VIP2</li>
+				<li>VIP3</li>
+				<li class="float-right"><img src="static/images/shop/record/to.png" class="icon-style"/></li>
+			</div>
 			<div class="inner">
 				<div class="item">
 					<div class="img-style" :style="'background-image: url('+item.img1+')'"></div>
@@ -206,57 +212,81 @@
 		height        : 100%;
 	}
 	.vip-privilege .gold-box .inner{
-		padding: 0 10px 20px;
-		display: flex;
-		flex-wrap: wrap;
-		justify-content: space-between;
-		flex-grow: auto;
+		padding         : 0 10px 14px;
+		display         : flex;
+		flex-wrap       : wrap;
+		justify-content : space-between;
+		flex-grow       : auto;
 	}
 	.vip-privilege .gold-box .item{
-		color: #929191;
-		font-size: 12px;
-		width: 33.33%;
-		padding: 20px 0 0px;
+		color     : #929191;
+		font-size : 12px;
+		width     : 33.33%;
+		padding   : 10px 0 0px;
 	}
 	.vip-privilege .gold-box .img-style{
-		background-color: #eee;
-		border-radius: 50%;
-		width: 60px;
-		height: 60px;
-		background-size: contain;
-		background-position: center;
-		background-repeat: no-repeat;
-		margin: 0 auto 5px;
+		background-color    : #eee;
+		border-radius       : 50%;
+		width               : 60px;
+		height              : 60px;
+		background-size     : contain;
+		background-position : center;
+		background-repeat   : no-repeat;
+		margin              : 0 auto 5px;
 	}
 	.vip-privilege .receive{
-		border-top: 1px solid #eee;
-		padding: 20px;
-		font-size: 12px;
-		text-align: left;
+		border-top : 1px solid #eee;
+		padding    : 14px 20px;
+		font-size  : 12px;
+		text-align : left;
 	}
 	.vip-privilege .receive-box{
-		display: flex;
-		margin-top: 10px;
+		display    : flex;
+		margin-top : 10px;
 	}
 	.vip-privilege .receive-item{
-		background-color: #eee;
-		text-align: center;
-		width: 100px;
-		padding-bottom: 10px;
-		margin-right: 10px;
-		display: table-cell;
-		vertical-align: middle;
-		text-align: center;
+		background-color : #eee;
+		text-align       : center;
+		width            : 80px;
+		padding-bottom   : 10px;
+		margin-right     : 10px;
+		display          : table-cell;
+		vertical-align   : middle;
+		text-align       : center;
 	}
 	.vip-privilege .receive-btn{
-		width: 120px;
-		line-height: 27px;
-		color: #fff;
-		margin: 20px auto 0;
+		width               : 120px;
+		line-height         : 27px;
+		color               : #fff;
+		margin              : 20px auto 0;
+		font-weight         : bold;
+		text-align          : center;
+		background-position : center;
+		background-repeat   : no-repeat;
+		background-size     : cover;
+	}
+	.vip-privilege .tab{
+		color: #929191;
+		font-size: 18px;
 		font-weight: bold;
 		text-align: center;
-		background-position: center;
-		background-repeat: no-repeat;
-		background-size: cover;
+		display: flex;
+		justify-content: space-between;
+		flex-wrap: wrap;
+		padding: 0 10px;
+		position: relative;
+		padding-top: 10px;
+	}
+	.vip-privilege  .tab li{
+		width: 33.33%;
+	}
+	.vip-privilege  .tab .checked{
+		color: #505050;
+	}
+	.vip-privilege .tab .icon-style{
+		width: 10px;
+		position: absolute;
+		right: 10px;
+		top: 14px;
 	}
 </style>
