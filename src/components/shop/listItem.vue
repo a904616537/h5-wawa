@@ -15,6 +15,10 @@
 			<div class="tickets">
 				<img :src="icon_image" class="icon-style" />
 				{{data.voucher}}王国券
+				<div v-if="type === '2'" class="vip-tips">
+					<div class="vip-level" :style="'background-image: url('+vip_bg+')'">VIP 10</div>
+					<span style="tips-style">可兑换</span>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -29,6 +33,8 @@
 		data() {
 			return {
 				icon_image : './static/images/shop/icon_vouchers.png',
+				vip_bg     : './static/images/user/vip_bg.png',
+				type       : '2'
 			}
 		},
 		props: {
@@ -64,5 +70,25 @@
 </script>
 
 <style>
-
+	.item .tickets{
+		position: relative;
+	}
+	.item .tickets .vip-tips{
+		float: right;
+		color: #b0b0b0;
+		text-align: center;
+		font-size: 10px;
+		transform: scale(0.65);
+		position: absolute;
+		right: -10px;
+		top: -10px;
+	}
+	.item .vip-tips .vip-level{
+		color: #fff;
+		background-size: cover;
+		background-repeat: no-repeat;
+		background-position: center;
+		padding: 0 10px;
+		font-weight: bold;
+	}
 </style>

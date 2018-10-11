@@ -31,7 +31,7 @@
 				</div>	
 
 			</div>
-			<div class="privilege" :style="'background-image: url('+vip_btn+')'">VIP特权</div>
+			<div class="privilege" :style="'background-image: url('+vip_btn+')'" @click="toVip">VIP特权</div>
 		</div>
 
 
@@ -143,6 +143,9 @@
 		methods : {
 			payintro() {
 				this.$router.push({ path: '/payintro'})
+			},
+			toVip() {
+				this.$router.push({ path: '/vip'})
 			},
 			onMoney(money) {
 				return parseInt(money)
@@ -385,8 +388,8 @@
 		text-align: center;
 		color: #fff;
 		font-weight: bold;
-		width: 18%;
-		line-height: 32px;
+		width: 19%;
+		line-height: 9vw;
 	}
 	.vip-box .bar{
 		flex-grow: 1;

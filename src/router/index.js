@@ -25,6 +25,8 @@ import Postage       from '@/common/postage' //包邮卡信息页面
 import GoodsInfor    from '@/common/goodsInfor' //我的娃娃详情(待发货)
 import GoodsDeliver  from '@/common/goodsDeliver' //我的娃娃详情
 import Logistics     from '@/common/logistics' //物流信息
+import Vip           from '@/common/vip' //vip特权
+import Level         from '@/common/level' //会员说明
 
 import Menu   from '@/components/menu'
 import Nav    from '@/components/nav' 
@@ -229,6 +231,22 @@ var routers = [
 	{
 		path : '/goodsDeliver',
 		component : GoodsDeliver,
+		$$routerTransition: {
+			forward : 'roll',
+			back    : 'roll'
+		}
+	},
+	{
+		path : '/vip',
+		component : Vip,
+		$$routerTransition: {
+			forward : 'roll',
+			back    : 'roll'
+		}
+	},
+	{
+		path : '/level',
+		component : Level,
 		$$routerTransition: {
 			forward : 'roll',
 			back    : 'roll'

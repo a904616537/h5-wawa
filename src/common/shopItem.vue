@@ -39,7 +39,11 @@
 				<img v-for="(img, index) in data.pics" :key="index" :src="img" class="img-style"/>
 			</div>
 		</div>
-		<div class="bottom">
+		<div v-if="type === '2'" class="bottom">
+			<div class="btn btn-default">VIP3 以上才可以兑换</div>
+			<span class="vip-level" @click="toMember">我的等级 VIP0</span>
+		</div>
+		<div v-else class="bottom">
 			<div v-if="ispay" class="btn" @click="onPress">王国券兑换</div>
 			<div v-else class="btn btn-default">王国券不足</div>
 		</div>
@@ -57,7 +61,8 @@
 			return {
 				toicon    : './static/images/shop/record/to.png',
 				localicon : './static/images/shop/record/local.png',
-				data      : null
+				data      : null,
+				type      : '2'
 			}
 		},
 		computed : {
@@ -78,6 +83,9 @@
 			]),
 			toAddress() {
 				this.$router.push({ path : '/address' })
+			},
+			toMember() {
+				this.$router.push({ path : '/level' })
 			},
 			initProduct(gift_no) {
 				this.data = this.products.find(val => val.no == gift_no);
@@ -245,15 +253,23 @@
 		left: 0;
 		right: 0;
 		padding: 20px 0;
+		text-align: center;
 	}
 	.shopItem .bottom .btn{
-		width            : 70%;
-		margin           : 0 auto;
+		margin           : 0 24vw;
 		background-color : #f2d56e;
 		color            : #fff;
-		line-height      : 50px;
+		line-height      : 40px;
 		font-size        : 16px;
 		border-radius    : 50px;
+	}
+	.shopItem .bottom .vip-level{
+		position: absolute;
+		bottom: 0;
+		right: 10px;
+		line-height: 80px;
+		text-decoration: underline;
+		color: #999;
 	}
 	.shopItem .bottom .btn-default{
 		background-color: rgba(242,213,110,.6);
