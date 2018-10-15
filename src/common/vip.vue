@@ -1,7 +1,6 @@
 <template>
 	<div class="vip-privilege">
 		<v-nav>VIP 特权</v-nav>
-		
 		<div class="gold-box vip-box">
 			<div class="level" :style="'background-image: url('+vip_bg+')'">2</div>
 			<div class="bar">
@@ -10,7 +9,7 @@
 					<div class="pb-wrapper">
 						<div class="pb-container">
 			                <div class="pb-text">50/100</div>
-			                <div class="pb-value" style="width: 50%;"></div>
+			                <div class="pb-value" style="width: 60%;"></div>
     			            <div class="next-level" :style="'background-image: url('+vip2_bg+')'">3</div>
 			            </div>
 					</div>
@@ -22,9 +21,7 @@
 		
 		<div class="gold-box">
 			<div class="tab">
-				<li class="checked">VIP1</li>
-				<li>VIP2</li>
-				<li>VIP3</li>
+				<li v-for="(item,$index) in arr" @click="toggle($index)" :class="{active: $index == active}">{{item}}</li>
 				<li class="float-right"><img src="static/images/shop/record/to.png" class="icon-style"/></li>
 			</div>
 			<div class="inner">
@@ -91,6 +88,10 @@
 		name : 'vip-privilege',
 		data() {
 			return {
+				active  : 0,
+                arr:[
+                    "VIP1","VIP2","VIP3"
+                ],
 				vip_bg  : './static/images/user/vip1.png',
 				vip2_bg : './static/images/user/vip2.png',
 				vip_btn : './static/images/user/button01.png',
@@ -108,6 +109,11 @@
 					img10 : './static/images/hall/dailyBonus/coin.png',
 				}
 			}
+		},
+		methods: {
+			toggle(index){
+                this.active = index
+            }
 		}
 	}
 </script>
@@ -150,7 +156,7 @@
 	}
 	.vip-privilege .vip-box .text-style{
 		font-size   : 12px;
-		margin-left : 10px;
+		margin-left : 5px;
 	}
 	.vip-privilege .vip-box .light-style{
 		color       : red;
@@ -162,7 +168,7 @@
 		text-align        : center;
 		color             : #fff;
 		font-weight       : bold;
-		width             : 16%;
+		width             : 17%;
 		line-height       : 18px;
 		position          : absolute;
 		right             : 4px;
@@ -176,7 +182,6 @@
 		font-size           : 12px;
 		padding             : 0 20px;
 		line-height         : 24px;
-		border-radius       : 15px;
 		font-weight         : bold;
 	}
 	-webkit-text-size-adjust:none;
@@ -280,7 +285,7 @@
 	.vip-privilege  .tab li{
 		width: 33.33%;
 	}
-	.vip-privilege  .tab .checked{
+	.vip-privilege  .tab .active{
 		color: #505050;
 	}
 	.vip-privilege .tab .icon-style{
@@ -289,4 +294,5 @@
 		right: 10px;
 		top: 14px;
 	}
+
 </style>
