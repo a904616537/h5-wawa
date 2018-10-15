@@ -141,7 +141,7 @@
 		color             : #fff;
 		font-weight       : bold;
 		width             : 19%;
-		line-height       : 9vw;
+		line-height       : 9.3vw;
 	}
 	.vip-privilege .vip-box .bar{
 		flex-grow  : 1;
