@@ -271,28 +271,27 @@
 		background-size     : cover;
 	}
 	.vip-privilege .tab{
-		color: #929191;
-		font-size: 18px;
-		font-weight: bold;
-		text-align: center;
-		display: flex;
-		justify-content: space-between;
-		flex-wrap: wrap;
-		padding: 0 10px;
-		position: relative;
-		padding-top: 10px;
+		color           : #929191;
+		font-size       : 18px;
+		font-weight     : bold;
+		text-align      : center;
+		display         : flex;
+		justify-content : space-between;
+		flex-wrap       : wrap;
+		padding         : 0 10px;
+		position        : relative;
+		padding-top     : 10px;
 	}
 	.vip-privilege  .tab li{
-		width: 33.33%;
+		width : 33.33%;
 	}
 	.vip-privilege  .tab .active{
-		color: #505050;
+		color : #505050;
 	}
 	.vip-privilege .tab .icon-style{
-		width: 10px;
-		position: absolute;
-		right: 10px;
-		top: 14px;
+		width    : 10px;
+		position : absolute;
+		right    : 10px;
+		top      : 14px;
 	}
-
 </style>

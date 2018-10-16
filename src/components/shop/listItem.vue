@@ -84,6 +84,7 @@
 		top: -10px;
 	}
 	.item .vip-tips .vip-level{
+		width: 37px;
 		color: #fff;
 		background-size: cover;
 		background-repeat: no-repeat;

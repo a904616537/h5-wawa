@@ -127,11 +127,12 @@
 	.members .item .text-style{
 		margin-bottom: 10px;
 		color: #929291;
+		font-size: 12px;
 	}
 	.members .item span{
 		font-weight: bold;
 	}
 	.members .item:not(:last-child){
-		border-bottom: 1px solid #ccc;
+		border-bottom: 1px solid #eee;
 	}
 </style>
