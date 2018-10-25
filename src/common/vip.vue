@@ -73,7 +73,7 @@
 						<div>王国券68</div>
 					</div>
 					<div class="receive-item">
-						<img :src="item.img10" class="receive-img" style="width: 40%;padding: 10px 0;"/>
+						<img :src="item.img10" class="receive-img" style="width: 40%;padding: 8px 0;"/>
 						<div>王国币18</div>
 					</div>
 				</div>
