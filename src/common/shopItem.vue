@@ -116,7 +116,7 @@
 		        } else alert('你还没有收货地址');
 			},
 			_onResh() {
-
+                                                   
 		        axios.get(Vue.setting.api + '/exchange_log',{
 					params : {token : this.token}
 				})

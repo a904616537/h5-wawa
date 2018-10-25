@@ -27,11 +27,11 @@
 			<div class="inner">
 				<div class="item">
 					<div class="img-style" :style="'background-image: url('+item.img1+')'"></div>
-					VIP专属折扣
+					VIP专区折扣
 				</div>
 				<div class="item">
 					<div class="img-style" :style="'background-image: url('+item.img2+')'"></div>
-					VIP专属折扣
+					VIP专属标识
 				</div>
 				<div class="item">
 					<div class="img-style" :style="'background-image: url('+item.img3+')'"></div>
